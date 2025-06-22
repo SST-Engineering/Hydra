@@ -1,0 +1,36 @@
+
+
+// Execute T_SQL script
+
+COMMON "OnError.txt";
+
+function load_from_script($p) begin
+   metatags "load_from_script";
+   $fn_title = "In function load_from_script, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_script = $NOT_NULL;
+   $p.verbose = false;
+   */
+   if $p.verbose is true console("{$fn_title}");
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_script = $p.use_script;
+   if $use_script is null return return_with_error("{$fn_title} must supply a property use_script");
+   if is_array($use_script) is false return return_with_error("{$fn_title} use_script property must be a structure list of t-sql scripts");
+   if count_properties($use_script) is 0 return return_with_error("{$fn_title} use_script property must be a non empty structure list of t-sql scripts");
+   $ok = mssql_connect($use_db_connect);
+   if $ok is false return return_with_error("{$fn_title} fails to make a connection to sql server using dictionary entry {$use_db_connect} " + sql_last_error());
+   for all properties $script_index in $use_script begin
+      if $p.verbose is true console("Start index {$script_index}");
+	  issue_monitor("Running script {$script_index}");
+      $query_ok = mssql_query($use_script.$script_index);
+	  if $p.verbose is true console("Complete index {$script_index}");
+      if $query_ok is false console("{$fn_title} problem at script index {$script_index}, executing {$use_script.$script_index} " + sql_last_error())
+      else if $p.verbose is true console("{$fn_title} At index {$script_index}: Ran command or query {$use_script.$script_index} ok");
+      end
+   if $p.verbose is true console("{$fn_title} executed a script of " + count_properties($use_script)+ " commands");
+   mssql_close();
+   if $p.verbose is true console("Complete all scripts");
+   return true;
+   end

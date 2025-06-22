@@ -1,0 +1,76 @@
+// Dump a table to a local csv text file
+COMMON "OnError.txt";
+
+function write_db_to_text($params) begin
+  metatags "write_db_to_text";
+  $fn_title = "In db to text writer, ";
+
+  $from_db_connect = $params.db_src_connect;
+  $from_db_table = $params.db_src_table;
+  $to_text = $params.text_filename;
+  $text_delimiter = $params.text_delimiter;
+  $text_delimiter DEFAULT ',';
+  $be_verbose = $params.verbose;
+  $be_verbose DEFAULT false;
+  $will_bulk_load = $params.bulk_load;
+  $will_bulk_load DEFAULT false;
+
+  $fn_title = "In db to text writer, ";
+
+  if $from_db_connect is null begin
+     return return_with_error("{$fn_title} db_src_connect not specified in params");
+     end
+  if $from_db_table is null begin
+     return return_with_error("{$fn_title} db_src_table not specified in params");
+     end
+
+  if $to_text is null or string_length($to_text) is 0 begin
+     $text_filename = guid()+".txt";
+     $params.to_text = $text_filename;
+     end
+
+  if $be_verbose is true begin
+     console("{$fn_title} Fetching data on connection {$from_db_connect} in table {$from_db_table}");
+     console("{$fn_title} Writing to text file, {$to_text}");
+     end
+
+  $ok = mssql_connect($from_db_connect);
+  if $ok is false begin
+     return return_with_error("{$fn_title} unable to connect to {$from_db_connect}");
+     end
+
+  $query = "SELECT * FROM {$from_db_table}";
+  $ok = mssql_query($query);
+  if $ok is not true begin
+     return return_with_error("{$fn_title} query {$query} fails to {$from_db_table}");
+     end
+
+  $ok = file_open_write($to_text);
+  if $ok is not true return return_with_error("{$dn_title} fails to open local text file for write");
+
+  $record_count = 0;
+  $a = mssql_fetch_row();
+  while $a is not false begin
+     $record_count = $record_count + 1;
+     $csv = array_to_csv($a, "'");
+     if $csv is false return return_with_error("{$fn_title} failure in forming csv text line from record");
+     $ok = file_write_line($csv);
+     if $ok is not true return return_with_error("{$fn_title} fails to write csv text to local file");
+     $a = mssql_fetch_row();
+     end
+
+  $ok = file_write_close();
+  if $ok is not true return return_with_error("{$fn_title} fails to close output text file");
+
+  mssql_close();
+
+  if $be_verbose is true console("{$fn_title} written {$record_count} records to text file from db");
+
+  return $record_count;
+  end
+
+
+
+
+
+

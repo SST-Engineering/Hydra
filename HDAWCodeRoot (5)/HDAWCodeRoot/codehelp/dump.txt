@@ -1,0 +1,17 @@
+<h2>dump</h2>
+<i><b>Print out an array structure</b></i><br/>
+$result = dump(array)<br/>
+$result = dump(array, return_as_string)<br/>
+<i>Returns false on failure, if return as string is true returns print of the dump as a string on success, 
+otherwise writes to the console and returns true on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$a.C1 = 100;
+$a.C2 = 200;
+$ok = dump($a); // write to the console
+$s = dump($a, true); // return dump as a string
+console("My dump:{$s}");
+</pre>
+<br/>
+

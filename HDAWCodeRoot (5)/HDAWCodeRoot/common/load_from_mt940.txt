@@ -1,0 +1,121 @@
+// General MT940 Format Loader
+
+COMMON "OnError.txt";
+COMMON "ChecksumCheck.txt";
+COMMON "Loader-INIT.txt";
+COMMON "Loader-INSERT.txt";
+
+function load_from_mt940($p) begin
+   metatags "load_from_mt940";
+   $fn_title = "In function load_from_mt940, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.use_dwh_table = $NOT_NULL;
+   $p.file_to_read = $NOT_NULL;
+   $p.file_record_tag = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.truncate_table = true;
+   $p.create_table = false;
+   $p.verbose = false;
+   $p.checksum_field = null;
+   $p.use_file_date = null;
+   $p.guid = null;
+   */
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_db_table = $p.use_db_table;
+   if $use_db_table is null return return_with_error("{$fn_title} must supply a property use_db_table");
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $file_add_fields = $p.file_add_fields;
+   $file_field_process = $p.file_field_process;
+   $use_file_date = $p.use_file_date;
+   $use_dwh_table = $p.use_dwh_table;
+   $use_dwh_table DEFAULT $use_db_table;
+   $format = $p.format;
+   $format default 'mt940';
+   $headers = $p.headers;
+   $headers default false;
+   $guid = $p.guid;
+   $guid DEFAULT guid();
+
+   $s = loader_init($use_db_connect, $use_db_table, $file_to_read, $truncate_db_table, $create_db_table);
+   $s = null; // Not required
+   $be_verbose = $p.verbose;
+
+   // Open the checksum method
+   do_open_checksum($p.checksum_field, $p.guid);
+
+   // Write the file to DB
+   $file_lines = 0;
+   $records = mt940_to_array($file_to_read, $format, $headers);
+   for all properties $idx in $records begin
+		$xt = null;
+      $sender = "Unknown";
+      $msg_type = "Unknown";
+      $receiver = "Unknown";
+      $a = $records.$idx;
+	   if $a has property "leading_lines" begin
+		  $i_lines = preg_split("/\n/",$a."leading_lines",false);
+		  if $i_lines is not false begin
+			 $sender = $i_lines.0;
+			 if $i_lines has property 1 $msg_type = $i_lines.1;
+			 if $i_lines has property 2 $receiver = $i_lines.2;
+			 end
+		  end
+
+	   $record.Sender = $sender;
+	   $record.Receiver = $receiver;
+	   $record.MSG_Type = $msg_type;
+	   $record.Transaction_Reference_Number = $a.refNumber;
+	   $record.Account_Identification = $a.accountNumber;
+	   $record.Statement_Number_And_Sequence = $a.extractNumber;
+	   $record.Currency = $a.openBalance_currency;
+	   $record.Opening_Balance_Date = $a.openBalance_date;
+	   $record.Opening_Balance = $a.openBalance_amount;
+	   $record.Closing_Book_Balance = $a.closeBalance_amount;
+	   $record.Interim_Open_Balance = $a.interimOpenBalance_amount;
+	   $record.Interim_Close_Balance = $a.interimCloseBalance_amount;
+	   $record.Related_Reference = $a.relatedRef;
+	   $record.Value_Date = $a.valueDate;
+	   $record.Currency = $a.currCode;
+	   $record.Amount = $a.amount;
+	   $record.Ordering_Customer = $a.orderingCustomer;
+	   $record.Ordering_Institution = $a.orderingInstitution;
+	   $record.Intermediary = $a.intermediary;
+	   $record.Sender_to_Receiver_Information = $a.senderToRcvInfo;
+	   $record.TimeStamp =  date("Y-m-d G:i:s",string_to_time("20{$a.time_stamp}"));
+
+	   if count_properties($a.transactions) > 0 begin
+		  $xt = $a."transactions";
+		  end
+
+	   if $be_verbose is true for all properties $pr in $a console("{$pr} {$a.$pr}");
+	   if $xt is null begin
+			  $p.record = $record;
+			  if loader_insert($p) is true $file_lines = $file_lines+1;
+		end
+	   else begin
+		   for all properties $tn in $xt begin
+			  $record.indicator = $xt.$tn.indicator;
+			  $record.amount = $xt.$tn.amount;
+			  $record.Info_to_Acct_Owner = "{$xt.$tn.info} {$xt.$tn.details.value}";
+			  // Load Insert the record
+			  $p.record = $record;
+			  if loader_insert($p) is true $file_lines = $file_lines+1;
+			  end
+		end
+	   end
+
+   check_checksum(close_write_checksum($p.checksum_field, $p.guid), $p.checksum_field, $p.guid, $file_lines, $use_db_table, $p.file_field_lookup); 
+
+   // And close off the destination
+   mssql_close();
+   return $file_lines;
+   end
+
+

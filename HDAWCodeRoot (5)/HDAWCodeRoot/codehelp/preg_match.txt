@@ -1,0 +1,14 @@
+<h2>preg_match</h2>
+<i><b>Do a regular expression match</b></i><br/>
+$result = preg_match(pattern, target)<br/>
+<i>Returns false on failure, match result on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$file_to_read = "MI0001_CSV_128959482_20120323.csv";
+$match_date = preg_match("/MI\d\d\d\d_CSV_[\d]{9,9}_(?<year>\d\d\d\d)(?<mth>\d\d)(?<day>\d\d)\.csv/i",$file_to_read);
+$file_date = trim("_{$match_date.year}{$match_date.mth}{$match_date.day}","_");
+console("Using file date: {$file_date}");
+</pre>
+<br/>
+

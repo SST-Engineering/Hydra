@@ -1,0 +1,16 @@
+<h2>xbase_to_csv</h2>
+<i><b>Convert an xbase file into a csv file</b></i><br/>
+Given an dbf (foxpro) file, convert to same name csv file <br/>
+<i>$csv_file = xbase_to_csv("dbf_file")</i><br/>
+Return is a compound structure with filename and filepath on success, false on failure. The filename is a path or just filename if already in profile working directory
+<br/>
+<i>Example</i><br/>
+<pre>
+$csv_file = xbase_to_csv("groups.dbf");
+console($csv_file);
+Gives, on success:
+$csv_file.FileName => groups.csv
+$csv_file.FilePath => CUSTOM/PF89865432/groups.csv
+</pre>
+<br/>
+

@@ -1,0 +1,27 @@
+<h2>make_insert</h2>
+<i><b>Make a query string for insert from an array</b></i><br/>
+$result = make_insert(<i>array_values</i>,<i>table_name</i>[,<i>lookup_table</i>])<br/>
+<i>Returns false on failure, a query string ready for xxx_query on success</i>
+<i>Example</i><br/>
+$value1 = 2.3;<br/>
+$value2 = 'hello';<br/>
+$a.FieldName1 = $value1;<br/>
+$a.FieldName2 = $value2;<br/>
+$insert_row = make_insert($a, "my_table");<br/>
+Creates the query: INSERT INTO my_table (FieldName1,FieldName2) VALUES ('2.3','hello')<br/>
+ .. or ..<br/>
+$lookup.FieldName1 = "AnotherFieldName1";<br/>
+$lookup.FieldName2 = "AnotherFieldName2";<br/>
+$insert_row = make_insert($a, "my_table", $lookup);<br/>
+Creates the query: INSERT INTO my_table (AnotherFieldName1,AnotherFieldName2) VALUES ('2.3','hello')<br/>
+if $insert_row is not false begin;<br/>
+   $ok = mssql_query($insert_row;<br/>
+   end<br/>
+You can also use lookup to restrict the fields added in this way:<br/>
+$lookup_restrict.FieldName1 = "FieldName1";<br/>
+$insert_row = make_insert($a, "my_table", $lookup_restrict);<br/>
+Creates the query: INSERT INTO my_table (FieldName1) VALUES ('2.3')<br/>
+The insert string will only create inserts into table for fields mentioned in the lookup (if there is a lookup provided)<br/>
+
+
+

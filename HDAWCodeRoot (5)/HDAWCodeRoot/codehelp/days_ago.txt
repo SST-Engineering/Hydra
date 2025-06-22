@@ -1,0 +1,11 @@
+<h2>days_ago</h2>
+<i><b>Returns the number of whole days from a date time string to now</b></i><br/>
+$ago = days_ago(date_time)<br/>
+<i>Returns whole days ago from a date time string to now </i><br/>
+<br/>
+<i>Example</i><br/>
+
+$your_last = last_run('ETL_Barclays_CSV');<br/>
+$ago = days_ago($your_last);<br/>
+if $ago is > 3 console("Warning Barclays load is more than 3 DAYS late");<br/>
+

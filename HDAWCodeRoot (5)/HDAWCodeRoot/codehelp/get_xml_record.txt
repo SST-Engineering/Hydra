@@ -1,0 +1,13 @@
+<h2>get_xml_record</h2>
+<i><b>Obtain next record from an XML structure</b></i><br/>
+Get record index from XML array <br/>
+<i>$record = get_xml_record($xml_array, "Tag", $indx )</i><br/>
+Return is a record structure on success, or false on failure or no more records
+<br/>
+<i>Example</i><br/>
+<pre>
+$xml_array($xml_file_contents);
+$record = get_xml_record($xml_array, "Tag", $i);
+</pre>
+<br/>
+

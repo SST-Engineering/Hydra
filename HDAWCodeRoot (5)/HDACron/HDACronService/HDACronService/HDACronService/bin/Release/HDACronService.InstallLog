@@ -1,0 +1,69 @@
+﻿Installing assembly 'C:\Gentia\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Gentia\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.InstallLog
+   assemblypath = C:\Gentia\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe
+Installing service HDACronService...
+Service HDACronService has been successfully installed.
+Creating EventLog source HDACronService in log Application...
+Committing assembly 'C:\Gentia\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Gentia\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.InstallLog
+   assemblypath = C:\Gentia\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe
+Uninstalling assembly 'C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.InstallLog
+   assemblypath = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe
+Removing EventLog source HDACronService.
+Service HDACronService is being removed from the system...
+Service HDACronService was successfully removed from the system.
+Installing assembly 'C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.InstallLog
+   assemblypath = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe
+Installing service HDACronService...
+Creating EventLog source HDACronService in log Application...
+Rolling back assembly 'C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.InstallLog
+   assemblypath = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe
+Restoring event log to previous state for source HDACronService.
+Uninstalling assembly 'C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.InstallLog
+   assemblypath = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe
+Removing EventLog source HDACronService.
+Warning: The source HDACronService is not registered on the local machine.
+Service HDACronService is being removed from the system...
+Service HDACronService was successfully removed from the system.
+Installing assembly 'C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.InstallLog
+   assemblypath = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe
+Installing service HDACronService...
+Creating EventLog source HDACronService in log Application...
+Rolling back assembly 'C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.InstallLog
+   assemblypath = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe
+Restoring event log to previous state for source HDACronService.
+Installing assembly 'C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.InstallLog
+   assemblypath = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe
+Installing service HDACronService...
+Service HDACronService has been successfully installed.
+Creating EventLog source HDACronService in log Application...
+Committing assembly 'C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.InstallLog
+   assemblypath = C:\SST\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe

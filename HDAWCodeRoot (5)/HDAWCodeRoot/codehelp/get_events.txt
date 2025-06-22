@@ -1,0 +1,23 @@
+<h2>get_events</h2>
+<i><b>Get list of events issued by a profile</b></i><br/>
+Return structured array of events for given profile<br/>
+<i>$events = get_events(event_code[, for_today[, for_profile_name]])<i><br/>
+
+<i>$events = get_events(event_code)<i><br/>
+<i>$events = get_events(event_code, false); // all event_codes for any date<i><br/>
+<i>$events = get_events(event_code, true, "My_Profile"); // all event_codes for today for profile My_Profile<i><br/>
+Structured List on success, false on failure. 
+
+<br/>
+<i>Example</i><br/>
+<pre>
+$CurrCode = 'GBP';
+$ok = issue_event('CURRENCY_LOADED', $CurrCode);
+
+$list = get_events('CURRENCY_LOADED'); // get CURRENCY_LOADED events for today for this profile
+$list = get_events('CURRENCY_LOADED', true, 'My_Profile'); // get CURRENCY_LOADED events for today for My_Profile
+$list = get_events('CURRENCY_LOADED', false, 'My_Profile'); // get CURRENCY_LOADED events for all dates for My_Profile
+
+</pre>
+<br/>
+

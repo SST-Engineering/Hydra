@@ -1,0 +1,9 @@
+<h3>else</h3>
+<i><b>ELSE</b>Language, Keyword</i><br/>
+If -conditional- -statement- ELSE -statement-<br/>
+<i>Example</i><br/>
+if $a is true then console("a is true")
+<b>else</b> console("a is not true")
+
+
+

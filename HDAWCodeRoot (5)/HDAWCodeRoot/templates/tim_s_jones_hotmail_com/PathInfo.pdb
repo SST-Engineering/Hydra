@@ -1,0 +1,1 @@
+a:4:{i:1;s:16:'$f = 'abc.txt';~';i:2;s:20:'$p = path_info($f);~';i:3;s:22:'console($p.filename);~';i:4;s:10:'dump($p);~';}

@@ -1,0 +1,5 @@
+// ALCODE Snippet generated Tue, 2nd Oct 12 at 9:36
+
+
+console("Hello Snippet");
+exit true;

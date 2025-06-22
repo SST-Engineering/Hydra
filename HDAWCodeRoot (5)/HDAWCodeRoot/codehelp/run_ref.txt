@@ -1,0 +1,9 @@
+<h2>run_ref</h2>
+<i><b>Get the reference identifier of the running process or profile</b></i><br/>
+$result = run_ref()<br/>
+<i>Return string on success, false on failure</i><br/>
+Return the unique reference of the current running process or profile
+<br/>
+<i>Example</i><br/>
+$this_proc_id = run_ref()<br/>
+

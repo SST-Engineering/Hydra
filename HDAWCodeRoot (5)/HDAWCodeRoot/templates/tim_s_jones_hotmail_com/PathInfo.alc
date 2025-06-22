@@ -1,0 +1,4 @@
+$f = "abc.txt";
+$p = path_info($f);
+console($p.filename);
+dump($p);

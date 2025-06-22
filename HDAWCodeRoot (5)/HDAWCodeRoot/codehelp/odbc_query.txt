@@ -1,0 +1,9 @@
+<h2>odbc_query</h2>
+<i><b>Execute query to ODBC Server</b></i><br/>
+$result = odbc_query(query)<br/>
+<i>Returns false on failure, true on success, assumes connection opened by odbc_connect</i><br/>
+<br/>
+<i>Example</i><br/>
+$ok = odbc_query("Select * FROM table");<br/>
+
+

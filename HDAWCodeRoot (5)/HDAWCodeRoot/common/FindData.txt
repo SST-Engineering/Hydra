@@ -1,0 +1,54 @@
+// Code to detect data or use a test file, extract a date if needed, and return a file path
+function find_data($find_data_params) begin
+/* requires the following params, but some optional
+   use_test_file - if there is no test file, or testing not required then, leave this out or set to null
+    $find_data_params.use_test_file = "test file name loaded already in the profile pacakge";
+  use_upload - look for a data upload
+   $find_data_params.use_upload = true;  //example
+   use_detect - look for data on this global site connection
+   $find_data_params.use_detect = "ALC_DWH_WAREHOUSE"; // example
+   validate_name - validate a name and or extract a date from the original filename, this is a regex
+   $find_data_params.validate_name = "/MyData.csv/";
+*/
+$found_file_name = null;
+$found_file_path = null;
+$matched_name = false;
+$testing = false;
+
+if $find_data_params has property 'use_upload' and $find_data_params.use_upload is true   begin
+  $uploaded = detect_upload();
+  if $uploaded is not false begin
+      $found_file_name = $uploaded.FileName;
+      $found_file_path = $uploaded.FilePath;
+      console("Request to look for uploads - found {$found_file_name}");
+      end
+  else console("Requested to look at uploads - no data found");
+  end
+if $found_file_name is null and $find_data_params has property 'use_detect' begin
+  $detected = detect_lookup($find_data_params.use_detect);
+  if $detected is not false begin
+     $found_file_name =  $detected.FileName;
+     $found_file_path = $detected.FilePath;
+     console("Request to look for detects on {$find_data_params.use_detect} - found {$found_file_name}");
+     end
+   else console("Requested to look for detects on {$find_data_params.use_detect} - no data found");
+   end
+if $found_file_name is null and $find_data_params has property 'use_test_file' begin
+   $found_file_name = $find_data_params.use_test_file;
+   $found_file_path = $find_data_params.use_test_file;
+   $testing = true;
+   console("Will run in test mode with file {$found_file_name}");
+   end
+if $found_file_name is not null and $find_data_params.validate_name is not null begin
+   $matched_name = preg_match($find_data_params.validate_name, $found_file_name);
+   if $matched_name is false console("In function find_data, unable to validate name or extract date with pattern {$find_data_params.validate_name} from file name {$found_file_name}");
+   end
+
+// Build return result
+$result.FileName = $found_file_name;
+$result.FilePath = $found_file_path;
+$result.TestMode = $testing;
+$result.NameMatch = $matched_name;
+return $result;
+end
+   

@@ -1,0 +1,3 @@
+$WorkOfDate = "20120831";
+$RunDate = date('Ymd',string_to_time($WorkOfDate)+24*60*60);
+console($RunDate);

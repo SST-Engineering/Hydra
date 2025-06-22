@@ -1,0 +1,10 @@
+<h3>unset</h3>
+<i><b>UNSET Keyword, Statement</b></i><br/>
+Remove reference and value, return memory
+As in example:<br/>
+<i>Example</i><br/>
+if $a has property "story" <b>unset</b> $a."story";
+
+
+
+

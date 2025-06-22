@@ -1,0 +1,7 @@
+// Snippet to extract currency, see snippet Extract Number for similar to get amount,
+// This is showing a system function call, but could also be done in the process record form of:
+// $file_field_process.Amount = "CURRENCY_SYMBOL";
+$amount = "£10.50";
+$curr = value_adjust($amount, "CURRENCY_SYMBOL");
+console("Obtained currency text from {$amount} giving {$curr}");
+exit true;

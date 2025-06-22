@@ -1,0 +1,13 @@
+<h2>read_xbase</h2>
+<i><b>Return xbase (foxpro) table as a csv string</b></i><br/>
+Given an dbf (foxpro) file, read entire table and return as a csv string with header columns <br/>
+<i>$csv = read_xbase("dbf_file")</i><br/>
+Return is csv string on success, false on failure. The filename is a path or just filename if already in profile working directory
+<br/>
+<i>Example</i><br/>
+<pre>
+$csv = read_xbase("groups.dbf");
+console($csv);
+</pre>
+<br/>
+

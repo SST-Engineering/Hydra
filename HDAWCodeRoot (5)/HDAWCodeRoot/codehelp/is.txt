@@ -1,0 +1,8 @@
+<h3>is</h3>
+<i><b>IS Keyword</b></i><br/>
+As in example:<br/>
+<i>Example</i><br/>
+if $a <b>is</b> not true then $b = "false a";
+
+
+

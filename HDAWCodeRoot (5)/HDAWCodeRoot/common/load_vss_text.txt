@@ -1,0 +1,129 @@
+function preload_vss_text($p) begin
+   $reporttype = $p.reporttype;
+   $lines = $p.lines;
+   $skip_lines = $p.skip_lines;
+   if $skip_lines is null return $lines;
+   $regx = "";
+   for all properties $j in $skip_lines begin
+      $regx += "^{$skip_lines.$j}[\s\S]{0,}$|";
+	  end
+   $regx = trim($regx,"|");
+   $new_lines = null;
+   $skipped_lines = 0;
+   for all properties $i in $lines begin
+      $line = $lines.$i;
+	  if preg_match("/{$regx}/", $line) is not false $skipped_lines+=1
+	  else $new_lines.. = $line;
+      end
+   issue_monitor("Skipped {$skipped_lines} lines done");
+   return $new_lines;
+   end
+
+function load_vss_text($p) begin
+   $reporttype = $p.reporttype;
+   $lines = preload_vss_text($p);
+   #fixed_fields = $p.add_fields;
+   #map_fields = $p.map_fields;
+   $line_match = $p.line_match;
+   //
+   #lines_loaded = 0;
+   $item_line_rx = "^(?P<route_r>[\s\S]{1,30})";
+   $item_line_rx += "[ ]{0,}(?P<count>[\d,]{1,})";
+   $item_line_rx += "[\s]{1,}";
+   $item_line_rx += "(?P<v1>[\d,\.]{1,})";
+   $item_line_rx += "(?P<CreditDebit>[CRDB]{0,2})";
+   $item_line_rx += "(?P<v2>[\d,\.\s]{0,21})";
+   $item_line_rx += "(?P<v3>[\d,\.\s]{0,})$";
+   if $line_match is not null $item_line_rx = $line_match;
+   console("match on {$item_line_rx}");
+   //
+   state VSSReport  begin
+      step * then FindReport when "^[\*]{3,3}[\s]{1,}END OF ";
+      step FindReport then ProcessRecord when "Report[\s]{1,}ID:[\s]{1,}{$reporttype}[\s]{1,}.*";
+      step ProcessRecord then ProgramLine when "REPORTING FOR:[\s]{1,}(?P<ProgramSRE>[\d]{1,})([\s\S]{1,}REPORT DATE:[\s]{1,}(?P<ReportDate>\d\d\w\w\w\d\d))?";
+      step ProgramLine then RollupLine when "ROLLUP TO:[\s]{1,}(?P<RollupSRE>[\d]{1,})([\s\S]{1,}REPORT DATE:[\s]{1,}(?P<ReportDate>\d\d\w\w\w\d\d))?";
+      step RollupLine then TransferLine when "FUNDS XFER ENTITY:[\s]{1,}(?P<FTSRE>[\d]{1,})";
+      step TransferLine then StackingLevels when "SETTLEMENT CURRENCY:[\s]{1,}(?P<SettlementCurr>[\w]{3,3})";
+      step StackingLevels then WriteIt when $item_line_rx;
+      step StackingLevels when "^(?P<level>[A-Z\s\.\- ]{1,})$";
+	  step WriteIt then StackingLevels when "^(?P<level>[A-Z\s\.\- ]{1,})$";
+      step WriteIt then WriteIt else StackingLevels when $item_line_rx;
+      end
+   #stacking = null;
+   #stack = null;
+   
+   
+   function stack_level($level) begin
+      if $level is not null #stacking..= $level;
+      end
+   
+   
+   function set_levels() begin
+      $k = count_properties(#stacking);
+      for number properties $i in #stacking  begin
+         $j = $k - $i;
+         #stack.$j = #stacking.$i;
+         end
+      #stacking = null;
+      end
+   
+   
+   function VSSReport() begin
+      $at = VSSReport ?;
+	  issue_monitor($at);
+      case(VSSReport ?) begin
+         when "WriteIt"  begin
+            set_levels();
+            for number properties $i in #stack  begin
+               $level_p = "Level{$i}";
+               $record.$level_p = #stack.$i;
+               end
+            //
+            for all properties $field in #fixed_fields  begin
+               $record.$field = #fixed_fields.$field;
+               end
+			for all properties $db_field in #map_fields begin
+			   $vss_field = #map_fields.$db_field;
+			   case $vss_field begin
+			      when "count", "v1", "v2", "v3" begin
+				     $record.$db_field = value_adjust(VSSReport.$vss_field, "NUMBER");
+					 end
+				  when "ReportDate" begin
+				     $record.$db_field = value_adjust(VSSReport.$vss_field, "DATE#Ymd#dMy");
+					 end
+				  $record.$db_field = VSSReport.$vss_field;
+				  end
+			   end
+			if file_conditional_insert exists begin
+			   $do_insert = file_conditional_insert($record);
+			   if $do_insert is false $record = null;
+			   if $do_insert is null $record = null;
+			   if is_array($do_insert) is true $record = $do_insert;
+			   end
+			if $record is not null begin
+               $insert_query = make_insert($record, #use_db_table);
+               $ok = mssql_query($insert_query);
+               if $ok is not true return return_with_error("Fails to insert record to destination DB \n{$insert_query}\n");
+               #lines_loaded += 1;
+			   end
+            end
+         when "StackingLevels"  begin
+            stack_level(VSSReport.level);
+            end
+         when "FindReport"  begin
+            #stacking = null;
+            #stack = null;
+            VSSReport.level = null;
+            end
+         end
+      end
+   VSSReport -> "*** END OF ";
+   for all properties $line_no in $lines  begin
+      $line = trim($lines.$line_no);
+      if(string_length($line)> 0)VSSReport -> trim($line);
+      end
+   mssql_close();
+   //
+   return #lines_loaded;
+   end
+

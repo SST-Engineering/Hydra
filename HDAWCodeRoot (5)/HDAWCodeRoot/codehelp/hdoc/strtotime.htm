@@ -1,0 +1,544 @@
+
+<H2 class=3D"title">Date Formats</H2>
+<TABLE class=3D"doctable table">
+  <CAPTION><STRONG>Used Symbols</STRONG></CAPTION>
+  <THEAD>
+  <TR>
+    <TH>Description</TH>
+    <TH>Format</TH>
+    <TH>Examples</TH></TR></THEAD>
+  <TBODY class=3D"tbody">
+  <TR>
+    <TD><EM>daysuf</EM></TD>
+    <TD>"st" | "nd" | "rd" | "th"</TD>
+    <TD class=3D"empty">&nbsp;</TD></TR>
+  <TR>
+    <TD><EM>dd</EM></TD>
+    <TD>([0-2]?[0-9] | "3"[01]) <EM>daysuf</EM>?</TD>
+    <TD>"7th", "22nd", "31"</TD></TR>
+  <TR>
+    <TD><EM>DD</EM></TD>
+    <TD>"0" [0-9] | [1-2][0-9] | "3" [01]</TD>
+    <TD>"07", "31"</TD></TR>
+  <TR>
+    <TD><EM>m</EM></TD>
+    <TD>'january' | 'february' | 'march' | 'april' | 'may' | 'june' |    =
+ =20
+      'july' | 'august' | 'september' | 'october' | 'november' | =
+'december' |   =20
+        'jan' | 'feb' | 'mar' | 'apr' | 'may' | 'jun' | 'jul' | 'aug' | =
+'sep' | =20
+          'sept' | 'oct' | 'nov' | 'dec' | "I" | "II" | "III" | "IV" | =
+"V" |=20
+      "VI"      | "VII" | "VIII" | "IX" | "X" | "XI" | "XII"</TD>
+    <TD class=3D"empty">&nbsp;</TD></TR>
+  <TR>
+    <TD><EM>M</EM></TD>
+    <TD>'jan' | 'feb' | 'mar' | 'apr' | 'may' | 'jun' | 'jul' | 'aug' |  =
+   =20
+      'sep' | 'sept' | 'oct' | 'nov' | 'dec'</TD>
+    <TD class=3D"empty">&nbsp;</TD></TR>
+  <TR>
+    <TD><EM>mm</EM></TD>
+    <TD>"0"? [0-9] | "1"[0-2]</TD>
+    <TD>"0", "04", "7", "12"</TD></TR>
+  <TR>
+    <TD><EM>MM</EM></TD>
+    <TD>"0" [0-9] | "1"[0-2]</TD>
+    <TD>"00", "04", "07", "12"</TD></TR>
+  <TR>
+    <TD><EM>y</EM></TD>
+    <TD>[0-9]{1,4}</TD>
+    <TD>"00", "78", "08", "8", "2008"</TD></TR>
+  <TR>
+    <TD><EM>yy</EM></TD>
+    <TD>[0-9]{2}</TD>
+    <TD>"00", "08", "78"</TD></TR>
+  <TR>
+    <TD><EM>YY</EM></TD>
+    <TD>[0-9]{4}</TD>
+    <TD>"2000", "2008", "1978"</TD></TR></TBODY></TABLE>
+<TABLE class=3D"doctable table">
+  <CAPTION><STRONG>Localized Notations</STRONG></CAPTION>
+  <THEAD>
+  <TR>
+    <TH>Description</TH>
+    <TH>Format</TH>
+    <TH>Examples</TH></TR></THEAD>
+  <TBODY class=3D"tbody">
+  <TR>
+    <TD>American month and day</TD>
+    <TD><EM>mm</EM> "/" <EM>dd</EM></TD>
+    <TD>"5/12", "10/27"</TD></TR>
+  <TR>
+    <TD>American month, day and year</TD>
+    <TD><EM>mm</EM> "/" <EM>dd</EM> "/" <EM>y</EM></TD>
+    <TD>"12/22/78", "1/17/2006", "1/17/6"</TD></TR>
+  <TR>
+    <TD>Four digit year, month and day with slashes</TD>
+    <TD><EM>YY</EM> "/" <EM>mm</EM> "/" <EM>dd</EM></TD>
+    <TD>"2008/6/30", "1978/12/22"</TD></TR>
+  <TR>
+    <TD>Four digit year and month (GNU)</TD>
+    <TD><EM>YY</EM> "-" <EM>mm</EM></TD>
+    <TD>"2008-6", "2008-06", "1978-12"</TD></TR>
+  <TR>
+    <TD>Year, month and day with dashes</TD>
+    <TD><EM>y</EM> "-" <EM>mm</EM> "-" <EM>dd</EM></TD>
+    <TD>"2008-6-30", "78-12-22", "8-6-21"</TD></TR>
+  <TR>
+    <TD>Day, month and four digit year, with dots, tabs or dashes</TD>
+    <TD><EM>dd</EM> [.\t-] <EM>mm</EM> [.-] <EM>YY</EM></TD>
+    <TD>"30-6-2008", "22.12\t1978"</TD></TR>
+  <TR>
+    <TD>Day, month and two digit year, with dots or tabs</TD>
+    <TD><EM>dd</EM> [.\t] <EM>mm</EM> "." <EM>yy</EM></TD>
+    <TD>"30.6.08", "22\t12\t78"</TD></TR>
+  <TR>
+    <TD>Day, textual month and year</TD>
+    <TD><EM>dd</EM> ([ \t.-])* <EM>m</EM> ([ \t.-])* <EM>y</EM></TD>
+    <TD>"30-June 2008", "22DEC78", "14 III 1879"</TD></TR>
+  <TR>
+    <TD>Textual month and four digit year (Day reset to 1)</TD>
+    <TD><EM>m</EM> ([ \t.-])* <EM>YY</EM></TD>
+    <TD>"June 2008", "DEC1978", "March 1879"</TD></TR>
+  <TR>
+    <TD>Four digit year and textual month (Day reset to 1)</TD>
+    <TD><EM>YY</EM> ([ \t.-])* <EM>m</EM></TD>
+    <TD>"2008 June", "1978-XII", "1879.MArCH"</TD></TR>
+  <TR>
+    <TD>Textual month, day and year</TD>
+    <TD><EM>m</EM> ([ .\t-])* <EM>dd</EM> [,.stndrh\t ]+ <EM>y</EM></TD>
+    <TD>"July 1st, 2008", "April 17, 1790", "May.9,78"</TD></TR>
+  <TR>
+    <TD>Textual month and day</TD>
+    <TD><EM>m</EM> ([ .\t-])* <EM>dd</EM> [,.stndrh\t ]*</TD>
+    <TD>"July 1st,", "Apr 17", "May.9"</TD></TR>
+  <TR>
+    <TD>Day and textual month</TD>
+    <TD><EM>d</EM> ([ .\t-])* <EM>m</EM></TD>
+    <TD>"1 July", "17 Apr", "9.May"</TD></TR>
+  <TR>
+    <TD>Month abbreviation, day and year</TD>
+    <TD><EM>M</EM> "-" <EM>DD</EM> "-" <EM>y</EM></TD>
+    <TD>"May-09-78", "Apr-17-1790"</TD></TR>
+  <TR>
+    <TD>Year, month abbreviation and day</TD>
+    <TD><EM>y</EM> "-" <EM>M</EM> "-" <EM>DD</EM></TD>
+    <TD>"78-Dec-22", "1814-MAY-17"</TD></TR>
+  <TR>
+    <TD>Year (and just the year)</TD>
+    <TD><EM>YY</EM></TD>
+    <TD>"1978", "2008"</TD></TR>
+  <TR>
+    <TD>Textual month (and just the month)</TD>
+    <TD><EM>m</EM></TD>
+    <TD>"March", "jun", "DEC"</TD></TR></TBODY></TABLE>
+<TABLE class=3D"doctable table">
+  <CAPTION><STRONG>ISO8601 Notations</STRONG></CAPTION>
+  <THEAD>
+  <TR>
+    <TH>Description</TH>
+    <TH>Format</TH>
+    <TH>Examples</TH></TR></THEAD>
+  <TBODY class=3D"tbody">
+  <TR>
+    <TD>Eight digit year, month and day</TD>
+    <TD><EM>YY</EM> <EM>MM</EM> <EM>DD</EM></TD>
+    <TD>"15810726", "19780417", "18140517"</TD></TR>
+  <TR>
+    <TD>Four digit year, month and day with slashes</TD>
+    <TD><EM>YY</EM> "/" <EM>MM</EM> "/" <EM>DD</EM></TD>
+    <TD>"2008/06/30", "1978/12/22"</TD></TR>
+  <TR>
+    <TD>Two digit year, month and day with dashes</TD>
+    <TD><EM>yy</EM> "-" <EM>MM</EM> "-" <EM>DD</EM></TD>
+    <TD>"08-06-30", "78-12-22"</TD></TR>
+  <TR>
+    <TD>Four digit year with optional sign, month and day</TD>
+    <TD>[+-]? <EM>YY</EM> "-" <EM>MM</EM> "-" <EM>DD</EM></TD>
+    <TD>"-0002-07-26", "+1978-04-17", =
+"1814-05-17"</TD></TR></TBODY></TABLE>
+
+<H2 class=3D"title">Time Formats</H2>
+<TABLE class=3D"doctable table">
+  <CAPTION><STRONG>Used Symbols</STRONG></CAPTION>
+  <THEAD>
+  <TR>
+    <TH>Description</TH>
+    <TH>Formats</TH>
+    <TH>Examples</TH></TR></THEAD>
+  <TBODY class=3D"tbody">
+  <TR>
+    <TD><EM>frac</EM></TD>
+    <TD>. [0-9]+</TD>
+    <TD>".21342", ".85"</TD></TR>
+  <TR>
+    <TD><EM>hh</EM></TD>
+    <TD>"0"?[1-9] | "1"[0-2]</TD>
+    <TD>"04", "7", "12"</TD></TR>
+  <TR>
+    <TD><EM>HH</EM></TD>
+    <TD>[01][0-9] | "2"[0-4]</TD>
+    <TD>"04", "7", "19"</TD></TR>
+  <TR>
+    <TD><EM>meridian</EM></TD>
+    <TD>[AaPp] .? [Mm] .? [\0\t ]</TD>
+    <TD>"A.m.", "pM", "am."</TD></TR>
+  <TR>
+    <TD><EM>MM</EM></TD>
+    <TD>[0-5][0-9]</TD>
+    <TD>"00", "12", "59"</TD></TR>
+  <TR>
+    <TD><EM>II</EM></TD>
+    <TD>[0-5][0-9]</TD>
+    <TD>"00", "12", "59"</TD></TR>
+  <TR>
+    <TD><EM>space</EM></TD>
+    <TD>[ \t]</TD>
+    <TD class=3D"empty">&nbsp;</TD></TR>
+  <TR>
+    <TD><EM>tz</EM></TD>
+    <TD>"("? [A-Za-z]{1,6} ")"? | [A-Z][a-z]+([_/][A-Z][a-z]+)+</TD>
+    <TD>"CEST", "Europe/Amsterdam", "America/Indiana/Knox"</TD></TR>
+  <TR>
+    <TD><EM>tzcorrection</EM></TD>
+    <TD>"GMT"? [+-] <EM>hh</EM> ":"? <EM>MM</EM>?</TD>
+    <TD>"+0400", "GMT-07:00", "-07:00"</TD></TR></TBODY></TABLE>
+<TABLE class=3D"doctable table">
+  <CAPTION><STRONG>12 Hour Notation</STRONG></CAPTION>
+  <THEAD>
+  <TR>
+    <TH>Description</TH>
+    <TH>Format</TH>
+    <TH>Examples</TH></TR></THEAD>
+  <TBODY class=3D"tbody">
+  <TR>
+    <TD>Hour only, with meridian</TD>
+    <TD><EM>hh</EM> <EM>space</EM>? <EM>meridian</EM></TD>
+    <TD>"4 am", "5PM"</TD></TR>
+  <TR>
+    <TD>Hour and minutes, with meridian</TD>
+    <TD><EM>hh</EM> [.:] <EM>MM</EM> <EM>space</EM>? =
+<EM>meridian</EM></TD>
+    <TD>"4:08 am", "7:19P.M."</TD></TR>
+  <TR>
+    <TD>Hour, minutes and seconds, with meridian</TD>
+    <TD><EM>hh</EM> [.:] <EM>MM</EM> [.:] <EM>II</EM> <EM>space</EM>?=20
+      <EM>meridian</EM></TD>
+    <TD>"4:08:37 am", "7:19:19P.M."</TD></TR>
+  <TR>
+    <TD>MS SQL (Hour, minutes, seconds and fraction with meridian), PHP =
+5.3=20
+      and later only</TD>
+    <TD><EM>hh</EM> ":" <EM>MM</EM> ":" <EM>II</EM> [.:] [0-9]+=20
+      <EM>meridian</EM></TD>
+    <TD>"4:08:39:12313am"</TD></TR></TBODY></TABLE>
+<TABLE class=3D"doctable table">
+  <CAPTION><STRONG>24 Hour Notation</STRONG></CAPTION>
+  <THEAD>
+  <TR>
+    <TH>Description</TH>
+    <TH>Format</TH>
+    <TH>Examples</TH></TR></THEAD>
+  <TBODY class=3D"tbody">
+  <TR>
+    <TD>Hour and minutes</TD>
+    <TD>'t'? <EM>HH</EM> [.:] <EM>MM</EM></TD>
+    <TD>"04:08", "19.19", "T23:43"</TD></TR>
+  <TR>
+    <TD>Hour and minutes, no colon</TD>
+    <TD>'t'? <EM>HH</EM> <EM>MM</EM></TD>
+    <TD>"0408", "t1919", "T2343"</TD></TR>
+  <TR>
+    <TD>Hour, minutes and seconds</TD>
+    <TD>'t'? <EM>HH</EM> [.:] <EM>MM</EM> [.:] <EM>II</EM></TD>
+    <TD>"04.08.37", "t19:19:19"</TD></TR>
+  <TR>
+    <TD>Hour, minutes and seconds, no colon</TD>
+    <TD>'t'? <EM>HH</EM> <EM>MM</EM> <EM>II</EM></TD>
+    <TD>"040837", "T191919"</TD></TR>
+  <TR>
+    <TD>Hour, minutes, seconds and timezone</TD>
+    <TD>'t'? <EM>HH</EM> [.:] <EM>MM</EM> [.:] <EM>II</EM> =
+<EM>space</EM>? (=20
+      <EM>tzcorrection</EM> | <EM>tz</EM> )</TD>
+    <TD>"040837CEST", "T191919-0700"</TD></TR>
+  <TR>
+    <TD>Hour, minutes, seconds and fraction</TD>
+    <TD>'t'? <EM>HH</EM> [.:] <EM>MM</EM> [.:] <EM>II</EM> =
+<EM>frac</EM></TD>
+    <TD>"04.08.37.81412", "19:19:19.532453"</TD></TR>
+  <TR>
+    <TD>Time zone information</TD>
+    <TD><EM>tz</EM> | <EM>tzcorrection</EM></TD>
+    <TD>"CEST", "Europe/Amsterdam", "+0430",=20
+"GMT-06:00"</TD></TR></TBODY></TABLE><BR><BR>
+
+
+<H2 class=3D"title">Relative Formats</H2>
+<TABLE class=3D"doctable table">
+  <CAPTION><STRONG>Used Symbols</STRONG></CAPTION>
+  <THEAD>
+  <TR>
+    <TH>Description</TH>
+    <TH>Format</TH></TR></THEAD>
+  <TBODY class=3D"tbody">
+  <TR>
+    <TD><EM>dayname</EM></TD>
+    <TD>'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' |     =
+=20
+      'friday' | 'saturday' | 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | =
+'fri' |   =20
+        'sat' | 'sun'</TD></TR>
+  <TR>
+    <TD><EM>daytext</EM></TD>
+    <TD>'weekday' | 'weekdays'</TD></TR>
+  <TR>
+    <TD><EM>number</EM></TD>
+    <TD>[+-]?[0-9]+</TD></TR>
+  <TR>
+    <TD><EM>ordinal</EM></TD>
+    <TD>'first' | 'second' | 'third' | 'fourth' | 'fifth' | 'sixth' |    =
+ =20
+      'seventh' | 'eighth' | 'ninth' | 'tenth' | 'eleventh' | 'twelfth' =
+|     =20
+      'next' | 'last' | 'previous' | 'this'</TD></TR>
+  <TR>
+    <TD><EM>reltext</EM></TD>
+    <TD>'next' | 'last' | 'previous' | 'this'</TD></TR>
+  <TR>
+    <TD><EM>space</EM></TD>
+    <TD>[ \t]+</TD></TR>
+  <TR>
+    <TD><EM>unit</EM></TD>
+    <TD>(('sec' | 'second' | 'min' | 'minute' | 'hour' | 'day' |     =20
+      'fortnight' | 'forthnight' | 'month' | 'year') 's'?) | 'weeks' |   =
+  =20
+      <EM>daytext</EM></TD></TR></TBODY></TABLE>
+<TABLE class=3D"doctable table">
+  <CAPTION><STRONG>Day-based Notations</STRONG></CAPTION>
+  <THEAD>
+  <TR>
+    <TH>Format</TH>
+    <TH>Description</TH>
+    <TH>Examples</TH></TR></THEAD>
+  <TBODY class=3D"tbody">
+  <TR>
+    <TD>'yesterday'</TD>
+    <TD>Midnight of yesterday</TD>
+    <TD>"yesterday 14:00"</TD></TR>
+  <TR>
+    <TD>'midnight'</TD>
+    <TD>The time is set to 00:00:00</TD>
+    <TD class=3D"empty">&nbsp;</TD></TR>
+  <TR>
+    <TD>'today'</TD>
+    <TD>The time is set to 00:00:00</TD>
+    <TD class=3D"empty">&nbsp;</TD></TR>
+  <TR>
+    <TD>'now'</TD>
+    <TD>Now - this is simply ignored</TD>
+    <TD class=3D"empty">&nbsp;</TD></TR>
+  <TR>
+    <TD>'noon'</TD>
+    <TD>The time is set to 12:00:00</TD>
+    <TD>"yesterday noon"</TD></TR>
+  <TR>
+    <TD>'tomorrow'</TD>
+    <TD>Midnight of tomorrow</TD>
+    <TD class=3D"empty">&nbsp;</TD></TR>
+  <TR>
+    <TD>'back of' <EM>hour</EM></TD>
+    <TD>15 minutes past the specified hour</TD>
+    <TD>"back of 7pm", "back of 15"</TD></TR>
+  <TR>
+    <TD>'front of' <EM>hour</EM></TD>
+    <TD>15 minutes before the specified hour</TD>
+    <TD>"front of 5am", "front of 23"</TD></TR>
+  <TR>
+    <TD>'first day' ' of'?</TD>
+    <TD>Sets the day of the first of the current month. This phrase is   =
+  =20
+      best used together with a month name following it.</TD>
+    <TD>"first day of January 2008"</TD></TR>
+  <TR>
+    <TD>'last day' ' of'?</TD>
+    <TD>Sets the day to the last day of the current month. This phrase =
+is     =20
+      best used together with a month name following it.</TD>
+    <TD>"last day of next month"</TD></TR>
+  <TR>
+    <TD><EM>ordinal</EM> <EM>space</EM> <EM>dayname</EM> <EM>space</EM>=20
+'of'</TD>
+    <TD>Calculates the <EM>x</EM>-th week day of the current month.</TD>
+    <TD>"first sat of July 2008"</TD></TR>
+  <TR>
+    <TD>'last' <EM>space</EM> <EM>dayname</EM> <EM>space</EM> 'of'</TD>
+    <TD>Calculates the <EM class=3D"emphasis">last</EM> week day of the =
+current=20
+      month.</TD>
+    <TD>"last sat of July 2008"</TD></TR>
+  <TR>
+    <TD><EM>number</EM> <EM>space</EM>? (<EM>unit</EM> | 'week')</TD>
+    <TD>Handles relative time items where the value is a number.</TD>
+    <TD>"+5 weeks", "12 day", "-7 weekdays"</TD></TR>
+  <TR>
+    <TD><EM>ordinal</EM> <EM>space</EM> <EM>unit</EM></TD>
+    <TD>Handles relative time items where the value is text.</TD>
+    <TD>"fifth day", "second month"</TD></TR>
+  <TR>
+    <TD>'ago'</TD>
+    <TD>Negates all the values of previously found relative time =
+items.</TD>
+    <TD>"2 days ago", "8 days ago 14:00", "2 months 5 days ago", "2 =
+months ago=20
+      5 days", "2 days ago ago"</TD></TR>
+  <TR>
+    <TD><EM>dayname</EM></TD>
+    <TD>Moves to the next day of this name.</TD>
+    <TD>"Monday"</TD></TR>
+  <TR>
+    <TD><EM>reltext</EM> <EM>space</EM> 'week'</TD>
+    <TD>Handles the special format "weekday + last/this/next week".</TD>
+    <TD>"Monday next week"</TD></TR></TBODY></TABLE>
+
+<H2 class=3D"title">Compound Formats</H2>
+<TABLE class=3D"doctable table">
+  <CAPTION><STRONG>Used Symbols</STRONG></CAPTION>
+  <THEAD>
+  <TR>
+    <TH>Description</TH>
+    <TH>Formats</TH>
+    <TH>Examples</TH></TR></THEAD>
+  <TBODY class=3D"tbody">
+  <TR>
+    <TD><EM>DD</EM></TD>
+    <TD>"0" [0-9] | [1-2][0-9] | "3" [01]</TD>
+    <TD>"02", "12", "31"</TD></TR>
+  <TR>
+    <TD><EM>doy</EM></TD>
+    <TD>"00"[1-9] | "0"[1-9][0-9] | [1-2][0-9][0-9] | "3"[0-5][0-9] |=20
+    "36"[0-6]</TD>
+    <TD>"36"[0-6] "000", "012", "366"</TD></TR>
+  <TR>
+    <TD><EM>frac</EM></TD>
+    <TD>. [0-9]+</TD>
+    <TD>".21342", ".85"</TD></TR>
+  <TR>
+    <TD><EM>hh</EM></TD>
+    <TD>"0"?[1-9] | "1"[0-2]</TD>
+    <TD>"04", "7", "12"</TD></TR>
+  <TR>
+    <TD><EM>HH</EM></TD>
+    <TD>[01][0-9] | "2"[0-4]</TD>
+    <TD>"04", "7", "19"</TD></TR>
+  <TR>
+    <TD><EM>meridian</EM></TD>
+    <TD>[AaPp] .? [Mm] .? [\0\t ]</TD>
+    <TD>"A.m.", "pM", "am."</TD></TR>
+  <TR>
+    <TD><EM>ii</EM></TD>
+    <TD>[0-5][0-9]</TD>
+    <TD>"04", "8", "59"</TD></TR>
+  <TR>
+    <TD><EM>II</EM></TD>
+    <TD>[0-5][0-9]</TD>
+    <TD>"04", "08", "59"</TD></TR>
+  <TR>
+    <TD><EM>M</EM></TD>
+    <TD>'jan' | 'feb' | 'mar' | 'apr' | 'may' | 'jun' | 'jul' | 'aug' | =
+'sep'=20
+      | 'sept' | 'oct' | 'nov' | 'dec'</TD>
+    <TD class=3D"empty">&nbsp;</TD></TR>
+  <TR>
+    <TD><EM>MM</EM></TD>
+    <TD>[0-5][0-9]</TD>
+    <TD>"00", "12", "59"</TD></TR>
+  <TR>
+    <TD><EM>space</EM></TD>
+    <TD>[ \t]</TD>
+    <TD class=3D"empty">&nbsp;</TD></TR>
+  <TR>
+    <TD><EM>ss</EM></TD>
+    <TD>[0-5][0-9]</TD>
+    <TD>"04", "8", "59"</TD></TR>
+  <TR>
+    <TD><EM>SS</EM></TD>
+    <TD>[0-5][0-9]</TD>
+    <TD>"04", "08", "59"</TD></TR>
+  <TR>
+    <TD><EM>W</EM></TD>
+    <TD>"0"[1-9] | [1-4][0-9] | "5"[0-3]</TD>
+    <TD>"05", "17", "53"</TD></TR>
+  <TR>
+    <TD><EM>tzcorrection</EM></TD>
+    <TD>"GMT"? [+-] <EM>hh</EM> ":"? <EM>MM</EM>?</TD>
+    <TD>"+0400", "GMT-07:00", "-07:00"</TD></TR>
+  <TR>
+    <TD><EM>YY</EM></TD>
+    <TD>[0-9]{4}</TD>
+    <TD>"2000", "2008", "1978"</TD></TR></TBODY></TABLE>
+<TABLE class=3D"doctable table">
+  <CAPTION><STRONG>Localized Notations</STRONG></CAPTION>
+  <THEAD>
+  <TR>
+    <TH>Description</TH>
+    <TH>Format</TH>
+    <TH>Examples</TH></TR></THEAD>
+  <TBODY class=3D"tbody">
+  <TR>
+    <TD>Common Log Format</TD>
+    <TD><EM>dd</EM> "/" <EM>M</EM> "/" <EM>YY</EM> : <EM>HH</EM> ":"=20
+      <EM>II</EM> ":" <EM>SS</EM> <EM>space</EM> =
+<EM>tzcorrection</EM></TD>
+    <TD>"10/Oct/2000:13:55:36 -0700"</TD></TR>
+  <TR>
+    <TD>EXIF</TD>
+    <TD><EM>YY</EM> ":" <EM>MM</EM> ":" <EM>DD</EM> " " <EM>HH</EM> ":"=20
+      <EM>II</EM> ":" <EM>SS</EM></TD>
+    <TD>"2008:08:07 18:11:31"</TD></TR>
+  <TR>
+    <TD>ISO year with ISO week</TD>
+    <TD><EM>YY</EM> "-"? "W" <EM>W</EM></TD>
+    <TD>"2008W27", "2008-W28"</TD></TR>
+  <TR>
+    <TD>ISO year with ISO week and day</TD>
+    <TD><EM>YY</EM> "-"? "W" <EM>W</EM> "-"? [0-7]</TD>
+    <TD>"2008W273", "2008-W28-3"</TD></TR>
+  <TR>
+    <TD>MySQL</TD>
+    <TD><EM>YY</EM> "-" <EM>MM</EM> "-" <EM>DD</EM> " " <EM>HH</EM> ":"=20
+      <EM>II</EM> ":" <EM>SS</EM></TD>
+    <TD>"2008-08-07 18:11:31"</TD></TR>
+  <TR>
+    <TD>PostgreSQL: Year with day-of-year</TD>
+    <TD><EM>YY</EM> "."? <EM>doy</EM></TD>
+    <TD>"2008.197", "2008197"</TD></TR>
+  <TR>
+    <TD>SOAP</TD>
+    <TD><EM>YY</EM> "-" <EM>MM</EM> "-" <EM>DD</EM> "T" <EM>HH</EM> ":"=20
+      <EM>II</EM> ":" <EM>SS</EM> <EM>frac</EM> =
+<EM>tzcorrection</EM>?</TD>
+    <TD>"2008-07-01T22:35:17.02", =
+"2008-07-01T22:35:17.03+08:00"</TD></TR>
+  <TR>
+    <TD>Unix Timestamp</TD>
+    <TD>"@" "-"? [0-9]+</TD>
+    <TD>"@1215282385"</TD></TR>
+  <TR>
+    <TD>XMLRPC</TD>
+    <TD><EM>YY</EM> <EM>MM</EM> <EM>DD</EM> "T" <EM>hh</EM> ":" =
+<EM>II</EM>=20
+      ":" <EM>SS</EM></TD>
+    <TD>"20080701T22:38:07", "20080701T9:38:07"</TD></TR>
+  <TR>
+    <TD>XMLRPC (Compact)</TD>
+    <TD><EM>YY</EM> <EM>MM</EM> <EM>DD</EM> 't' <EM>hh</EM> <EM>II</EM>=20
+      <EM>SS</EM></TD>
+    <TD>"20080701t223807", "20080701T093807"</TD></TR>
+  <TR>
+    <TD>WDDX</TD>
+    <TD><EM>YY</EM> "-" <EM>mm</EM> "-" <EM>dd</EM> "T" <EM>hh</EM> ":"=20
+      <EM>ii</EM> ":" <EM>ss</EM></TD>
+    <TD>"2008-7-1T9:3:37"</TD></TR></TBODY></TABLE>

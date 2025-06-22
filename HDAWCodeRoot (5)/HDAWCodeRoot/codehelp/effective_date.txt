@@ -1,0 +1,9 @@
+<h2>effective_date</h2>
+<i><b>Date for data of a profile</b></i><br/>
+$result = effective_date()<br/>
+<i>Return string date on success, false on failure</i><br/>
+Gets the date time of the current data for a profile
+<br/>
+<i>Example</i><br/>
+$data_date = effective_date()<br/>
+

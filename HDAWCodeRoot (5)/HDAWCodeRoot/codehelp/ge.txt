@@ -1,0 +1,12 @@
+<h3>ge</h3>
+<i><b>GE Keyword</b></i><br/>
+Greater than or equal to, used in conditional expressions<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+if $a <b>ge</b> $b then $c = add_these($a, $b); 
+
+
+
+
+

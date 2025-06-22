@@ -1,0 +1,25 @@
+<h2>exec_rw</h2>
+<i><b>Run a native executable</b></i><br/>
+$result = exec_rw(<i>command</i>, <i>read_write_responses</i>)<br/>
+As exec() except it will attempt to inject responses on STDIN from the output of STDOUT. Thus, it will attempt a conversation with the native executable.<br/>
+The structured argument list is of the form:<br/>
+$p."look for this output" = "respond with this";<br/>
+<i>Returns true on success, false otherwise</i>
+<i>Example</i><br/>
+$p."Print Results" = "no";<br/>
+$p."save results" = "yes";<br/>
+$result = exec_rw("test_exec.exe", $p);<br/><br/>
+Where the executable might run thus:<br/>
+Running test_exec on Thurs, 16th Jun 2008<br/>
+Results obtained ok<br/>
+Do you want to print results? no<br/>
+Do you want to save results? yes<br/>
+Run complete<br/>
+<br/>
+
+Where the output from the run "Do you want to print results?" matched with "Print Results" resulting in the injection of "no".<br/>
+And the output "Do you want to save results?" matched with "save results" and so answered "yes"<br/>
+Note - case independent. <br/>
+
+
+

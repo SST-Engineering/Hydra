@@ -1,0 +1,39 @@
+// Cube Loader
+
+
+COMMON "OnError.txt";
+
+
+function cube_loader($use_connection, $jobname) begin
+   $fn_title = "In function cube_loader, ";
+   $lookup = lookup_dictionary($use_connection)
+   if $lookup is false return false;
+   // build connection string
+   $connString = "Server={$lookup.Host};UID={$lookup.User};PWD={$lookup.PassW};";
+   $query = "";
+   $query = $query + "DECLARE @JobStatus INT SET @JobStatus = 0 EXEC MSDB.dbo.sp_start_job @Job_Name = '{$jobname}'";
+   $query = $query + " waitfor delay '00:00:05'";
+   $query = $query + " SELECT @JobStatus = current_execution_status FROM ";
+   $query = $query + " OPENROWSET('SQLNCLI', '{$connString}','EXEC MSDB.dbo.sp_help_job @job_name = ''{$jobname}'', @job_aspect = ''JOB'' ') ";
+   $query = $query + " WHILE @JobStatus <> 4 ";
+   $query = $query + " BEGIN ";
+   $query = $query + " SELECT @JobStatus = current_execution_status FROM ";
+   $query = $query + " OPENROWSET('SQLNCLI', '{$connString}', 'EXEC MSDB.dbo.sp_help_job @job_name = ''{$jobname}'', @job_aspect = ''JOB'' ') ";
+   $query = $query + " waitfor delay '00:00:15' ";
+   $query = $query + " END";
+   // execute query
+   $ok = mssql_connect($use_connection);
+   if $ok is not true begin
+      return return_with_error("{$fn_title} Fails to connect to MS SQL with connection {$use_connection}");
+      end
+   $ok = mssql_query($query);
+   if $ok is not true begin
+      mssql_close();
+      return return_with_error("{$fn_title} Query fails to MS SQL with connection {$use_connection}");
+      end
+   return mssql_close();
+   end
+
+
+
+

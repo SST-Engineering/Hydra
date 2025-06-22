@@ -1,0 +1,10 @@
+<h2>mdx_result_file</h2>
+<i><b>Return the file path of the result csv file after mdx_query</b></i><br/>
+$result = mdx_result_file()<br/>
+<i>Returns the file path of the output csv file after mdx_query on success, false otherwise</i>
+<i>Example</i><br/>
+<pre>
+$result = mdx_query("ALC_OLAP", "SELECT {[Store]} ON COLUMNS, {[Account]} ON ROWS FROM [Budget]");
+if $result is not false $file_to_read = mdx_result_file();
+</pre>
+

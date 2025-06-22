@@ -1,0 +1,31 @@
+table.ptl-table {
+   padding: 0px;
+   width:100%;
+   margin-left: auto;
+   margin-right: auto;
+   font-size: 10px; 
+   font-weight:normal; 
+   color:black;
+   background-color:white; 
+   cellspacing:0;
+}
+
+
+table.ptl-table {
+      border:1px solid rgb(150, 216, 233);
+      border-collapse:collapse;
+}
+
+table.ptl-table td{
+   text-align:left;
+}
+
+table.ptl-table tr:nth-child(even){ background-color:#eee; }
+
+table.ptl-table > tbody, 
+table.ptl-table > tbody > tr > td,
+table.ptl-table > tbody > tr > th{
+      border:1px solid rgb(150, 216, 233);
+      border-collapse:collapse;
+}
+

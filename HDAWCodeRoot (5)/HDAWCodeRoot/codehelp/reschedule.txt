@@ -1,0 +1,16 @@
+<h2>reschedule</h2>
+<i><b>Set next schedule time</b></i><br/>
+$result = reschedule(<i>minutes</i>)<br/>
+<i>Returns false on failure, a date time string of the next scheduled run on success</i><br/>
+<i>Examples</i><br/>
+This function sets the next run of the calling profile <i>minutes</i> from current time<br/>
+All other schedule details (repeat_interval, DAY or HOUR and the units of the repeat) are unaffected, if there is 
+no current schedule specified then this call has the effect of next_scheduled('HOUR',1,now+minutes);<br/>
+$set_next_run = reschedule(5);<br/>
+Sets the next run of this calling profile to be five minutes from now
+<br/>
+Check for success by:<br/>
+$set_next_run=reschedule(10);<br/>
+if $set_next_run is false console("Fails to set the next schedule");<br/>
+else<br/>
+console("The next run is in 10 minutes at {$set_next_run}");<br/>

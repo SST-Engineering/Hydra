@@ -1,0 +1,13 @@
+<h2>ssh2_auth_none</h2>
+<i><b>Attempt none authentication</b></i><br/>
+$result = ssh2_auth_none(username);<br/>
+<i>Returns true, on success, otherwise an array of valid authentication methods </i><br/>
+
+<br/>
+<i>Example</i><br/>
+$result = ssh2_auth_none("tjones"); <br/>
+if $result is not true begin<br/>
+   for all properties $p in $result begin<br/>
+      console("Host allows authentication by {$result.$p}");<br/>
+      end<br/>
+   end<br/>

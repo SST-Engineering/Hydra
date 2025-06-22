@@ -1,0 +1,10 @@
+<h3>has</h3>
+<i><b>HAS Keyword</b></i><br/>
+Used in conditional
+As in example:<br/>
+<i>Example</i><br/>
+if $array <b>has</b> property Address then console("House address provided");
+
+
+
+

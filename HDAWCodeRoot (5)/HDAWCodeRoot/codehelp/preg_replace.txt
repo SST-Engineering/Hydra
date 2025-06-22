@@ -1,0 +1,15 @@
+<h2>preg_replace</h2>
+<i><b>Replace a string in a target string using a regular expression</b></i><br/>
+$result = preg_replace(pattern, replacement, target)<br/>
+<i>Returns false on failure, new string on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+// Replace a string in a target
+$line = preg_replace("/Javascript/i","PHP", "ALCODE is like javascript");
+console($line);
+// Outputs ALCODE is like PHP
+// Always use string_replace for simple (non-regex required) replace
+</pre>
+<br/>
+

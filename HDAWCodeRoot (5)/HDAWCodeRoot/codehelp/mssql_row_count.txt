@@ -1,0 +1,9 @@
+<h2>mssql_row_count</h2>
+<i><b>Ask for number of rows in result set to Microsoft SQL Server</b></i><br/>
+$result = mssql_row_count()<br/>
+<i>Returns false on failure, number of rows on success, assumes connection opened by mssql_connect and valid previous mssql_query</i><br/>
+<br/>
+<i>Example</i><br/>
+$my_rows = mssql_row_count();<br/>
+
+

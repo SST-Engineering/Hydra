@@ -1,0 +1,9 @@
+<h2>make_directory_path</h2>
+<i><b>Make a new directory</b></i><br/>
+$result = make_directory(<i>full_directory_path</i>)<br/>
+<i>Make false on failure, true if made or if it already exists (not an error)</i><br/>
+Make a new directory, in not exists, given a full directory path. Unlike make_directory which makes a directory in the current profile working directory.
+<br/>
+<i>Example</i><br/>
+$a = make_directory_path("c:\MyDocs\MyWorkspace");
+

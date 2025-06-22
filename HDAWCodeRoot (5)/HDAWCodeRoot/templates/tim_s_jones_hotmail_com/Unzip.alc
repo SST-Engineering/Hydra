@@ -1,0 +1,13 @@
+// Ignore this line, just to get a directory path to an example zip file
+$zip = snippet_dir_path("CSV_Files.zip");
+// $zip will be the path to the target zip file. example starts here
+$pack = unzip($zip);
+if $pack is false console("Fails to unzip file, "+last_error())
+else begin
+   dump($pack);
+   for all properties $pack_index in $pack begin
+      trigger_process('DummyProfile', $pack.$pack_index.Path, $pack.$pack_index.Filename);
+      end
+   end
+
+exit true;

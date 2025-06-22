@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <StartArguments>PF555  "Provider=MSOLAP;Data Source=localhost;Initial Catalog=FoodMart 2000;"  "SELECT {[Store].[USA].Children} ON COLUMNS, {[Account].[All Account].[Net Income].Children} ON ROWS FROM [Budget]"</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <StartArguments>PF555  "Provider=MSOLAP;Data Source=localhost;Initial Catalog=FoodMart 2000;"  "SELECT {[Store].[USA].Children} ON COLUMNS, {[Account].[All Account].[Net Income].Children} ON ROWS FROM [Budget]"</StartArguments>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,9 @@
+<h2>get_console</h2>
+<i><b>Read top console log</b></i><br/>
+$result = get_console()<br/>
+<i>Return string on success, false on failure</i><br/>
+Read current console log
+<br/>
+<i>Example</i><br/>
+$console_log = get_console()<br/>
+

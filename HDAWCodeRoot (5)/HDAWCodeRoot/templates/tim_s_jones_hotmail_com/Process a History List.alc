@@ -1,0 +1,8 @@
+$history.0 = "History-0.csv";
+$history.1 = "History-1.csv";
+$history.2 = "History-2.csv";
+for all properties $idx in $history begin
+   detect_file($history.$idx);
+   end
+
+exit true;

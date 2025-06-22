@@ -1,0 +1,1 @@
+a:6:{i:1;s:1:'~';i:2;s:44:' $p.src_query = literal {~ WITH m AS (~ SELE';i:11;s:2:';~';i:12;s:40:' console('Using query {$p.src_query}');~';i:13;s:1:'~';i:14;s:1:'~';}

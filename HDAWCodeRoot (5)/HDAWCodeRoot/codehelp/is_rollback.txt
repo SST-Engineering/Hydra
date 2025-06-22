@@ -1,0 +1,9 @@
+<h2>is_rollback</h2>
+<i><b>Test if this process is a rollback</b></i><br/>
+$result = is_rollback()<br/>
+<i>Return true if this is a rollback process, false on failure or not rollback</i><br/>
+
+<br/>
+<i>Example</i><br/>
+$do_cleanup = is_rollback()<br/>
+

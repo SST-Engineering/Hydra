@@ -1,0 +1,48 @@
+<h2>load_from_xls</h2>
+Function that is passed a structured parameter to 
+<ul><li>Open a destination db table</li>
+<li>Open and read an excel file in xls or xlsx format</li>
+<li>Insert selected rows from the xl file into the detsination db table</li></ul>
+Return: false on failure, number of records read and inserted on success<br>
+
+Call of the form <br><code>
+$records_loaded = load_from_xls($p);<br>
+if $records_loaded is false then console("Fails in load_from_xls,"+last_error());<br>
+else console("Success in loading {$records_loaded} records");<br>
+</code>
+<br><br>
+Where $p is this structure:<br><br>
+<table class="alc-help" >
+<tr><th>Property Name</th><th>Can be Null or Missing</th><th>Default value taken if Null or Missing</th><th>Example of setting</th></tr>
+   <tr><td>use_db_connect </td><td>No</td><td> <u><i><b>Must be set to a valid value</b></i></u> </td><td>$p.use_db_connect = "ICE_DWH"</td></tr>
+   <tr><td>use_db_table</td><td>No</td><td> <u><i><b>Must be set to a valid value</b></i></u> </td><td>$p.use_db_table = "STG_Bank_Tbl"</td></tr>
+   <tr><td>file_to_read</td><td>No</td><td> <u><i><b>Must be set to a valid value</b></i></u> </td><td>$p.file_to_read = $file_to_read</td></tr>
+   <tr><td>file_field_lookup</td><td>Yes</td><td>Null, no source to destination translation lookup, all fields in the source are written to destination</td><td>$p.file_field_lookup = $file_field_lookup</td></tr>
+   <tr><td>file_add_fields</td><td>Yes</td><td>Null, no fields added to destination, otherwise these fields added</td><td>$p.file_add_fields = $file_add_fields</td></tr>
+   <tr><td>file_field_process</td><td>Yes</td><td>Null, no value adjust on any fields, otherwise field names in these properties are processed</td><td>$p.file_field_process = $file_field_process</td></tr>
+   <tr><td>file_not_null_fields</td><td>Yes</td><td>Null, null fields are inserted, otherwise fields in these properties are checked for null</td><td>$p.file_not_null_fields = $file_not_null_fields</td></tr>
+   <tr><td>verbose</td><td>Yes</td><td>false, otherwise output debug trace code</td><td>$p.verbose = true</td></tr>
+   <tr><td>use_sheet</td><td>Yes</td><td>Expects a sheet_list, see sheet_list. The sheet name in the workbook to open for extract, case ignored and trimmed</td><td>$p.use_sheet="sheet1";</td></tr>
+   <tr><td>use_sheet_list</td><Yes><td><td>Expects a use_sheet. Either use_sheet or this sheet_list must reference a valid sheet in the workbook. This is a sheet list, data extracted from each sheet in turn<br> If both use_sheet and use_sheet_list are null or missing then all sheets are used, limited only by use_sheet_list_pattern (if any)</td><td>$sheet_list.1="sheet1";<br>$sheet_list.2="data sheet";<br>$p.sheet_list=$sheet_list;</td></tr>
+   <tr><td>use_sheet_list_pattern</td><td>Yes</td><td>Find the sheets in the workbook that match this (regex) pattern. List further restricted by use_sheet or use_sheet_list (if set)</td><td>$p.use_sheet_list_pattern="/sheet_[\d]*/i"; // Match sheets of form sheet_6</td><tr>
+   <tr><td>header_row</td><td>Yes</td><td>Row number where the header mapping names exist, default null</td><td>$p.header_row=1;</td><tr>
+   <tr><td>first_data_row</td><td>Yes</td><td>Row number where the data starts, default null</td><td>$p.first_data_row=2;</td><tr>
+   <tr><td>start_column</td><td>Yes</td><td>Restrict sheet from this columns, default 'A'</td><td>$p.start_column='B';</td><tr>
+   <tr><td>last_column</td><td>Yes</td><td>Restrict sheet to this column, default 'Q'</td><td>$p.last_column='P';</td><tr>
+   <tr><td>field_map</td><td>Yes</td><td>Where header row is null or missing, use this as the field (column) to field name map.<br>If header_row is null or missing and this field_map is null or missing then the record structure is returned with field names of the excel column index</td><td>$field_map.Income="B";<br>$field_map.Profit="C";<br>$p.field_map=$field_map</td></tr>
+   <tr><td>record_cell_map</td><td>Yes</td><td>Select particular cells and assign to record fields within sheet</td><td>$cell_map.ReportDate='C1';<br>or<br>$cell_map.ReportDate.row=1; $cell_map.ReportDate.column='C';<br>$p.record_cell_map=$cell_map;<td><tr>
+   <tr><td>checksum_field</td><td>Yes</td><td>null, otherwise the name of the source column name to use as the checksum field</td><td>$p.checksum_field = "ACC NO";</td></tr>
+   <tr><td>guid</td><td>Yes</td><td>null, otherwise obtained from guid() and used as processId (typically)</td><td>$p.guid = $guid;</td></tr>
+   <tr><td>file_lines_limit</td><td>Yes</td><td>null (note:not zero), limit load to this number of lines from source</td><td>$p.file_lines_limit = 60;</td></tr>
+</table>
+<br>
+Then there are some <b>"callback"</b> functions, callback means that the loader will call these functions (if they exist) in the profile alcode.alc
+<ul>
+<li><b> function file_custom_validate </b>(<i>db_field_name</i>,<i>proposed value</i>) - return the validated value for this field, or exit inside the function</li>
+
+<li><b> function file_conditional_insert </b>(<i>record</i>) - last chance to abort this insert, return false to abort (skip) this record</li>
+
+<li><b> function file_custom_fields </b>(<i>record</i>) - make any final changes to the fields in this record, maybe set a field by calculation of other fields</li>
+</ul>
+
+

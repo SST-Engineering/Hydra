@@ -1,0 +1,12 @@
+<h3>null</h3>
+<i><b>NULL Keyword</b></i><br/>
+Used in conditionals and assignments<br/>
+<br/>
+As in example:<br/>
+<i>Example</i><br/>
+$a = <b>null</b>;<br/>
+if $a is <b>null</b> then $a = 3;
+
+
+
+

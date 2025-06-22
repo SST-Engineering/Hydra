@@ -1,0 +1,8 @@
+<h2>excel_restrict_sheet</h2>
+<i><b>Restrict the load to this sheet only</b></i><br/>
+$result = excel_restrict_sheet(<i>sheet name</i>)<br/>
+<i>Returns false on failure, true on success</i><br/>
+Only load data from this sheet<br/>
+<i>Example</i><br/>
+$result = excel_restrict_sheet("Sheet1");<br/>
+

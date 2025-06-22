@@ -1,0 +1,25 @@
+COMMON "OnError.txt";
+
+function email_to_others($p) begin
+  $fn_title = "email_to_others.txt"; 
+  $f = "EmailAddresses.txt";
+  if file_exists($f) is false return true;
+  $ok = file_open_read($f);
+  if $ok is false return return_with_error("In {$fn_title}: Fails to open file {$f}");
+  $line = file_read_line();
+  while $line is not false begin
+      $ok = email_this(trim($line), $p.subject, $p.message);
+      if $ok is false return return_with_error("In {$fn_title}: Fails to send email to {$line}");
+      $line = file_read_line();
+      end
+   file_read_close();
+   return true;
+   end
+
+function exit_with_email($p) begin
+		if $p.message  is not null begin
+			$run.script = email_to_others($p);
+			console("Sent Email with message : {$p.message}");
+		end
+	exit_with_error($p.error)
+end

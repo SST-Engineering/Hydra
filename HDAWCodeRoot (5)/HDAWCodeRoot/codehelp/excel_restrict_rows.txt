@@ -1,0 +1,8 @@
+<h2>excel_restrict_rows</h2>
+<i><b>Restrict the load to these rows only</b></i><br/>
+$result = excel_restrict_rows(<i>start_row</i>, <i>end_row</i>)<br/>
+<i>Returns false on failure, true on success</i><br/>
+Only load data from these rows<br/>
+<i>Example</i><br/>
+$result = excel_restrict_rows(0, 6000);<br/>
+

@@ -1,0 +1,9 @@
+<h2>read_checksum</h2>
+<i><b>Read a recorded checksum from ALCW table</b></i><br/>
+$result = read_checksum(<i>your_reference</i>)<br/>
+<i>Returns false on failure, the crc32 integer on success </i><br/>
+The checksum is fetched with the profile or process identifier and <i>your ref</i> as key
+<br/>
+<i>Example</i><br/>
+$crc32 = read_checksum("My Chk Ref 001");
+

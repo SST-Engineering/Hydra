@@ -1,0 +1,15 @@
+<h2>ceil</h2>
+<i><b>Rounds up a real number to the next integer value</b></i><br/>
+$v = ceil(real_number)<br/>
+<i>Rounds up a real number to next higher integer </i><br/>
+<br/>
+<i>Example</i><br/>
+<code>
+<pre>
+$x = 5.32786;
+$y = ceil($x);
+dump($y); // gives 6
+
+</pre>
+</code>
+

@@ -1,0 +1,112 @@
+ // Common XBK file format loader
+COMMON "OnError.txt";
+COMMON "ChecksumCheck.txt";
+COMMON "Loader-INIT.txt";
+COMMON "Loader-INSERT.txt";
+
+
+function load_from_xbk($p) begin
+   metatags "load_from_xbk";
+   $fn_title = "In function load_from_xbk, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.use_dwh_table = $NOT_NULL;
+   $p.file_to_read = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.verbose = false;
+   $p.checksum_field = null;
+   $p.guid = null;
+   $p.use_file_date = null;
+   */
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_db_table = $p.use_db_table;
+   if $use_db_table is null return return_with_error("{$fn_title} must supply a property use_db_table");
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $file_field_lookup = $p.file_field_lookup;
+   $file_field_lookup default null;
+   $file_add_fields = $p.file_add_fields;
+   $file_add_fields default null;
+   $file_field_process = $p.file_field_process;
+   $file_field_process default null;
+   $file_not_null_fields = $p.file_not_null_fields;
+   $file_not_null_fields default null;
+   $use_file_date = $p.use_file_date;
+   $use_dwh_table = $p.use_dwh_table;
+   $use_dwh_table DEFAULT $use_db_table;
+   $verbose = $p.verbose;
+   $verbose default false;
+   $checksum_field = $p.checksum_field;
+   $checksum_field default null;
+   $guid = $p.guid;
+   $s = loader_init($use_db_connect, $use_db_table, $file_to_read, null, null);
+   if $s is false return false;
+   if $verbose is true console("{$fn_title} Init complete for {$file_to_read} using db {$use_db_connect} and table {$use_db_table}");
+   // Open the checksum method
+   do_open_checksum($checksum_field, $guid);
+   // 
+   $rx = "";
+   $rx += "(?P<rcv_sort_code>[\d]{6,6})";
+   $rx += "(?P<rcv_acc_num>[\d]{8,8})";
+   $rx += "(?P<rcv_acc_type>[\d]{1,1})";
+   $rx += "(?P<tran_code>[\w\d]{2,2})";
+   $rx += "(?P<clear_ref>[\w\d]{6,6})";
+   $rx += "(?P<res1>[\s\S]{8,8})";
+   $rx += "(?P<res2>[\s\S]{4,4})";
+   $rx += "(?P<amt>[\d]{11,11})";
+   $rx += "(?P<orig_desc>[\s\S]{18,18})";
+   $rx += "(?P<ref_num>[\s\S]{18,18})";
+   $rx += "(?P<src_desc>[\s\S]{18,18})";
+   $rx += "(?P<entry_date>[\d]{6,6})";
+   state XBK begin
+      step * then emit when $rx;
+      end
+
+
+   #file_lines = 0;
+
+   #p = $p;
+   $lines = string_lines($s);
+   for all properties $i in $lines begin
+      $line = $lines.$i;
+      XBK->$line;
+      end
+
+         
+		 
+   check_checksum(close_write_checksum($checksum_field, $guid), $checksum_field, $guid, #file_lines, $use_db_table, $file_field_lookup);
+   // And close off the destination
+   mssql_close();
+   if $verbose is true console("{$fn_title} Completed load of " + running_process()+ " from {$file_to_read} with load of {#file_lines} records");
+   return #file_lines;
+   end
+   
+   
+
+function XBK() begin
+   case (XBK?) begin
+      when "emit" begin
+	     $record = null;
+		 $record.rcv_sort_code = XBK.rcv_sort_code;
+		 $record.rcv_acc_num = XBK.rcv_acc_num;
+		 $record.acc_type = XBK.rcv_acc_type;
+		 $record.acc_type DEFAULT 0;
+		 $record.tran_code = XBK.tran_code;
+		 $record.clear_ref = XBK.clear_ref;
+		 $record.res1 = XBK.res1;
+		 $record.res2 = XBK.res2;
+		 $record.amt = XBK.amt;
+		 $record.orig_desc = XBK.orig_desc;
+		 $record.ref_num = XBK.ref_num;
+		 $record.src_desc = XBK.src_desc;
+		 $record.entry_date = XBK.entry_date;
+		 #p.record = $record;
+	     if loader_insert(#p) is true #file_lines = #file_lines + 1;
+	     end
+      end
+   end

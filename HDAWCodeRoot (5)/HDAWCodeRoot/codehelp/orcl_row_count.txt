@@ -1,0 +1,9 @@
+<h2>orcl_row_count</h2>
+<i><b>Ask for number of rows affected in last Oracle query</b></i><br/>
+$result = orcl_row_count()<br/>
+<i>Returns false on failure, number of rows on success, assumes connection opened by orcl_connect and valid previous orcl_query</i><br/>
+<br/>
+<i>Example</i><br/>
+$my_rows = orcl_row_count();<br/>
+
+

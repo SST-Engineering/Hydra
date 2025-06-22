@@ -1,0 +1,8 @@
+<h2>string_length</h2>
+<i><b>Return number of characters in target string</b></i><br/>
+$result = string_length(<i>target</i>)<br/>
+<i>Returns length of string, false for failure</i><br/>
+<br/>
+<i>Example</i><br/>
+$five_chars = string_length("Hello");<br/>
+

@@ -1,0 +1,28 @@
+// Common SFTP post code
+
+COMMON "OnError.txt";
+
+function post_via_sftp($p) begin
+   metatags "post_via_sftp";
+   $fn_title = "In function post_via_sftp, ";
+   /* Properties
+   $p.outfile = null;
+   $p.sftp_host = null;
+   $p.sftp_port = null;
+   $p.sftp_uname = null;
+   $p.sftp_pw = null;
+   $p.sft_keyfile = null;
+   $p.sftp_connect = null;
+   */
+   if $p.sftp_connect is null return return_with_error("Posting to sftp not requested");
+   PSFTP_KEY_FILE($p.sftp_keyfile);
+   $list = PSFTP_READ($p.sftp_connect, 'LIST', $p.outdir);
+   if $list is false return return_with_error("{$fn_title}Fails to connect and list on sftp {$p.sftp_host}");
+ //  if preg_match("/[\/\\]{1,}/",$p.outfile) is false $p.outfile = working_dir_path()+"/{$p.outfile}";
+   console("Will post {$p.outfile}");
+   $put = PSFTP_WRITE($p.sftp_connect, 'PUT', $p.outdir, $p.outfile);
+   if $put is false return return_with_error("{$fn_title}Fails to write file {$p.outfile} on sftp to {$p.sftp_host}");
+   return true;
+   end
+	
+	

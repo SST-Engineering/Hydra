@@ -1,0 +1,156 @@
+ // Common TXT Loader for multiple records from a txt file
+// Uses [optional] ALCW Text Processor
+COMMON "OnError.txt";
+COMMON "ChecksumCheck.txt";
+COMMON "Loader-INIT.txt";
+COMMON "Loader-INSERT.txt";
+
+
+function load_from_text($p) begin
+   metatags "load_from_text";
+   $fn_title = "In function load_from_text, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.file_to_read = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.truncate_table = true;
+   $p.create_table = false;
+   $p.verbose = false;
+   $p.checksum_field = null;
+   $p.guid = null;
+   $p.use_text_processor = true;
+   $p.split_on_section = null;
+   $p.custom_regex = null;
+   $p.custom_match = null;
+   */
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_db_table = $p.use_db_table;
+   if $use_db_table is null return return_with_error("{$fn_title} must supply a property use_db_table");
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $file_field_lookup = $p.file_field_lookup;
+   $file_field_lookup default null;
+   $file_add_fields = $p.file_add_fields;
+   $file_add_fields default null;
+   $file_field_process = $p.file_field_process;
+   $file_field_process default null;
+   $file_not_null_fields = $p.file_not_null_fields;
+   $file_not_null_fields default null;
+   $truncate_db_table = $p.truncate_table;
+   $truncate_db_table default true;
+   $create_db_table = $p.create_table;
+   $create_db_table default null;
+   $verbose = $p.verbose;
+   $verbose default false;
+   $checksum_field = $p.checksum_field;
+   $checksum_field default null;
+   $guid = $p.guid;
+   $file_use_text_processor = $p.use_text_processor;
+   $file_use_text_processor default true;
+   $record_section = $p.split_on_section;
+   $file_custom_regx = $p.custom_regex;
+   $file_custom_match = $p.custom_match;
+   $s = loader_init($use_db_connect, $use_db_table, $file_to_read, $truncate_db_table, $create_db_table);
+   if $s is false return false;
+   if $verbose is true console("{$fn_title} TXT loader init complete for {$file_to_read} using db {$use_db_connect} and table {$use_db_table}");
+   if $file_use_text_processor is true  begin
+      $def_file = "proforma_input.def";
+      $file_def = text_processor_filedef($def_file);
+      if $file_def is false return return_with_error("{$fn_title} Unable to obtain the text processor definitions");
+      if $file_def has property "Section" $record_section = $file_def.Section;
+      if $file_def has property "Tabbed" $file_field_index = text_processor_tabdefs($def_file);
+      // Get the file records
+      $file_record = text_processor($s, $def_file, true);
+      end
+   if $record_section is not null and string_length($record_section) is not 0 begin
+      $file_parts = text_processor_split($record_section, $s);
+      if $file_parts is false return return_with_error("{$fn_title} Unable to section input file using pattern {$record_section}");
+      end
+   else $file_parts.0 = $s;
+   // Open the checksum method
+   do_open_checksum($checksum_field, $guid);
+   $file_lines = 0;
+
+   for all properties $idx in $file_parts  begin
+      // copy over the fields gained from the whole file
+      $record = text_processor($file_parts.$idx, $def_file, false);
+      for all properties $field in $file_record $record.$field = $file_record.$field;
+	  if $file_def has property "Tabbed" and $file_def.Tabbed is 1 begin
+         if $file_field_index is false return return_with_error("{$fn_title} Unable to find a tabbed field definition, definition says file is tabbed format");
+         $record_s = "{$file_parts.$idx}";
+         $lines = preg_split("/\n/",$record_s,false);
+         for all properties $line in $lines begin
+            $tabs = preg_split("/\t/", $lines.$line, false);
+            for all properties $field in $file_field_index begin
+               if $file_field_index.$field.Line is trim($tabs.0)  begin
+                  $tab_idx = $file_field_index.$field.Tab;
+                  $record.$field = $tabs.$tab_idx;
+                  end
+                end
+             end
+         // Load Insert the record
+		 $p.record = $record;
+         if loader_insert($p) is true $file_lines = $file_lines+1;
+	     end
+	  else if $file_custom_regx is not null AND $file_custom_match is null begin
+         for all properties $i in $file_custom_regx  begin
+            $matches = preg_match_all($file_custom_regx.$i, $file_parts.$idx);
+            if $matches is not false begin
+			   $record = null;
+               for all properties $field in $matches  begin
+				  $record.$field = $matches.$field;
+                  end
+				$p.record = $record;
+				if loader_insert($p) is true $file_lines = $file_lines + 1;
+               end
+            end
+		end
+      else if $file_custom_regx is not null  begin
+	     for all properties $field in $file_custom_match $file_custom_match.$field = null;
+         for all properties $i in $file_custom_regx  begin
+            $matches = preg_match_all($file_custom_regx.$i, $file_parts.$idx);
+            if $matches is not false begin
+               for all properties $field in $file_custom_match  begin
+                  if $matches has property $field  begin
+                     $file_custom_match.$field = $matches.$field;
+                     end
+                  end
+               end
+            end
+         $record_count = null;
+         for all properties $field in $file_custom_match  begin
+            if $record_count is not null  begin
+               if count_properties($file_custom_match.$field)is not $record_count
+               return return_with_error("{$fn_title} Mismatch on record count for {$field}, other fields have {$record_count} records");
+               end
+            $record_count = count_properties($file_custom_match.$field);
+            end
+         $field_lines = 0;
+         while $field_lines is lt $record_count  begin
+            for all properties $field in $file_custom_match  begin
+               $record.$field = $file_custom_match.$field.$field_lines;
+               end
+            // Load Insert the record
+			$p.record = $record;
+            if loader_insert($p) is true $file_lines = $file_lines + 1;
+            $field_lines = $field_lines + 1;
+            end
+         end
+      else  begin
+	     $p.record = $record;
+         if loader_insert($p) is true $file_lines = $file_lines + 1;
+         end
+      end
+   check_checksum(close_write_checksum($checksum_field, $guid), $checksum_field, $guid, $file_lines, $use_db_table, $file_field_lookup);
+   // And close off the destination
+   mssql_close();
+   issue_report($file_lines);
+   issue_audit($fn_title, $file_to_read, $use_db_table, $file_lines);
+   if $verbose is true console("{$fn_title} Completed load of " + running_process()+ " from {$file_to_read} with load of {$file_lines} records");
+   return $file_lines;
+   end

@@ -1,0 +1,9 @@
+<h2>file_put_contents</h2>
+<i><b>Write string as contents to file</b></i><br/>
+$result = file_put_contents(<i>file_name</i>, <i>string</i>)<br/>
+<i>Return contents as string, false on failure</i><br/>
+Write string to a file in the working directory
+<br/>
+<i>Example</i><br/>
+$a = file_put_contents("my_data.csv", "Hello World");
+

@@ -1,0 +1,8 @@
+<h2>excel_close</h2>
+<i><b>Close an opened excel file</b></i><br/>
+$result = excel_close()<br/>
+<i>Returns false on failure, true on success</i><br/>
+<br/>
+<i>Example</i><br/>
+$result = excel_close();<br/>
+

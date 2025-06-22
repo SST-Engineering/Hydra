@@ -1,0 +1,1 @@
+a:3:{i:1;s:26:'$t = '29.11.13-00:07:24';~';i:2;s:59:'$tt = value_adjust($t, 'DATE#Y-m-d G:i:s#d.m.y-gg:ii:ss');~';i:3;s:14:'console($tt);~';}

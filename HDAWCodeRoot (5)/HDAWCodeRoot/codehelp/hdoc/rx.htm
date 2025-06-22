@@ -1,0 +1,185 @@
+<TABLE>
+  <TBODY>
+  <TR>
+    <TH><CODE>^</CODE></TH>
+    <TD>The pattern has to appear at the beginning of a string.</TD>
+    <TD><CODE>^cat</CODE> matches any string that begins with 
+    <CODE>cat</CODE></TD></TR>
+  <TR>
+    <TH><CODE>$</CODE></TH>
+    <TD>The pattern has to appear at the end of a string.</TD>
+    <TD><CODE>cat$</CODE> matches any string that ends with 
+  <CODE>cat</CODE></TD></TR>
+  <TR>
+    <TH><CODE>.</CODE></TH>
+    <TD>Matches any character.</TD>
+    <TD><CODE>cat.</CODE> matches <CODE>catT</CODE> and <CODE>cat2</CODE> but 
+      not <CODE>catty</CODE></TD></TR>
+  <TR>
+    <TH><CODE>[]</CODE></TH>
+    <TD>Bracket expression. Matches one of any characters enclosed.</TD>
+    <TD><CODE>gr[ae]y</CODE> matches <CODE>gray</CODE> or 
+  <CODE>grey</CODE></TD></TR>
+  <TR>
+    <TH><CODE>[^]</CODE></TH>
+    <TD>Negates a bracket expression. Matches one of any characters EXCEPT 
+      those enclosed.</TD>
+    <TD><CODE>1[^02]</CODE> matches <CODE>13</CODE> but not <CODE>10</CODE> or 
+      <CODE>12</CODE></TD></TR>
+  <TR>
+    <TH><CODE>[-]</CODE></TH>
+    <TD>Range. Matches any characters within the range.</TD>
+    <TD><CODE>[1-9]</CODE> matches any single digit EXCEPT 
+<CODE>0</CODE></TD></TR>
+  <TR>
+    <TH><CODE>?</CODE></TH>
+    <TD>Preceeding item must match one or zero times.</TD>
+    <TD><CODE>colou?r</CODE> matches <CODE>color</CODE> or <CODE>colour</CODE> 
+      but not <CODE>colouur</CODE></TD></TR>
+  <TR>
+    <TH><CODE>+</CODE></TH>
+    <TD>Preceeding item must match one or more times.</TD>
+    <TD><CODE>be+</CODE> matches <CODE>be</CODE> or <CODE>bee</CODE> but not 
+      <CODE>b</CODE></TD></TR>
+  <TR>
+    <TH><CODE>*</CODE></TH>
+    <TD>Preceeding item must match zero or more times.</TD>
+    <TD><CODE>be*</CODE> matches <CODE>b</CODE> or <CODE>be</CODE> or 
+      <CODE>beeeeeeeeee</CODE></TD></TR>
+  <TR>
+    <TH><CODE>()</CODE></TH>
+    <TD>Parentheses. Creates a substring or item that metacharacters can be 
+      applied to</TD>
+    <TD><CODE>a(bee)?t</CODE> matches <CODE>at</CODE> or <CODE>abeet</CODE> 
+      but not <CODE>abet</CODE></TD></TR>
+  <TR>
+    <TH><CODE>{n}</CODE></TH>
+    <TD>Bound. Specifies exact number of times for the preceeding item to 
+      match.</TD>
+    <TD><CODE>[0-9]{3}</CODE> matches any three digits</TD></TR>
+  <TR>
+    <TH><CODE>{n,}</CODE></TH>
+    <TD>Bound. Specifies minimum number of times for the preceeding item to 
+      match.</TD>
+    <TD><CODE>[0-9]{3,}</CODE> matches any three or more digits</TD></TR>
+  <TR>
+    <TH><CODE>{n,m}</CODE></TH>
+    <TD>Bound. Specifies minimum and maximum number of times for the 
+      preceeding item to match.</TD>
+    <TD><CODE>[0-9]{3,5}</CODE> matches any three, four, or five digits</TD></TR>
+  <TR>
+    <TH><CODE>|</CODE></TH>
+    <TD>Alternation. One of the alternatives has to match.</TD>
+    <TD><CODE>July (first|1st|1)</CODE> will match <CODE>July 1st</CODE> but 
+      not <CODE>July 2</CODE></TD></TR></TBODY></TABLE>
+<H2>POSIX Character Classes</H2>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TH><CODE>[:alnum:]</CODE></TH>
+    <TD>alphanumeric character</TD>
+    <TD><CODE>[[:alnum:]]{3}</CODE> matches any three letters or numbers, like 
+      <CODE>7Ds</CODE></TD></TR>
+  <TR>
+    <TH><CODE>[:alpha:]</CODE></TH>
+    <TD>alphabetic character, any case</TD>
+    <TD><CODE>[[:alpha:]]{5}</CODE> matches five alphabetic characters, any 
+      case, like <CODE>aBcDe</CODE></TD></TR>
+  <TR>
+    <TH><CODE>[:blank:]</CODE></TH>
+    <TD>space and tab</TD>
+    <TD><CODE>[[:blank:]]{3,5}</CODE> matches any three, four, or five spaces 
+      and tabs</TD></TR>
+  <TR>
+    <TH><CODE>[:digit:]</CODE></TH>
+    <TD>digits</TD>
+    <TD><CODE>[[:digit:]]{3,5}</CODE> matches any three, four, or five digits, 
+      like <CODE>3</CODE>, <CODE>05</CODE>, <CODE>489</CODE></TD></TR>
+  <TR>
+    <TH><CODE>[:lower:]</CODE></TH>
+    <TD>lowercase alphabetics</TD>
+    <TD><CODE>[[:lower:]]</CODE> matches <CODE>a</CODE> but not 
+    <CODE>A</CODE></TD></TR>
+  <TR>
+    <TH><CODE>[:punct:]</CODE></TH>
+    <TD>punctuation characters</TD>
+    <TD><CODE>[[:punct:]]</CODE> matches <CODE>!</CODE> or <CODE>.</CODE> or 
+      <CODE>,</CODE> but not <CODE>a</CODE> or <CODE>3</CODE></TD></TR>
+  <TR>
+    <TH><CODE>[:space:]</CODE></TH>
+    <TD>all whitespace characters, including newline and carriage return</TD>
+    <TD><CODE>[[:space:]]</CODE> matches any space, tab, newline, or carriage 
+      return</TD></TR>
+  <TR>
+    <TH><CODE>[:upper:]</CODE></TH>
+    <TD>uppercase alphabetics</TD>
+    <TD><CODE>[[:upper:]]</CODE> matches <CODE>A</CODE> but not 
+    <CODE>a</CODE></TD></TR></TBODY></TABLE>
+<H2>Perl-Style Metacharacters</H2>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TH><CODE>//</CODE></TH>
+    <TD>Default delimiters for pattern</TD>
+    <TD><CODE>/colou?r/</CODE> matches <CODE>color</CODE> or 
+      <CODE>colour</CODE></TD></TR>
+  <TR>
+    <TH><CODE>i</CODE></TH>
+    <TD>Append to pattern to specify a case insensitive match</TD>
+    <TD><CODE>/colou?r/i</CODE> matches <CODE>COLOR</CODE> or 
+      <CODE>Colour</CODE></TD></TR>
+  <TR>
+    <TH><CODE>\b</CODE></TH>
+    <TD>A word boundary, the spot between word <CODE>(\w)</CODE> and non-word 
+      <CODE>(\W)</CODE> characters</TD>
+    <TD><CODE>/\bfred\b/i</CODE> matches <CODE>Fred</CODE> but not 
+      <CODE>Alfred</CODE> or <CODE>Frederick</CODE></TD></TR>
+  <TR>
+    <TH><CODE>\B</CODE></TH>
+    <TD>A non-word boundary</TD>
+    <TD><CODE>/fred\B/i</CODE> matches <CODE>Frederick</CODE> but not 
+      <CODE>Fred</CODE></TD></TR>
+  <TR>
+    <TH><CODE>\d</CODE></TH>
+    <TD>A single digit character</TD>
+    <TD><CODE>/a\db/i</CODE> matches <CODE>a2b</CODE> but not 
+    <CODE>acb</CODE></TD></TR>
+  <TR>
+    <TH><CODE>\D</CODE></TH>
+    <TD>A single non-digit character</TD>
+    <TD><CODE>/a\Db/i</CODE> matches <CODE>aCb</CODE> but not 
+    <CODE>a2b</CODE></TD></TR>
+  <TR>
+    <TH><CODE>\n</CODE></TH>
+    <TD>The newline character. (ASCII 10)</TD>
+    <TD><CODE>/\n/</CODE> matches a newline</TD></TR>
+  <TR>
+    <TH><CODE>\r</CODE></TH>
+    <TD>The carriage return character. (ASCII 13)</TD>
+    <TD><CODE>/\r/</CODE> matches a carriage return</TD></TR>
+  <TR>
+    <TH><CODE>\s</CODE></TH>
+    <TD>A single whitespace character</TD>
+    <TD><CODE>/a\sb/</CODE> matches <CODE>a b</CODE> but not  
+    <CODE>ab</CODE></TD></TR>
+  <TR>
+    <TH><CODE>\S</CODE></TH>
+    <TD>A single non-whitespace character</TD>
+    <TD><CODE>/a\Sb/</CODE> matches <CODE>a2b</CODE> but not  <CODE>a 
+    b</CODE></TD></TR>
+  <TR>
+    <TH><CODE>\t</CODE></TH>
+    <TD>The tab character. (ASCII 9)</TD>
+    <TD><CODE>/\t/</CODE> matches a tab.</TD></TR>
+  <TR>
+    <TH><CODE>\w</CODE></TH>
+    <TD>A single word character - alphanumeric and underscore</TD>
+    <TD><CODE>/\w/</CODE> matches <CODE>1</CODE> or <CODE>_</CODE> but not 
+      <CODE>?</CODE></TD></TR>
+  <TR>
+    <TH><CODE>\W</CODE></TH>
+    <TD>A single non-word character</TD>
+    <TD><CODE>/a\Wb/i</CODE> matches <CODE>a!b</CODE> but not 
+    <CODE>a2b</CODE></TD></TR></TBODY></TABLE>
+
+

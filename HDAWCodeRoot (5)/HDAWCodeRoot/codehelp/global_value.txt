@@ -1,0 +1,11 @@
+<h2>global_value</h2>
+<i><b>Get or set global value</b></i><br/>
+$result = global_value(<i>global_name</i>)<br/>
+$result = global_value(<i>global_name</i>, <i>new_value</i>)<br/>
+<i>Return string value if read, true if success on write, false on failure</i><br/>
+Get or Set a site global
+<br/>
+<i>Example</i><br/>
+$reporting_stage = global_value("ReportStatus")<br/>
+$ok = global_value("ReportStatus", "Monthly Summary")<br/>
+

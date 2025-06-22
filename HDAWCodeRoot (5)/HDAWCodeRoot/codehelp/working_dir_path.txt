@@ -1,0 +1,12 @@
+<h2>working_dir_path</h2>
+<i><b>Get the fully resolved working directory path for this profile or process</b></i><br/>
+$result = working_dir_path()<br/>
+<i>Returns the fully resolved path of this profile or process working directory </i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$a = working_dir_path();
+console($a);
+// Outputs C:\ALCWDevelopment\CUSTOM\PF67528539
+</pre>
+

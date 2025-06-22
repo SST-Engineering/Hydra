@@ -1,0 +1,9 @@
+<h2>time</h2>
+<i><b>Get date and time</b></i><br/>
+$result = time()<br/>
+<i>Return integer on success, false on failure</i><br/>
+Return the current date and time as unix timestamp
+<br/>
+<i>Example</i><br/>
+$a = time();
+

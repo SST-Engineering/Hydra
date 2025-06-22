@@ -1,0 +1,11 @@
+<h2>hours_ago</h2>
+<i><b>Returns the number of hours from a date time string to now</b></i><br/>
+$ago = hours_ago(date_time)<br/>
+<i>Returns hours ago from a date time string to now </i><br/>
+<br/>
+<i>Example</i><br/>
+
+$your_last = last_run('ETL_Barclays_CSV');<br/>
+$ago = hours_ago($your_last);<br/>
+if $ago is > 3 console("Warning Barclays load is more than 3 hours late");<br/>
+

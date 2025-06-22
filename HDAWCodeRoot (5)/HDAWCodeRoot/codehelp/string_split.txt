@@ -1,0 +1,11 @@
+<h2>string_split</h2>
+<i><b>Return array of strings split from target string</b></i><br/>
+$result = string_split(<i>split_pattern</i>, <i>target_string</i>)<br/>
+<i>Returns an array of strings split at each pattern string, false for failure</i><br/>
+<br/>
+<i>Example</i><br/>
+$a = string_split(" ","The quick brown fox");<br/>
+Gives array $a as "The", "quick", "brown", "fox"<br/>
+$a = string_split("quick","The quick brown fox");<br/>
+Gives array $a as "The", "brown", "fox"<br/>
+

@@ -1,0 +1,14 @@
+<h3>function</h3>
+<i><b>FUNCTION Keyword, Declarative statement</b></i><br/>
+Declare a function<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+<b>function</b> add_these($a, $b) begin
+   return $a + $b;
+   end
+
+
+
+
+

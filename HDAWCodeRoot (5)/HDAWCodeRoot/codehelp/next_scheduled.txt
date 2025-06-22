@@ -1,0 +1,22 @@
+<h2>next_scheduled</h2>
+<i><b>Set the schedule details of a profile</b></i><br/>
+$result = next_scheduled(<i>repeat_interval</i>[,<i>units_of_interval</i>[,<i>start_datetime</i>]])<br/>
+<i>Returns false on failure, a date time string of the next scheduled run on success</i>
+<i>Examples</i><br/>
+This function has optional parameters, but the first - repeat_interval - must be present<br/>
+$set_next_run = next_scheduled('HOUR');<br/>
+Sets the next run of this calling profile to be one hour from current time and then every hour thereafter<br/>
+$set_next_run = next_scheduled('DAY',2);<br/>
+Sets the next run of this calling profile to be two days from now (at this time of day) and then at the same
+time every 2 days hence<br/>
+$set_next_run = next_scheduled('HOUR', 2, '2012-06-04 12:24:21');<br/>
+Sets the next run of this calling profile to be 12:24 on 6th June 2012 and then every two hours thereafter<br/>
+For setting actual date times you can use db_datetime(time), where current date time is obtained from time, so as an example<br/>
+$set_next_run = next_scheduled('HOUR', 2, db_datetime(time()+60*60));<br/>
+Sets the next run to be the one hour from now, then every 2 hours thereafter<br/>
+<br/>
+Check for success by:<br/>
+$set_next_run=next_scheduled('DAY');<br/>
+if $set_next_run is false console("Fails to set the next schedule");<br/>
+else<br/>
+console("The next run is at {$set_next_run} then every day after that");<br/>

@@ -1,0 +1,12 @@
+<h3>limit</h3>
+<i><b>LIMIT Keyword</b></i><br/>
+Optional, used in for and while loop, limits iterations of loop<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+while <b>limit</b> 2 $x is < 4 do $c = add_these($a.$i, $b); 
+
+
+
+
+

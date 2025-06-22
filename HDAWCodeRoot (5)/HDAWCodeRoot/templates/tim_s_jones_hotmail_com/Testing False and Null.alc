@@ -1,0 +1,7 @@
+$this_month = 05;
+$last_month = 4;
+if $this_month is > $last_month for $mn is 1 step 1 to $last_month begin
+   $x = sprintf('%02d', $mn);
+   console($x);
+   end
+exit true;

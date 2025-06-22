@@ -1,0 +1,62 @@
+COMMON "OnError.txt";
+
+	function encrypt_file($p) begin
+		metatags "pgp encrypt";
+		/* Params
+		$p.outfile 
+		$p.key_string defaults to FISintelliMATCH
+		*/
+		$key_string = $p.key_string;
+		$key_string DEFAULT "FISintelliMATCH";
+		/* returns path of encrypted file or false for error */
+		$dst_dir = working_dir_path() + "/tmp";
+		$bat_file = "{$dst_dir}/encrypt.bat";
+		file_open_write($bat_file);
+		file_write_line("cd /d {$dst_dir}");
+		file_write_line("if exist \"{$p.outfile}.pgp\" del \"{$p.outfile}.pgp\" ");
+		file_write_line("pgp --encrypt \"{$p.outfile}\" --recipient \"{$key_string}\" ");
+		file_write_close();
+		//
+		$e = exec_bat($bat_file);
+		$outfile = "{$p.outfile}.pgp";
+		if file_exists($outfile) is true begin
+			console("Completed encrypt of {$p.outfile}");
+			return $outfile;
+			end
+		else begin
+			$errors = "Fails to encrypt {$p.outfile} {$e} " + exec_last_error() + " " + exec_output() + " " + exec_status();
+			return return_with_error($errors);
+			end
+		return false;
+		end
+		
+	function decrypt_file($p) begin
+		metatags "pgp decrypt";
+		/* Params
+		$p.outfile 
+		$p.key_string defaults to FISintelliMATCH
+		*/
+		$key_string = $p.key_string;
+		$key_string DEFAULT "FISintelliMATCH";
+		/* returns path of decrypted file or false for error */
+		$pi = path_info($p.outfile);
+		$outfile = $pi.dirname + "\\" + $pi.filename;
+		$dst_dir = working_dir_path() + "\\tmp";
+		$bat_file = "{$dst_dir}/decrypt.bat";
+		file_open_write($bat_file);
+		file_write_line("cd /d {$dst_dir}");
+		file_write_line("if exist \"{$outfile}\" del \"{$outfile}\" ");
+		file_write_line("pgp --decrypt \"{$p.outfile}\" --passphrase \"{$key_string}\" --output \"{$outfile}\" ");
+		file_write_close();
+		//
+		$e = exec_bat($bat_file);
+		if file_exists($outfile) is true begin
+			console("Completed decrypt of {$p.outfile}");
+			return $outfile;
+			end
+		else begin
+			$errors = "Fails to decrypt {$p.outfile} {$e} " + exec_last_error() + " " + exec_output() + " " + exec_status();
+			return return_with_error($errors);
+			end
+		return false;
+		end

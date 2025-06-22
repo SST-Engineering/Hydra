@@ -1,0 +1,8 @@
+<h3>not</h3>
+<i><b>NOT Keyword</b></i><br/>
+As in example:<br/>
+<i>Example</i><br/>
+if $a is <b>not</b> true then $b = "false a";
+
+
+

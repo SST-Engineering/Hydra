@@ -1,0 +1,18 @@
+// Assume we have a structure list of files that potentially we might want to process
+// Here is a typical list
+$file_list.0 = "MyFile-fred-0.txt";
+$file_list.1 = "YourFile-bill-22.txt";
+$file_list.2 = "MyFile-bill-88.txt";
+// Let us say we only want to process files that begin MyFile
+// It is good practice to deal with the selection process before the actual process section, consider
+// for example that the file list might also have contained a zip file and we need to select on those files also
+// The selection process is now independent of the processing piece
+for all properties $file_index in $file_list begin
+   if preg_match("MyFile-[^.]*?\.txt", $file_list.$file_index) is not false begin
+      $to_process.$file_index = $file_list.$file_index;
+      end
+   end
+for all properties $file_index in $to_process begin
+   console("Will process {$to_process.$file_index}");
+   end
+exit true;

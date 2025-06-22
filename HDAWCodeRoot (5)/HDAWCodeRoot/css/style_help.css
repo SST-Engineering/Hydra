@@ -1,0 +1,32 @@
+h2 {
+color:blue;
+}
+
+h3 {
+color:green;
+text-decoration:underline;
+}
+
+pre {
+   text-wrap:normal;
+   white-space:normal;
+   }
+
+table.alc-help {
+   padding: 0px;
+   width:100%;
+   margin-left: auto;
+   margin-right: auto;
+   font-size: 10px; 
+   font-weight:normal; 
+   color:black;
+   background-color:white; 
+   cellspacing:0;
+      border:1px solid rgb(150, 216, 233);
+      border-collapse:collapse;
+      border-spacing:0px;
+   }
+.alc-help   td,th{
+      border:1px solid rgb(150, 216, 233);
+}
+

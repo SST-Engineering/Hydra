@@ -1,0 +1,210 @@
+ILMerge version 2.12.803.0
+Copyright (C) Microsoft Corporation 2004-2006. All rights reserved.
+ILMerge /out:alcb.exe /t:winexe /targetplatform:v4 /log:ilmerge.log C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll 
+Set platform to 'v4', using directory 'C:\Windows\Microsoft.NET\Framework64\v2.0.50727\..\v4.0.30319' for mscorlib.dll
+Running on Microsoft (R) .NET Framework v2.0.50727
+mscorlib.dll version = 2.0.0.0
+The list of input assemblies is:
+	C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe
+	C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll
+Trying to read assembly from the file 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe'.
+	Successfully read in assembly.
+	There were no errors reported in ALCW Ticket Runner's metadata.
+Trying to read assembly from the file 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll'.
+Can not find PDB file. Debug info will not be available for assembly 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll'.
+	Successfully read in assembly.
+	There were no errors reported in Ionic.Zip's metadata.
+Checking to see that all of the input assemblies have a compatible PeKind.
+	ALCW Ticket Runner.PeKind = ILonly, Requires32bits
+	Ionic.Zip.PeKind = ILonly
+All input assemblies have a compatible PeKind value.
+Using assembly 'ALCW Ticket Runner' for assembly-level attributes for the target assembly.
+Merging assembly 'ALCW Ticket Runner' into target assembly.
+Merging assembly 'Ionic.Zip' into target assembly.
+Assembly level attribute 'System.Security.AllowPartiallyTrustedCallersAttribute' from assembly 'Ionic.Zip' being deleted from target assembly
+Copying 3 Win32 Resources from assembly 'ALCW Ticket Runner' into target assembly.
+Transferring entry point 'ALCW_Ticket_Runner.Program.Main' from assembly 'ALCW Ticket Runner' to assembly 'alcb'.
+ILMerge: Important! Primary assembly had a strong name, but the output does not.
+	There were no errors reported in the target assembly's metadata.
+ILMerge: Writing target assembly 'alcb.exe'.
+AssemblyResolver: Assembly 'System' is referencing assembly 'System.Configuration'.
+	AssemblyResolver: Attempting referencing assembly's directory.
+Can not find PDB file. Debug info will not be available for assembly 'System.Configuration'.
+Resolved assembly reference 'System.Configuration' to 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Configuration.dll'. (Used referencing Module's directory.)
+Location for referenced assembly 'System.Windows.Forms' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll'
+	There were no errors reported in  System.Windows.Forms's metadata.
+Location for referenced assembly 'System' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\system.dll'
+	There were no errors reported in  System's metadata.
+Location for referenced assembly 'mscorlib' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorlib.dll'
+	There were no errors reported in  mscorlib's metadata.
+Location for referenced assembly 'System.Drawing' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll'
+	There were no errors reported in  System.Drawing's metadata.
+ILMerge: Done.
+ILMerge version 2.12.803.0
+Copyright (C) Microsoft Corporation 2004-2006. All rights reserved.
+ILMerge /out:alcb.exe /t:winexe /targetplatform:v4 /log:ilmerge.log C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll 
+Set platform to 'v4', using directory 'C:\Windows\Microsoft.NET\Framework64\v2.0.50727\..\v4.0.30319' for mscorlib.dll
+Running on Microsoft (R) .NET Framework v2.0.50727
+mscorlib.dll version = 2.0.0.0
+The list of input assemblies is:
+	C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe
+	C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll
+Trying to read assembly from the file 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe'.
+	Successfully read in assembly.
+	There were no errors reported in ALCW Ticket Runner's metadata.
+Trying to read assembly from the file 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll'.
+Can not find PDB file. Debug info will not be available for assembly 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll'.
+	Successfully read in assembly.
+	There were no errors reported in Ionic.Zip's metadata.
+Checking to see that all of the input assemblies have a compatible PeKind.
+	ALCW Ticket Runner.PeKind = ILonly, Requires32bits
+	Ionic.Zip.PeKind = ILonly
+All input assemblies have a compatible PeKind value.
+Using assembly 'ALCW Ticket Runner' for assembly-level attributes for the target assembly.
+Merging assembly 'ALCW Ticket Runner' into target assembly.
+Merging assembly 'Ionic.Zip' into target assembly.
+Assembly level attribute 'System.Security.AllowPartiallyTrustedCallersAttribute' from assembly 'Ionic.Zip' being deleted from target assembly
+Copying 3 Win32 Resources from assembly 'ALCW Ticket Runner' into target assembly.
+Transferring entry point 'ALCW_Ticket_Runner.Program.Main' from assembly 'ALCW Ticket Runner' to assembly 'alcb'.
+ILMerge: Important! Primary assembly had a strong name, but the output does not.
+	There were no errors reported in the target assembly's metadata.
+ILMerge: Writing target assembly 'alcb.exe'.
+AssemblyResolver: Assembly 'System' is referencing assembly 'System.Configuration'.
+	AssemblyResolver: Attempting referencing assembly's directory.
+Can not find PDB file. Debug info will not be available for assembly 'System.Configuration'.
+Resolved assembly reference 'System.Configuration' to 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Configuration.dll'. (Used referencing Module's directory.)
+Location for referenced assembly 'System.Windows.Forms' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll'
+	There were no errors reported in  System.Windows.Forms's metadata.
+Location for referenced assembly 'System' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\system.dll'
+	There were no errors reported in  System's metadata.
+Location for referenced assembly 'mscorlib' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorlib.dll'
+	There were no errors reported in  mscorlib's metadata.
+Location for referenced assembly 'System.Drawing' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll'
+	There were no errors reported in  System.Drawing's metadata.
+ILMerge: Done.
+ILMerge version 2.12.803.0
+Copyright (C) Microsoft Corporation 2004-2006. All rights reserved.
+ILMerge /out:alcb.exe /t:winexe /targetplatform:v4 /log:ilmerge.log C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll 
+Set platform to 'v4', using directory 'C:\Windows\Microsoft.NET\Framework64\v2.0.50727\..\v4.0.30319' for mscorlib.dll
+Running on Microsoft (R) .NET Framework v2.0.50727
+mscorlib.dll version = 2.0.0.0
+The list of input assemblies is:
+	C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe
+	C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll
+Trying to read assembly from the file 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe'.
+	Successfully read in assembly.
+	There were no errors reported in ALCW Ticket Runner's metadata.
+Trying to read assembly from the file 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll'.
+Can not find PDB file. Debug info will not be available for assembly 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll'.
+	Successfully read in assembly.
+	There were no errors reported in Ionic.Zip's metadata.
+Checking to see that all of the input assemblies have a compatible PeKind.
+	ALCW Ticket Runner.PeKind = ILonly, Requires32bits
+	Ionic.Zip.PeKind = ILonly
+All input assemblies have a compatible PeKind value.
+Using assembly 'ALCW Ticket Runner' for assembly-level attributes for the target assembly.
+Merging assembly 'ALCW Ticket Runner' into target assembly.
+Merging assembly 'Ionic.Zip' into target assembly.
+Assembly level attribute 'System.Security.AllowPartiallyTrustedCallersAttribute' from assembly 'Ionic.Zip' being deleted from target assembly
+Copying 3 Win32 Resources from assembly 'ALCW Ticket Runner' into target assembly.
+Transferring entry point 'ALCW_Ticket_Runner.Program.Main' from assembly 'ALCW Ticket Runner' to assembly 'alcb'.
+ILMerge: Important! Primary assembly had a strong name, but the output does not.
+	There were no errors reported in the target assembly's metadata.
+ILMerge: Writing target assembly 'alcb.exe'.
+AssemblyResolver: Assembly 'System' is referencing assembly 'System.Configuration'.
+	AssemblyResolver: Attempting referencing assembly's directory.
+Can not find PDB file. Debug info will not be available for assembly 'System.Configuration'.
+Resolved assembly reference 'System.Configuration' to 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Configuration.dll'. (Used referencing Module's directory.)
+Location for referenced assembly 'System.Windows.Forms' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll'
+	There were no errors reported in  System.Windows.Forms's metadata.
+Location for referenced assembly 'System' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\system.dll'
+	There were no errors reported in  System's metadata.
+Location for referenced assembly 'mscorlib' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorlib.dll'
+	There were no errors reported in  mscorlib's metadata.
+Location for referenced assembly 'System.Drawing' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll'
+	There were no errors reported in  System.Drawing's metadata.
+ILMerge: Done.
+ILMerge version 2.12.803.0
+Copyright (C) Microsoft Corporation 2004-2006. All rights reserved.
+ILMerge /out:alcb.exe /t:winexe /targetplatform:v4 /log:ilmerge.log C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll 
+Set platform to 'v4', using directory 'C:\Windows\Microsoft.NET\Framework64\v2.0.50727\..\v4.0.30319' for mscorlib.dll
+Running on Microsoft (R) .NET Framework v2.0.50727
+mscorlib.dll version = 2.0.0.0
+The list of input assemblies is:
+	C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe
+	C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll
+Trying to read assembly from the file 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe'.
+	Successfully read in assembly.
+	There were no errors reported in ALCW Ticket Runner's metadata.
+Trying to read assembly from the file 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll'.
+Can not find PDB file. Debug info will not be available for assembly 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll'.
+	Successfully read in assembly.
+	There were no errors reported in Ionic.Zip's metadata.
+Checking to see that all of the input assemblies have a compatible PeKind.
+	ALCW Ticket Runner.PeKind = ILonly, Requires32bits
+	Ionic.Zip.PeKind = ILonly
+All input assemblies have a compatible PeKind value.
+Using assembly 'ALCW Ticket Runner' for assembly-level attributes for the target assembly.
+Merging assembly 'ALCW Ticket Runner' into target assembly.
+Merging assembly 'Ionic.Zip' into target assembly.
+Assembly level attribute 'System.Security.AllowPartiallyTrustedCallersAttribute' from assembly 'Ionic.Zip' being deleted from target assembly
+Copying 3 Win32 Resources from assembly 'ALCW Ticket Runner' into target assembly.
+Transferring entry point 'ALCW_Ticket_Runner.Program.Main' from assembly 'ALCW Ticket Runner' to assembly 'alcb'.
+ILMerge: Important! Primary assembly had a strong name, but the output does not.
+	There were no errors reported in the target assembly's metadata.
+ILMerge: Writing target assembly 'alcb.exe'.
+AssemblyResolver: Assembly 'System' is referencing assembly 'System.Configuration'.
+	AssemblyResolver: Attempting referencing assembly's directory.
+Can not find PDB file. Debug info will not be available for assembly 'System.Configuration'.
+Resolved assembly reference 'System.Configuration' to 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Configuration.dll'. (Used referencing Module's directory.)
+Location for referenced assembly 'System.Windows.Forms' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll'
+	There were no errors reported in  System.Windows.Forms's metadata.
+Location for referenced assembly 'System' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\system.dll'
+	There were no errors reported in  System's metadata.
+Location for referenced assembly 'mscorlib' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorlib.dll'
+	There were no errors reported in  mscorlib's metadata.
+Location for referenced assembly 'System.Drawing' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll'
+	There were no errors reported in  System.Drawing's metadata.
+ILMerge: Done.
+ILMerge version 2.12.803.0
+Copyright (C) Microsoft Corporation 2004-2006. All rights reserved.
+ILMerge /out:alcb.exe /t:winexe /targetplatform:v4 /log:ilmerge.log C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll 
+Set platform to 'v4', using directory 'C:\Windows\Microsoft.NET\Framework64\v2.0.50727\..\v4.0.30319' for mscorlib.dll
+Running on Microsoft (R) .NET Framework v2.0.50727
+mscorlib.dll version = 2.0.0.0
+The list of input assemblies is:
+	C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe
+	C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll
+Trying to read assembly from the file 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe'.
+	Successfully read in assembly.
+	There were no errors reported in ALCW Ticket Runner's metadata.
+Trying to read assembly from the file 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll'.
+Can not find PDB file. Debug info will not be available for assembly 'C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\Ionic.Zip.dll'.
+	Successfully read in assembly.
+	There were no errors reported in Ionic.Zip's metadata.
+Checking to see that all of the input assemblies have a compatible PeKind.
+	ALCW Ticket Runner.PeKind = ILonly, Requires32bits
+	Ionic.Zip.PeKind = ILonly
+All input assemblies have a compatible PeKind value.
+Using assembly 'ALCW Ticket Runner' for assembly-level attributes for the target assembly.
+Merging assembly 'ALCW Ticket Runner' into target assembly.
+Merging assembly 'Ionic.Zip' into target assembly.
+Assembly level attribute 'System.Security.AllowPartiallyTrustedCallersAttribute' from assembly 'Ionic.Zip' being deleted from target assembly
+Copying 3 Win32 Resources from assembly 'ALCW Ticket Runner' into target assembly.
+Transferring entry point 'ALCW_Ticket_Runner.Program.Main' from assembly 'ALCW Ticket Runner' to assembly 'alcb'.
+ILMerge: Important! Primary assembly had a strong name, but the output does not.
+	There were no errors reported in the target assembly's metadata.
+ILMerge: Writing target assembly 'alcb.exe'.
+AssemblyResolver: Assembly 'System' is referencing assembly 'System.Configuration'.
+	AssemblyResolver: Attempting referencing assembly's directory.
+Can not find PDB file. Debug info will not be available for assembly 'System.Configuration'.
+Resolved assembly reference 'System.Configuration' to 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Configuration.dll'. (Used referencing Module's directory.)
+Location for referenced assembly 'System.Windows.Forms' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll'
+	There were no errors reported in  System.Windows.Forms's metadata.
+Location for referenced assembly 'System' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\system.dll'
+	There were no errors reported in  System's metadata.
+Location for referenced assembly 'mscorlib' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorlib.dll'
+	There were no errors reported in  mscorlib's metadata.
+Location for referenced assembly 'System.Drawing' is 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll'
+	There were no errors reported in  System.Drawing's metadata.
+ILMerge: Done.

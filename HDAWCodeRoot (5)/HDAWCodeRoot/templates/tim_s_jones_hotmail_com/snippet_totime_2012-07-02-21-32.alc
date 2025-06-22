@@ -1,0 +1,9 @@
+// ALCODE Snippet generated from Code Studio String to Time Mon, 2nd Jul 12 at 21:32
+$a = string_to_time("first day of July");
+if $a is not false begin
+   console("String parsed to a time ok");
+   console("Unix time is {$a}, "+style_datetime($a));
+   exit true;
+   end
+else console("Fails to parse date  "+last_error());
+exit false;

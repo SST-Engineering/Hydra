@@ -1,0 +1,11 @@
+<h3>number</h3>
+<i><b>NUMBER Keyword</b></i><br/>
+Used in for loop on properties<br/>
+<br/>
+As in example:<br/>
+<i>Example</i><br/>
+for <br>number</b> properties $i in $a console("{$a.$i}");
+
+
+
+

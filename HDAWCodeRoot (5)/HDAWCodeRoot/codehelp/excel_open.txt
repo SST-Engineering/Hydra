@@ -1,0 +1,9 @@
+<h2>excel_open</h2>
+<i><b>Open a local excel file (xls or xlsx)</b></i><br/>
+$result = excel_open(<i>local_filename</i>)<br/>
+<i>Returns false on failure, true on success</i><br/>
+Open the file does not load the data (see excel_load), before load it is important to restrict to a sheet and restrict columns,
+see excel_restrict_sheet, excel_restrict_rows, excel_restrict_columns<br/>
+<i>Example</i><br/>
+$result = excel_open("myfile");<br/>
+

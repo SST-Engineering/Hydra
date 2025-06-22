@@ -1,0 +1,16 @@
+<h3>literal</h3>
+<i><b>LITERAL Keyword, Statement</b></i><br/>
+For text processing<br/>
+The Literal string will also be evaluated as a program fragment<br/>
+As in example:<br/>
+<i>Example</i><br/>
+$this_var = <b>LITERAL</b> { any string
+                      including new lines up to terminating }<br/>
+<b>LITERAL</b> { a long string } TO $filepath<br/>
+// attempts to resolve the expression $filepath to a file in the working directory and write the long string to it
+ 
+
+
+
+
+

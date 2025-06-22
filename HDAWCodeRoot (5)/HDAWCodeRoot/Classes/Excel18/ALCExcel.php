@@ -1,0 +1,209 @@
+<?php
+
+require_once 'PHPExcel/IOFactory.php';
+
+
+class ALC_XL_GridReader implements PHPExcel_Reader_IReadFilter
+{
+private $_rows = null;
+private $_columns = null;
+private $_inSheets = null;
+
+public function __construct($rows=null, $columns=null, $worksheets=null) {
+   $this->_rows = $rows;
+   $this->_columns = $columns;
+   $this->_inSheets = $worksheets;
+}
+
+public function readCell($column, $row, $worksheet='') {
+   if (!is_null($this->_inSheets) && !$this->matchSheetNameInArray($worksheet, $this->_inSheets)) return false;
+   return ((is_null($this->_rows) || ($row >= $this->_rows[0] && $row <= $this->_rows[1])) && 
+           (is_null($this->_columns) || in_array($column, $this->_columns)));
+}
+	public function matchSheetNameInArray($name, $a_names) {
+		foreach ($a_names as $a_name) {
+			if (strtoupper(trim($name))==strtoupper(trim($a_name))) return true;
+		}
+		return false;
+	}
+}
+
+class ALC_XL_Grid {
+
+private $objXlReader = null;
+private $objXl = null;
+private $_path = null;
+
+public function __construct($path, $method=null) {
+   try {
+	switch ($method) {
+		case 'CELLS':
+			$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_nocache;
+			PHPExcel_Settings::setCacheStorageMethod($cacheMethod);
+			break;
+		default:
+			break;
+	}
+	  PHPExcel_Settings::setLibXmlLoaderOptions(null);
+      $this->objXlReader = PHPExcel_IOFactory::createReaderForFile($this->_path = $path);
+      $this->objXlReader->setReadDataOnly(true);
+      }
+   catch (Exception $e) {
+      throw new Exception("Fails in XL init {$path}: ".$e->getMessage());
+      }
+   }
+public static function SetCacheMethod($method) {
+	switch ($method) {
+		case 'CELLS':
+			$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_nocache;
+			PHPExcel_Settings::setCacheStorageMethod($cacheMethod);
+			break;
+		default:
+			break;
+	}
+}
+private $_onlyRows = null;
+private $_onlyColumns = null;
+private $_onlySheets = null;
+private $_filterGrid = null;
+public function RestrictLoad($rows=null, $columns=null, $sheets=null) {
+   if (!is_null($rows)) $this->_onlyRows = $rows;
+   if (!is_null($columns)) $this->_onlyColumns = $columns;
+   if (!is_null($sheets)) $this->_onlySheets = $sheets;
+   }
+private $_objXl = null;
+private $_objWorksheet;
+public function Load() {
+   try {
+      if (!is_null($this->_onlySheets) && is_array($this->_onlySheets)) {
+         $this->objXlReader->setLoadSheetsOnly($this->_onlySheets);
+         }
+      if (!is_null($this->_onlyRows) || !is_null($this->_onlyColumns)) {
+         $this->_filterGrid = new ALC_XL_GridReader($this->_onlyRows, $this->_onlyColumns, $this->_onlySheets);
+         $this->objXlReader->setReadFilter($this->_filterGrid);
+         }
+      $this->_objXl = $this->objXlReader->load($this->_path);
+
+      $this->_objWorksheet = $this->_objXl->setActiveSheetIndex(0);
+      }
+   catch (Exception $e) {
+      $s = print_r($this->_onlySheets, true);
+      throw new Exception("Fails in XL Load: (sheets {$s} ) ".$e->getMessage());
+      }
+   }
+public function SetSheet($s = 0) {
+   try {
+      if (is_null($this->_objXl) || !is_object($this->_objXl)) throw new Exception("Fails in XL: no xl open");
+      $this->_objWorksheet = (is_numeric($s) && is_integer($s))?$this->_objXl->setActiveSheetIndex($s):$this->_objXl->setActiveSheetIndexByName($s);
+      return (!is_null($this->_objWorksheet));
+      }
+   catch (Exception $e) {
+      throw new Exception("Fails in XL SetSheet: ".$e->getMessage());
+      }
+   return false;
+   }
+public function GetSheets() {
+   try {
+      if (is_null($this->_objXl) || !is_object($this->_objXl)) throw new Exception("Fails in XL: no xl open");
+      $sheets = $this->_objXl->getAllSheets();
+      $aa = array();
+      foreach($sheets as $sheet) $aa[] = $sheet->getTitle();
+      return $aa;
+      }
+   catch (Exception $e) {
+      throw new Exception("Fails in XL: ".$e->getMessage());
+      }
+   return false;
+   }
+public function AsArray() {
+   try {
+      if (is_null($this->_objWorksheet) || !is_object($this->_objWorksheet)) throw new Exception("Fails in XL: no worksheet");
+      return $this->_objWorksheet->toArray($missing_cell = null, $calc = true, $format = true, $refs = true);
+      }
+   catch (Exception $e) {
+      throw new Exception("Fails in XL: ".$e->getMessage());
+      }
+   }
+public function AsNoCalcArray() {
+   try {
+      if (is_null($this->_objWorksheet) || !is_object($this->_objWorksheet)) throw new Exception("Fails in XL: no worksheet");
+      return $this->_objWorksheet->toArray($missing_cell = null, $calc = true, $format = true, $refs = true, $old_values=true);
+      }
+   catch (Exception $e) {
+      throw new Exception("Fails in XL: ".$e->getMessage());
+      }
+   }
+public function ConvertExcelDate($v) {
+   return PHPExcel_Shared_Date::ExcelToPHP($v);
+   }
+public function GetSheetLimits() {
+   try {
+      if (is_null($this->_objWorksheet) || !is_object($this->_objWorksheet)) throw new Exception("Fails in XL: no worksheet");
+	  $a = array();
+	  $a['ROWS'] = $this->_objWorksheet->getHighestRow();
+	  $a['COLUMNS'] = $this->_objWorksheet->getHighestColumn();
+	  return $a;
+   }
+   catch (Exception $e) {
+      throw new Exception("Fails in XL: ".$e->getMessage());
+      }
+
+   return false;
+}
+public function GetCellValue($loc, $column=null) {
+   try {
+      if (is_null($this->_objWorksheet) || !is_object($this->_objWorksheet)) throw new Exception("Fails in XL: no worksheet");
+      $cell = null;
+      if (is_null($column)) {
+         if ($this->_objWorksheet->cellExists($loc))
+            $cell = $this->_objWorksheet->getCell($loc);
+		 else return false;
+         }
+      elseif ($this->_objWorksheet->cellExistsByColumnAndRow($column, $loc))
+         $cell = $this->_objWorksheet->getCellByColumnAndRow($column, $loc);
+	  else return false;
+      if (!is_null($cell)) return $cell->getValue();
+      }
+   catch (Exception $e) {
+      throw new Exception("Fails in XL: ".$e->getMessage());
+      }
+
+   return false;
+   }
+public function GetCellType($loc, $column=null) {
+   try {
+      if (is_null($this->_objWorksheet) || !is_object($this->_objWorksheet)) throw new Exception("Fails in XL: no worksheet");
+      $cell = null;
+      if (is_null($column)) {
+         if ($this->_objWorksheet->cellExists($loc))
+            $cell = $this->_objWorksheet->getCell($loc);
+         }
+      elseif ($this->_objWorksheet->cellExistsByColumnAndRow($column, $loc))
+         $cell = $this->_objWorksheet->getCellByColumnAndRow($column, $loc);
+      if (!is_null($cell)) return $cell->getDataType();
+      }
+   catch (Exception $e) {
+      throw new Exception("Fails in XL: ".$e->getMessage());
+      }
+
+   return null;
+   }
+   
+public function Close() {
+   try {
+      if (is_object($this->_objXl)) $this->_objXl->garbageCollect();
+      $this->_objXl = null;
+      $this->_objWorksheet = null;
+      $this->objXlReader = null;
+		PHPExcel_CachedObjectStorageFactory::finalize();
+      return true;
+      }
+   catch (Exception $e) {
+      throw new Exception("Fails in XL: ".$e->getMessage());
+      }
+   return false;
+   }
+}
+
+
+?>

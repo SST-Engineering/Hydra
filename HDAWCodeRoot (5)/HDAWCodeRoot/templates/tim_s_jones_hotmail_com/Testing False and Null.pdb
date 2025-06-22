@@ -1,0 +1,1 @@
+a:7:{i:1;s:18:'$this_month = 05;~';i:2;s:17:'$last_month = 4;~';i:3;s:73:'if $this_month is > $last_month for $mn is 1 step 1 to $last_month begin~';i:4;s:30:'   $x = sprintf('%02d', $mn);~';i:5;s:16:'   console($x);~';i:6;s:7:'   end~';i:7;s:11:'exit true;~';}

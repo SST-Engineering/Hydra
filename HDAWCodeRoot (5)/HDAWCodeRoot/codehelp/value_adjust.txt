@@ -1,0 +1,15 @@
+<h2>value_adjust</h2>
+<i><b>Convert a given value to another form</b></i><br/>
+Make a value adjustment, given a value source and a format adjustment<br/>
+<i>$new_value = value_adjust($v, $format)</i><br/>
+New value on success, false on failure
+<br/>
+<i>Example</i><br/>
+<pre>
+$v = value_adjust($v, "DATE#Y-m-d#dd/mm/yy");
+$v = value_adjust($v, "NUMBER");
+$v = value_adjust($v, "CURRENCY_SYMBOL");
+
+</pre>
+<br/>
+

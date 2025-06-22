@@ -1,0 +1,11 @@
+<h2>db_datetime</h2>
+<i><b>Get date and time suitable to write to DATETIME type in DB</b></i><br/>
+$result = db_datetime()&nbsp;..or..<br/>
+$result = db_datetime(<i>timestamp</i>)<br/>
+<i>Return string on success, false on failure</i><br/>
+Return the current date and time as a styled string suitable for DB, or the time as passed by parameter
+<br/>
+<i>Example</i><br/>
+$a = db_datetime();
+$a = db_datetime($my_time_int);
+

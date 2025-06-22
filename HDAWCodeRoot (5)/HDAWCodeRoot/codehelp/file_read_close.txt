@@ -1,0 +1,9 @@
+<h2>file_read_close</h2>
+<i><b>Close an open file</b></i><br/>
+$result = file_read_close()<br/>
+<i>Return true success, false on failure</i><br/>
+Close a file opened by file_open_read
+<br/>
+<i>Example</i><br/>
+$a = file_read_close();
+

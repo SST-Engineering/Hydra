@@ -1,0 +1,41 @@
+C:\EIB\ALCWCodeRoot\binary\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe
+C:\EIB\ALCWCodeRoot\binary\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.pdb
+C:\EIB\ALCWCodeRoot\binary\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ResolveAssemblyReference.cache
+C:\EIB\ALCWCodeRoot\binary\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW_Ticket_Runner.Properties.Resources.resources
+C:\EIB\ALCWCodeRoot\binary\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW_Ticket_Runner.TicketEntry.resources
+C:\EIB\ALCWCodeRoot\binary\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\GenerateResource.read.1.tlog
+C:\EIB\ALCWCodeRoot\binary\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\GenerateResource.write.1.tlog
+C:\EIB\ALCWCodeRoot\binary\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW Ticket Runner.exe
+C:\EIB\ALCWCodeRoot\binary\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW Ticket Runner.pdb
+\\devpc\Projects\ICE\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW Ticket Runner.exe
+\\devpc\Projects\ICE\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW Ticket Runner.pdb
+\\devpc\Projects\ICE\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe
+\\devpc\Projects\ICE\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.pdb
+\\devpc\Projects\ICE\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ResolveAssemblyReference.cache
+\\devpc\Projects\ICE\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW_Ticket_Runner.Properties.Resources.resources
+\\devpc\Projects\ICE\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW_Ticket_Runner.TicketEntry.resources
+\\devpc\Projects\ICE\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\GenerateResource.read.1.tlog
+\\devpc\Projects\ICE\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\GenerateResource.write.1.tlog
+I:\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe
+I:\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.pdb
+I:\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ResolveAssemblyReference.cache
+I:\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW_Ticket_Runner.Properties.Resources.resources
+I:\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW_Ticket_Runner.TicketEntry.resources
+I:\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\GenerateResource.read.1.tlog
+I:\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\GenerateResource.write.1.tlog
+I:\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW Ticket Runner.exe
+I:\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW Ticket Runner.pdb
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.pdb
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ResolveAssemblyReference.cache
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW_Ticket_Runner.Properties.Resources.resources
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW_Ticket_Runner.TicketEntry.resources
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\GenerateResource.read.1.tlog
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\GenerateResource.write.1.tlog
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW Ticket Runner.exe
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW Ticket Runner.pdb
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.exe.manifest
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\bin\Release\ALCW Ticket Runner.application
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW Ticket Runner.exe.manifest
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW Ticket Runner.application
+C:\EIB\ALCWCodeRoot\binary\Ticket Runner Project\ALCW Ticket Runner\ALCW Ticket Runner\obj\x86\Release\ALCW_Ticket_Runner.receipt.resources

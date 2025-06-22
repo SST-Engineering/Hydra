@@ -1,0 +1,15 @@
+<h2>floor</h2>
+<i><b>Rounds down a real number to the next lower integer value</b></i><br/>
+$v = floor(real_number)<br/>
+<i>Rounds down a real number to next lower integer </i><br/>
+<br/>
+<i>Example</i><br/>
+<code>
+<pre>
+$x = 5.32786;
+$y = floor($x);
+dump($y); // gives 5
+
+</pre>
+</code>
+

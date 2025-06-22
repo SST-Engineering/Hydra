@@ -1,0 +1,9 @@
+<h2>fetch_template</h2>
+<i><b>Fetch contents of template file</b></i><br/>
+$result = fetch_template(<i>template_file_name</i>)<br/>
+<i>Return contents as string, false on failure</i><br/>
+Fetch a common template file
+<br/>
+<i>Example</i><br/>
+$a = fetch_template("statement_model.txt");
+

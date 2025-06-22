@@ -1,0 +1,15 @@
+$not_n = " Currency: 820 - GBP";
+$MATCH = PREG_MATCH("/^[\s]*[\d]{3,3}[\s]*$/", $not_n);
+dump($MATCH);
+
+$n = "820";
+$MATCH = PREG_MATCH("/^[\s]*[\d]{3,3}[\s]*$/", $n);
+dump($MATCH);
+
+
+$n = " 820 ";
+$MATCH = PREG_MATCH("/^[\s]*[\d]{3,3}[\s]*$/", $n);
+dump($MATCH);
+
+
+exit true;

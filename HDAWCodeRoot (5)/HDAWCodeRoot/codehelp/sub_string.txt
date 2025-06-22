@@ -1,0 +1,10 @@
+<h2>sub_string</h2>
+<i><b>Return part of a target string</b></i><br/>
+$result = sub_string(<i>target</i>, <i>start_index</i>)&nbsp;..or..<br/>
+$result = sub_string(<i>target</i>, <i>start_index</i>, <i>length</i>)<br/>
+<i>Returns part of string, if length is not present then returns from start to end of string,
+ false for failure</i><br/>
+<br/>
+<i>Example</i><br/>
+$world = sub_string("Hello World", 6);<br/>
+

@@ -1,0 +1,9 @@
+<h2>file_write_line</h2>
+<i><b>Write a line to a file</b></i><br/>
+$result = file_write_line(<i>string</i>)<br/>
+<i>Return true success, false on failure</i><br/>
+Write a string to a file opened by file_write_open
+<br/>
+<i>Example</i><br/>
+$a = file_write_line("Hello World");
+

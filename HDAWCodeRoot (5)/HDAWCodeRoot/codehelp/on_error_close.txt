@@ -1,0 +1,10 @@
+<h2>on_error_close</h2>
+<i><b>Close open files and connections</b></i><br/>
+on_error_close()<br/>
+<i>Close any open file handles or db connections, used after an error </i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+</pre>
+<br/>
+

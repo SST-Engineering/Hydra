@@ -1,0 +1,29 @@
+<h2>detect_upload</h2>
+<i><b>Returns a filename and path structure after checking for a manual file upload</b></i><br/>
+$detected = detect_upload();<br/>
+<i>Returns a structure if it detects a valid data file from a user upload </i><br/>
+<br/>
+<i>Example</i><br/>
+A typical profile sequence might be:<br/>
+$uploaded = detect_upload();<br/>
+if $uploaded is not false begin <br/>
+   console("Profile running because of a user upload");<br/>
+   $filename = $uploaded.FileName;<br/>
+   $file_path = $uploaded.FilePath;<br/>
+   end<br/>
+else begin<br/>
+   $detected = detect_lookup('FTP_File');<br/>
+   if $detected is not false begin<br/>
+      console("Found input file on FTP_File connection");<br/>
+      $filename = $detected.FileName;<br/>
+      $file_path = $detected.FilePath;<br/>
+      end<br/>
+   end<br/>
+if $filename is null begin<br/>
+   // This is a test run<br/>
+   console("This is a test run, file not uploaded or detected");<br/>
+   $filename = "MI_9999_2012_6_5";<br/>
+   $file_path = $filename;<br/>
+   end<br/>
+
+

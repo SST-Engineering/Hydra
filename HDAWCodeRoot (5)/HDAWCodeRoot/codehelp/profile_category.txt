@@ -1,0 +1,15 @@
+<h2>profile_category</h2>
+<i><b>Return category of currently running profile</b></i><br/>
+Get the category of this profile<br/>
+<i>$category = profile_category()<i><br/>
+Category string on success, false on failure
+<br/>
+<i>Example</i><br/>
+<pre>
+$category = profile_category();
+dump($category);
+Might give "MI"
+
+</pre>
+<br/>
+

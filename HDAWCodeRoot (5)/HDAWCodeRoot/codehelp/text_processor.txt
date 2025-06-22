@@ -1,0 +1,13 @@
+<h2>text_processor</h2>
+<i><b>Returns a record structure</b></i><br/>
+$result = text_processor(input_target, def_file)<br/>
+$result = text_processor(input_target, def_file, all_file_fields)<br/>
+<i>Returns false on failure, array record on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+   $def_file = "proforma_input.def";
+   $record = text_processor($s, $def_file);
+</pre>
+<br/>
+

@@ -1,0 +1,312 @@
+// ALCODE.alc - generated Wed, 4th Jan 12 at 13:25
+// General Model for unloading xls
+
+COMMON "OnError.txt";
+COMMON "ChecksumCheck.txt";
+COMMON "Loader-INIT.txt";
+COMMON "Loader-INSERT.txt";
+#easyxls_stop_read = false;
+#easyxls_removed_rows = 0;
+function load_from_xls($p) begin
+   metatags "load_from_xls";
+   $fn_title = "In function load_from_xls, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.file_to_read = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.truncate_table = true;
+   $p.create_table = false;
+   $p.verbose = false;
+   $p.use_sheet = null;
+   $p.use_sheet_list = null;
+   $p.use_sheet_list_pattern = null;
+   $p.use_sheet_index = null;
+   $p.add_sheet_field = null;
+   $p.header_row = null;
+   $p.first_data_row = null;
+   $p.start_column = true;
+   $p.last_column = null;
+   $p.checksum_field = null;
+   $p.guid = null;
+   $p.file_lines_limit = null;
+   $p.field_map = null;
+   $p.record_cell_map = null;
+   */
+   $start_time = time();
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_db_table = $p.use_db_table;
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $file_to_write = $p.file_to_write;
+   $file_field_lookup = $p.file_field_lookup;
+   $file_field_lookup default null;
+   $file_add_fields = $p.file_add_fields;
+   $file_add_fields default null;
+   $file_field_process = $p.file_field_process;
+   $file_field_process default null;
+   $file_not_null_fields = $p.file_not_null_fields;
+   $file_not_null_fields default null;
+   $truncate_db_table = $p.truncate_table;
+   $truncate_db_table default true;
+   $create_db_table = $p.create_table;
+   $create_db_table default false;
+   $verbose = $p.verbose;
+   $verbose default false;
+   $use_sheet = $p.use_sheet;
+   $use_sheet_list = $p.use_sheet_list;
+   $use_sheet_list_pattern = $p.use_sheet_list_pattern;
+   $use_sheet_index = $p.use_sheet_index;
+   $add_sheet_field = $p.add_sheet_field;
+   $file_field_map = $p.field_map;
+   $file_cell_map = $p.record_cell_map;
+   $use_file_date = $p.use_file_date;
+   $use_dwh_table = $p.use_dwh_table;
+   $use_dwh_table DEFAULT $use_db_table;
+   $call_finals = $p.call_finals;
+
+   $s = loader_check($use_db_connect, $use_db_table, $file_to_read);
+   if $s is false return false;
+   if $verbose is true issue_monitor(" {$fn_title} loader init complete for {$file_to_read} using db {$use_db_connect} and table {$use_db_table} ");
+   $s = null; // Not required
+
+   $header_row = $p.header_row;
+   $header_row DEFAULT null;
+   $first_data_row = $p.first_data_row;
+   $first_data_row DEFAULT 1;
+   $start_column = $p.start_column;
+   $start_column DEFAULT "A";
+   $last_column = $p.last_column;
+   $last_column DEFAULT "Q";
+
+   // Need to get sheets list
+   if $use_sheet is not null begin
+		$actual_sheet_list.0 = $use_sheet;
+		end
+   else begin
+		$did_open = excel_open($file_to_read);
+		if $did_open is not true return return_with_error("{$fn_title} Fails to open xls data file {$file_to_read}");
+		$ok = excel_restrict_columns("A", "B");
+		if $ok is not true return return_with_error("{$fn_title} Fails to restrict columns to A:B");
+		$ok = excel_restrict_rows(1,2);
+		if $ok is not true return return_with_error("{$fn_title} Fails to restrict rows 1 and 2");
+		$did_load = excel_load();
+		if $did_load is not true return return_with_error("{$fn_title} Fails to load xls data file {$file_to_read}");
+		$actual_sheet_list = excel_get_sheets();
+		excel_close();
+		end
+
+
+   if $use_sheet_list_pattern is not null begin
+      for all properties $i in $actual_sheet_list begin
+         if preg_match("/{$use_sheet_list_pattern}/i", $actual_sheet_list.$i) is false unset $i in $actual_sheet_list;
+         end
+	  if count_properties($actual_sheet_list) is 0 return return_with_error("No sheets match pattern {$use_sheet_list_pattern}");
+      end
+
+   if $use_sheet_list is not null begin
+      for all properties $i in $use_sheet_list begin
+         for all properties $j in $actual_sheet_list begin
+            if string_upper(trim($actual_sheet_list.$j)) is string_upper(trim($use_sheet_list.$i)) $use_sheet_list.$i = $actual_sheet_list.$j;
+            end
+         end
+      end
+   else if $use_sheet is not null begin
+		$use_sheet_index = 0;
+      for all properties $j in $actual_sheet_list begin
+         if string_upper(trim($actual_sheet_list.$j)) is string_upper(trim($use_sheet)) $use_sheet_list.$use_sheet_index = $actual_sheet_list.$j;
+         end
+      end
+   else if $use_sheet_index is not null begin
+	$use_sheet_list.0 = $actual_sheet_list.$use_sheet_index;
+	end
+   else
+	$use_sheet_list = $actual_sheet_list;
+   // Open the checksum method
+   if $p.checksum_field is not null do_open_checksum($p.checksum_field, $p.guid);
+   if $verbose is true console("From header row: {$header_row} on first data row {$first_data_row}");
+   if ($verbose is true) and ($file_field_map is not null) console("Will use a field map structure")
+   else if ($verbose is true) and ($file_field_lookup is not null)  console("Will use file field lookup for mapping")
+   else if ($verbose is true) console("Will use header row {$header_row} for mapping");
+   $file_lines = 0;
+   console(dump($use_sheet_list, true));
+   $this_process_ok = true;
+	for all properties $sheet_index in $use_sheet_list begin
+		if $verbose is true console("Will load from sheet {$use_sheet_list.$sheet_index}");
+		if $p.Method is 'EasyXL' begin
+				console("Using method EASYXL");
+				issue_monitor("Using method EASYXL");
+			if ($p.is_open is null) OR ($p.is_open is false) begin
+				$e = xl_open($file_to_read);
+				if $e is not true return_with_error("XL Fails open "+last_error());
+				$e = xl_load($use_sheet_list.$sheet_index);
+				if $e is not true return_with_error("XL Fails load "+last_error());
+				end
+			if $add_sheet_field is not null begin
+				$record.$add_sheet_field = $use_sheet_list.$sheet_index;
+				end
+
+			// Populate record with specific fields
+			if $file_cell_map is not null begin
+				for all properties $field in $file_cell_map begin
+					if $file_cell_map.$field has not property "row" $record.$field = xl_cell($file_cell_map.$field);
+					if $file_cell_map.$field has property "row" $record.$field = xl_getCell($file_cell_map.$field.row,$file_cell_map.$field.column);
+					end
+				end
+			$limits = xl_sheet_limits();
+			$row = $first_data_row;
+			$loops = 0;
+			issue_monitor("Rows {$limits.ROWS} columns {$limits.COLUMNS}");
+			#easyxls_removed_rows = 0;
+			while ($row is < $limits.ROWS) and (#easyxls_stop_read is not true) begin
+				if $file_field_map is null begin
+					$col = xl_column_index($start_column);
+					while $col <= $limits.COLUMNS begin
+						$field = xl_excel_address($col,$row);
+						$record.$field = xl_cell($row,$col);
+						$col += 1;
+						end
+					end
+				else for all properties $field in $file_field_map begin
+					$col = $file_field_map.$field;
+					$record.$field = xl_cell("{$col}{$row}");
+					end
+				$p.record = $record;
+				if loader_insert($p) is true $file_lines = $file_lines+1;
+				$row += 1;
+					$loops += 1; 
+					if ($verbose is true) AND ($loops is 500) issue_monitor("Loads {$file_lines} of {$limits.ROWS}");
+					if $loops is > 500 $loops = 0;
+				end
+			if (#easyxls_stop_read is true) and ($row < $limits.ROWS) begin
+				xl_remove_rows($row, $limits.ROWS-$row);
+				#easyxls_removed_rows = $limits.ROWS-$row;
+				end
+			issue_monitor("Calls to Finals");
+			if $call_finals is not null $call_finals();
+			issue_monitor("Done finals onto write");
+			xl_close($file_to_write);
+			end
+		else begin
+			if ($p.is_open is null) OR ($p.is_open is false) begin
+				$did_open = xl_open($file_to_read, $p.Method);
+				if $did_open is false return return_with_error("{$fn_title} Fails to open xls data file {$file_to_read}");
+
+				$ok = xl_restrict_sheet($use_sheet_list.$sheet_index);
+				if $ok is false return return_with_error("{$fn_title} Fails to restrict sheet to {$use_sheet_list.$sheet_index} (missing sheet?) ");
+
+				$ok = xl_restrict_columns($start_column, $last_column);
+				if $ok is false return return_with_error("{$fn_title} Fails to restrict columns to {$first_column}:{$last_column}");
+
+				$ok = xl_load();
+				if $ok is false return return_with_error("{$fn_title} Fails to load data from {$file_to_read}");
+				end
+			$ok = xl_sheet($use_sheet_list.$sheet_index);
+			if $ok is false return return_with_error("{$fn_title} Fails to set sheet to {$use_sheet_list.$sheet_index} (missing sheet?) ");
+
+			if $add_sheet_field is not null begin
+				$record.$add_sheet_field = $use_sheet_list.$sheet_index;
+				end
+
+			// Populate record with specific fields
+			if $file_cell_map is not null begin
+				for all properties $field in $file_cell_map begin
+					if $file_cell_map.$field has not property "row" $record.$field = xl_cell($file_cell_map.$field);
+					if $file_cell_map.$field has property "row" $record.$field = xl_cell($file_cell_map.$field.row,$file_cell_map.$field.column);
+					end
+				end
+
+			if $p.Method is "CELLS" begin
+				console("Using method CELLS");
+				issue_monitor("Using method CELLS");
+				$row = $first_data_row;
+				$on_rows = true;
+				$loops = 0;
+				$limits = xl_sheet_limits();
+				while $row is <= $limits.ROWS begin
+					$record = null;
+					for all properties $field in $file_field_map begin
+						$col = $file_field_map.$field;
+						$record.$field = xl_cell("{$col}{$row}");
+						$on_rows = $record.$field;
+						end
+					$p.record = $record;
+					if loader_insert($p) is true $file_lines = $file_lines+1;
+					$row += 1;
+					$loops += 1; 
+					if ($verbose is true) AND ($loops is 5000) issue_monitor("Loads {$file_lines} of {$limits.ROWS}");
+					if $loops is > 5000 $loops = 0;
+					end
+				if $call_finals is not null $call_finals();
+				xl_close($file_to_write);
+				end
+			else if $p.Method is "CELLS_ONLY" begin
+				xl_close();
+				$p.record = $record;
+				if loader_insert($p) is true $file_lines = $file_lines+1;
+				end
+			else begin
+				$a = xl_array($file_field_map);
+				xl_close();
+				if $a is false return return_with_error("{$fn_title} Fails to obtain data array from {$file_to_read}");
+				$rows = count_properties($a); $loops = 0;
+				issue_monitor("Will load {$rows} rows");
+				console("Loading {$rows} rows");
+				for all properties $row in $a begin
+					if ($row is >= $first_data_row) and (($p.file_lines_limit is null) or ($file_lines is lt $p.file_lines_limit)) begin
+						if $file_field_map is not null begin
+							$record = $a.$row;
+							if $add_sheet_field is not null begin
+								$record.$add_sheet_field = $use_sheet_list.$sheet_index;
+								end
+							end
+						else if $header_row is not null begin
+							for all properties $c in $a.$header_row begin
+								if $file_field_lookup is not null begin
+									if $file_field_lookup has property $a.$header_row.$c begin
+										$field = $a.$header_row.$c;
+										$record.$field = $a.$row.$c;
+										end
+									end
+								else begin
+									$field = $a.$header_row.$c;
+									$record.$field = $a.$row.$c;
+									end
+								end
+							end
+						else  for all properties $c in $a.$row begin
+							$record.$c = $a.$row.$c;
+							end
+						// Load Insert the record
+						$p.record = $record;
+						if loader_insert($p) is true $file_lines = $file_lines+1
+						else begin
+							$this_process_ok = false;
+							end
+						$loops += 1; if $loops>100 $loops = 0;
+						if ($verbose is true AND $loops is 100) issue_monitor("Loads {$file_lines} of {$rows}");
+						end
+					end
+				issue_monitor("Loaded all {$file_lines} of {$rows}");
+				end
+			end
+		end
+	if $p.checksum_field is not null check_checksum(close_write_checksum($p.checksum_field, $p.guid), $p.checksum_field, $p.guid, $file_lines, $use_db_table, $file_field_lookup); 
+
+
+// Close destination DB
+mssql_close();
+
+console("Completed load of "+running_process()+" from {$file_to_read} with load of {$file_lines} records");
+if $this_process_ok is true return $file_lines;
+console(last_error());
+set_last_error(null);
+return 0;
+end
+
+
+

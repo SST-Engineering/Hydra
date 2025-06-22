@@ -1,0 +1,9 @@
+<h2>console</h2>
+<i><b>Write top console log</b></i><br/>
+$result = console(<i>string</i>)<br/>
+<i>Return true on success, false on failure</i><br/>
+Write a string to the console log for this profile or process run
+<br/>
+<i>Example</i><br/>
+$ok = console("Error in running my profile")<br/>
+

@@ -1,0 +1,5 @@
+C:\EIB\ALCWCodeRoot\binary\exec_tester\exec_tester\bin\Release\exec_tester.exe
+C:\EIB\ALCWCodeRoot\binary\exec_tester\exec_tester\bin\Release\exec_tester.pdb
+C:\EIB\ALCWCodeRoot\binary\exec_tester\exec_tester\obj\x86\Release\ResolveAssemblyReference.cache
+C:\EIB\ALCWCodeRoot\binary\exec_tester\exec_tester\obj\x86\Release\exec_tester.exe
+C:\EIB\ALCWCodeRoot\binary\exec_tester\exec_tester\obj\x86\Release\exec_tester.pdb

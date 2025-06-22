@@ -1,0 +1,9 @@
+<h2>guid</h2>
+<i><b>Generate a unique identifier</b></i><br/>
+$result = guid()<br/>
+<i>Return string on success, false on failure</i><br/>
+Return a unique identifier for use as references
+<br/>
+<i>Example</i><br/>
+$my_id = guid()<br/>
+

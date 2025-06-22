@@ -1,0 +1,60 @@
+// Common Checksum checker
+
+function do_open_checksum($checksum_field, $guid) begin
+   $fn_title = "In function do_open_checksum, ";
+   if $checksum_field is null return false;
+   $ok = open_checksum("{$guid}:{$checksum_field}:");
+   if $ok is not true return return_with_error("{$fn_title} Fails to open checksum ");
+   return true;
+   end
+
+function add_checksum($checksum_field, $record) begin
+   if $checksum_field is null return false;
+   if $record has property $checksum_field begin
+      $chk = trim($record.$checksum_field);
+      append_checksum("{$chk}:");
+      return true;
+      end
+   return false;
+   end
+   
+
+function close_write_checksum($checksum_field, $guid) begin
+   $fn_title = "In function close_write_checksum, ";
+   if $checksum_field is null return 0;
+   $checksum = close_checksum();
+   console("Checksum for run {$guid} is {$checksum}");
+   $ok = write_checksum($guid);
+   if $ok is not true return return_with_error("{$fn_title} Fails to write checksum to checksum table ");
+   return $checksum;
+   end
+
+function check_checksum($checksum, $checksum_field, $guid, $file_lines, $use_db_table, $file_field_lookup) begin
+   $fn_title = "In function check_checksum, ";
+   if $checksum_field is null return true;
+
+   // Now validate Checksum, lookup the checksum field used in the DB
+   $db_checksum_field = $checksum_field;
+   if $file_field_lookup has property $checksum_field $db_checksum_field = $file_field_lookup.$checksum_field;
+   $query = "SELECT {$db_checksum_field} FROM {$use_db_table} WHERE ProcessId='{$guid}' ";
+   $ok = mssql_query($query);
+   if $ok is not true return return_with_error("{$fn_title} Problem reading back updates for checksum validation ");
+   $reading_row = true;
+   $record_count = 0;
+   open_checksum("{$guid}:{$checksum_field}:");
+   while $reading_row is not false begin
+      $reading_row = mssql_fetch_row();
+      if $reading_row is not false begin
+         $chk = trim($reading_row.$db_checksum_field);
+         append_checksum("{$chk}:");
+         $record_count = $record_count+1;
+         end
+      if $record_count is gt $file_lines return return_with_error("{$fn_title} Reading more checksum records than lines loaded: {$file_lines}");
+      end
+   // Close checksum and get value
+   $validate_checksum = close_checksum();
+   console("Compare checksums {$checksum} and {$validate_checksum}");
+   if $checksum is not $validate_checksum return return_with_error("{$fn_title} Fails to validate checksums");
+   if $record_count is not $file_lines return return_with_error("{$fn_title} Mismatch between inserted record count of {$record_count} and lines read of {$file_lines}");
+   return true;
+   end

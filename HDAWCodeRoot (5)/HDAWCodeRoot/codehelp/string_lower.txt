@@ -1,0 +1,8 @@
+<h2>string_lower</h2>
+<i><b>Return target string all lower case</b></i><br/>
+$result = string_lower(<i>target</i>)<br/>
+<i>Returns result string, null for failure</i><br/>
+<br/>
+<i>Example</i><br/>
+$hello = string_lower("Hello");<br/>
+

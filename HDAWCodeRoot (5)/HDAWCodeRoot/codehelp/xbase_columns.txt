@@ -1,0 +1,18 @@
+<h2>xbase_columns</h2>
+<i><b>Get column details from an xbase file</b></i><br/>
+Given an dbf (foxpro) file, get column details <br/>
+<i>$columns = xbase_columns("dbf_file")</i><br/>
+Return is a compound structure with column details on success, false on failure. The filename is a path or just filename if already in profile working directory
+<br/>
+<i>Example</i><br/>
+<pre>
+$columns = xbase_columns("groups.dbf");
+console($columns);
+Gives, on success:
+$columns.1.name => AMOUNT
+$columns.1.type => N
+$columns.1.length => 12
+$columns.2.name ... etc
+</pre>
+<br/>
+

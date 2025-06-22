@@ -1,0 +1,10 @@
+<h2>odbc_close</h2>
+<i><b>Close connection to ODBC DB</b></i><br/>
+$result = odbc_close()<br/>
+<i>Returns false on failure, array of fields, true on success, assumes connection opened by odbc_connect </i><br/>
+<br/>
+<i>Example</i><br/>
+$ok = odbc_close();<br/>
+
+
+

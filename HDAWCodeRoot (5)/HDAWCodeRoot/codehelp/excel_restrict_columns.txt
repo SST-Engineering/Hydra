@@ -1,0 +1,8 @@
+<h2>excel_restrict_columns</h2>
+<i><b>Restrict the load to these columns only</b></i><br/>
+$result = excel_restrict_columns(<i>start_column</i>, <i>end_column</i>)<br/>
+<i>Returns false on failure, true on success</i><br/>
+Only load data from these columns<br/>
+<i>Example</i><br/>
+$result = excel_restrict_columns("A", "P");<br/>
+

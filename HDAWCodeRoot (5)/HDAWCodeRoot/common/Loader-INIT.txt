@@ -1,0 +1,29 @@
+ // Common Loader initialization
+COMMON "MS-SQL.txt";
+
+
+function loader_init($use_db_connect, $use_db_table, $file_to_read, $na_p1, $na_p2) begin
+   $fn_title = "In function loader_init, ";
+
+   if $use_db_connect is null return return_with_error("{$fn_title} Running a loader without a valid DB connect");
+   if $use_db_table is null return return_with_error("{$fn_title} Running a loader without specifying destination table");
+   if $file_to_read is null return return_with_error("{$fn_title} Running a loader without specifying an input file");
+   $ok = mssql_connect($use_db_connect);
+   if $ok is not true return return_with_error("{$fn_title} Failed to open the destination DB for a loader ");
+   if file_exists($file_to_read)is false return return_with_error("{$fn_title} requested file to read {$file_to_read} does not exist or not found");
+   $s = file_get_contents($file_to_read);
+   if $s is false return return_with_error("{$fn_title} Fails get contents of {$file_to_read}, empty file?");
+   issue_audit("Load Init", $file_to_read, $use_db_table);
+   return $s;
+   end
+function loader_check($use_db_connect, $use_db_table, $file_to_read) begin
+   $fn_title = "In function loader_check, ";
+
+   if $use_db_connect is null return return_with_error("{$fn_title} Running a loader without a valid DB connect");
+   if $use_db_table is null return return_with_error("{$fn_title} Running a loader without specifying destination table");
+   if $file_to_read is null return return_with_error("{$fn_title} Running a loader without specifying an input file");
+   $ok = mssql_connect($use_db_connect);
+   if $ok is not true return return_with_error("{$fn_title} Failed to open the destination DB for a loader ");
+   if file_exists($file_to_read)is false return return_with_error("{$fn_title} requested file to read {$file_to_read} does not exist or not found");
+   return true;
+   end

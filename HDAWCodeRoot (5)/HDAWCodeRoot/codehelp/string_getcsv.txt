@@ -1,0 +1,25 @@
+<h2>string_getcsv</h2>
+<i><b>Parse a string and return a structure of csv elements</b></i><br/>
+$result = string_getcsv(<i>string</i>)<br/>
+$result = string_getcsv(<i>string</i>,<i>delimiter</i>)<br/>
+$result = string_getcsv(<i>string</i>,<i>delimiter</i>,<i>enclosure</i>)<br/>
+$result = string_getcsv(<i>string</i>,<i>delimiter</i>,<i>enclosure</i>,<i>escape</i>)<br/>
+<i>Return structure on success, false on failure</i><br/>
+Parse the string and return an array of elements as if the string is a csv line
+<br/>
+<i>Examples</i><br/>
+$s = "a,b,c";<br>
+$a = string_getcsv($s)<br/>
+// $a.0 will be a
+// $a.1 will be b
+// $a.2 will be c
+<br>
+$s = "a;b;c";<br>
+string_getcsv($s, ";")<br/>
+<br>
+$s = "'a';'b';'c'";<br>
+string_getcsv($s, ";", "'")<br/>
+<br>
+$s = "'a';'\n';'c'";<br>
+string_getcsv($s, ";", "'","\\")<br/>
+

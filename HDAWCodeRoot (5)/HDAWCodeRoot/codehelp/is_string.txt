@@ -1,0 +1,11 @@
+<h2>is_string</h2>
+<i><b>Test if parameter is a string</b></i><br/>
+$result = is_string(<i>target</i>)<br/>
+<i>Returns true if target is a string or false</i><br/>
+<br/>
+<i>Example</i><br/>
+$a = "Hello World";
+$yes = is_string($a);
+$b = 8;
+$no = is_string($b);
+

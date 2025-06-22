@@ -1,0 +1,12 @@
+<h2>detect_file</h2>
+<i><b>Register a file as data for this profile</b></i><br/>
+$result = detect_file(<i>file_path</i>)<br/>
+<i>Return true on success, false on failure</i><br/>
+When data is obtained not via detect_upload or detect_lookup (for example, by unzipping or by in-code creation) this registers that data file with this profile, ensure rollback and audit are correct
+<br/>
+<i>Example</i><br/>
+<pre>
+$a = detect_file("C:\ALCW_TEMP\my_data.csv");
+
+</pre>
+

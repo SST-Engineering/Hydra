@@ -1,0 +1,6 @@
+$exp = "12.9" + "6.1";
+dump($exp);
+$v = "12109.1678";
+$num = value_adjust($v, "FORMAT_NUMBER#,1.#");
+dump($num);
+exit true;

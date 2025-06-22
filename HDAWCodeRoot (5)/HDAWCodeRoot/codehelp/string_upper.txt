@@ -1,0 +1,8 @@
+<h2>string_upper</h2>
+<i><b>Return target string all upper case</b></i><br/>
+$result = string_upper(<i>target</i>)<br/>
+<i>Returns result string, null for failure</i><br/>
+<br/>
+<i>Example</i><br/>
+$HELLO = string_upper("Hello");<br/>
+

@@ -1,0 +1,8 @@
+<h2>working_dir</h2>
+<i><b>Get the working directory for this profile or process</b></i><br/>
+$result = working_dir()<br/>
+<i>Returns the local path of this profile or process working directory </i><br/>
+<br/>
+<i>Example</i><br/>
+$a = working_dir();
+

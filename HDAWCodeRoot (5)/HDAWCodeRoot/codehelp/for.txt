@@ -1,0 +1,10 @@
+<h3>for</h3>
+<i><b>FOR Keyword, Statement</b></i><br/>
+For loop
+As in example:<br/>
+<i>Example</i><br/>
+<b>for</b> all properties $index in $array console("{$array.$index}");
+
+
+
+

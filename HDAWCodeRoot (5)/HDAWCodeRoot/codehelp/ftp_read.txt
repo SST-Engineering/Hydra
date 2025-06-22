@@ -1,0 +1,10 @@
+<h2>ftp_read</h2>
+<i><b>Make a connection to an FTP server and copy a remote file to a local file</b></i><br/>
+$result = ftp_read(<i>local_filename</i>, <i>dictionary_name</i>)&nbsp;..or..<br/>
+$result = ftp_read(<i>local_filename</i>, <i>url</i>, <i>remote_dir</i>, <i>remote_file</i>, <i>username</i>, <i>password</i>)<br/>
+<i>Returns false on failure, true on sucess</i><br/>
+<i>Example</i><br/>
+$ok = ftp_read("myfile", "my_ftp_site");<br/>
+$ok = ftp_read("myfile", "vhosts.mysite", "www/alcw", "my_remote_file", "username", "pw");<br/>
+
+

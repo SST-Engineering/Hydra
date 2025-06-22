@@ -1,0 +1,10 @@
+<h2>mdx_output</h2>
+<i><b>Return the stdout and stderr streams after an mdx_query call</b></i><br/>
+$result = mdx_output()<br/>
+<i>Returns the strings of stdout and stderr after mdx_query, false otherwise</i>
+<i>Example</i><br/>
+<pre>
+$result = mdx_query("ALC_OLAP", "SELECT {[Store]} ON COLUMNS, {[Account]} ON ROWS FROM [Budget]");
+console(mdx_output());
+</pre>
+

@@ -1,0 +1,8 @@
+<h2>close_checksum</h2>
+<i><b>Return the 32bit integer checksum</b></i><br/>
+$result = close_checksum()<br/>
+<i>Returns checksum integer value </i><br/>
+<br/>
+<i>Example</i><br/>
+$crc32 = close_checksum();
+

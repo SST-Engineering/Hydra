@@ -1,0 +1,15 @@
+<h2>detect_lookup</h2>
+<i><b>Returns a filename and path structure after using a lookup</b></i><br/>
+$detected = detect_lookup('FTP_File');<br/>
+<i>Returns a structure if it detects a valid data file using the dictionary lookup connection </i><br/>
+<br/>
+<i>Example</i><br/>
+
+$detected = detect_lookup('FTP_File');<br/>
+if $detected is false console("No input file on FTP_File");<br/>
+else begin <br/>
+   console("Found input file on FTP_File connection");<br/>
+   $filename = $detected.FileName;<br/>
+   $file_path = $detected.FilePath;<br/>
+   end<br/>
+See also detect_upload<br/>

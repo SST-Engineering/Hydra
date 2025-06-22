@@ -1,0 +1,10 @@
+<h2>last_error</h2>
+<i><b>Returns last error string</b></i><br/>
+$result = last_error()<br/>
+<i>Returns the last error from any library call, but also see sql_last_error()</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+</pre>
+<br/>
+

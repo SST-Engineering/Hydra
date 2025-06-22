@@ -1,0 +1,27 @@
+div.alce-div-view {
+   }
+   
+div.alce-main-view {
+   position:absolute; 
+   left:0px; 
+   right:0px; 
+   top:0px; 
+   bottom:70px; 
+   overflow:auto;
+   }
+
+div.alc-mask, div.alc-masked {
+   border:none;
+   padding:0px;
+   width:100%;
+   }
+input.alce-browse-button {
+   color:white;
+   background-color:blue;
+   cursor:pointer;
+   }
+input.alce-upload-button {
+   color:white;
+   background-color:blue;
+   cursor:pointer;
+   }

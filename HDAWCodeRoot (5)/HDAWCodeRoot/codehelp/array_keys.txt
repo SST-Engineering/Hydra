@@ -1,0 +1,23 @@
+<h2>array_keys</h2>
+<i><b>Get an array list of properties from another array</b></i><br/>
+$result = array_keys(array)<br/>
+$result = array_keys(array, with_value)<br/>
+<i>Returns false on failure, property array on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$a.C1 = 100;
+$a.C2 = 200;
+$ak = array_keys($a);
+for all properties $i in $ak begin
+   console("Key {$i} in a is {$ak.$i}");
+   end
+// Outputs Key 0 in a is C1 ...etc
+$ak = array_keys($a, 200);
+for all properties $i in $ak begin
+   console("Key {$i} in a is {$ak.$i}");
+   end
+// Outputs Key 0 in a is C2
+</pre>
+<br/>
+

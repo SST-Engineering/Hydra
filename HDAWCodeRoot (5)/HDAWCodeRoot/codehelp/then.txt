@@ -1,0 +1,10 @@
+<h3>then</h3>
+<i><b>THEN Keyword</b></i><br/>
+Optional
+As in example:<br/>
+<i>Example</i><br/>
+if $a is false <b>then</b> $b = "false a";
+
+
+
+

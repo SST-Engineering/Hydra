@@ -1,0 +1,9 @@
+<h2>file_write_close</h2>
+<i><b>Close a write file</b></i><br/>
+$result = file_write_close()<br/>
+<i>Return true success, false on failure</i><br/>
+Close a file opened by file_write_open
+<br/>
+<i>Example</i><br/>
+$a = file_write_close();
+

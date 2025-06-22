@@ -1,0 +1,10 @@
+<h2>exec_output</h2>
+<i><b>Get output after an exec call</b></i><br/>
+$result = exec_output()<br/>
+<i>Returns string of stdout and stderr on success, false otherwise</i>
+<i>Example</i><br/>
+<pre>
+$result = exec("dir c:\");
+console(exec_output());
+</pre>
+

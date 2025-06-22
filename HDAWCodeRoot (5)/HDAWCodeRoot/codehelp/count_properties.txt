@@ -1,0 +1,15 @@
+<h2>count_properties</h2>
+<i><b>Return number of properties in array</b></i><br/>
+$result = count_properties(array)<br/>
+<i>Returns false on failure, integer on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$a.C1 = 100;
+$a.C2 = 200;
+$n = count_properties($a);
+console($n);
+// Outputs 2
+</pre>
+<br/>
+

@@ -1,0 +1,8 @@
+<h2>sftp_readfile</h2>
+<i><b>Get file contents from an open sftp connection</b></i><br/>
+$s = sftp("absolute_path");<br/>
+<i>Returns content string, on success, false on fail </i><br/>
+The path is the absolute path off the root of the host.
+<br/>
+<i>Example</i><br/>
+$s = sftp_readfile("mypath/myfile.txt"); <br/>

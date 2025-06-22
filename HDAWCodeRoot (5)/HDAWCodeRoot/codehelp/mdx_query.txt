@@ -1,0 +1,10 @@
+<h2>mdx_query</h2>
+<i><b>Run an olap query to analysis services</b></i><br/>
+$result = mdx_query(connection_string | connection_id, mdx_query)<br/>
+<i>Returns the structured result on success, false otherwise</i>
+<i>Example</i><br/>
+<pre>
+$result = mdx_query("ALC_OLAP", "SELECT {[Store]} ON COLUMNS, {[Account]} ON ROWS FROM [Budget]");
+dump($result);
+</pre>
+

@@ -1,0 +1,21 @@
+<h2>copy_table</h2>
+<i><b>Executes a query to a target DB</b></i><br/>
+$result = query_table(param_properties)<br/>
+<i>Returns false on failure, true on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$src_db = "ICE_DWH";
+$src_query = "SELECT * FROM {$src_db_table}";
+// Set up for the copy table
+$query_table.src_conn = $src_db;
+$query_table.src_query = $src_query;
+$query_table.verbose = false;
+// Do copy
+$ok = query_table($query_table);
+if $ok is false console("Table Copy fails "+sql_last_error());
+console("Finished Query Table");
+exit;
+</pre>
+<br/>
+

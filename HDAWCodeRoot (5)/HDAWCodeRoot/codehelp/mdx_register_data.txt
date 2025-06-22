@@ -1,0 +1,10 @@
+<h2>mdx_register_data</h2>
+<i><b>Register the result csv file after mdx_query</b></i><br/>
+$result = mdx_register_data()<br/>
+<i>Moves the output csv file after mdx_query to FilesToProcess and registers same in ALCW DB returns true on success, false otherwise</i>
+<i>Example</i><br/>
+<pre>
+$result = mdx_query("ALC_OLAP", "SELECT {[Store]} ON COLUMNS, {[Account]} ON ROWS FROM [Budget]");
+if $result is not false mdx_register_data();
+</pre>
+

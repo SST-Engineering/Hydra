@@ -1,0 +1,9 @@
+<h2>odbc_row_count</h2>
+<i><b>Ask for number of rows affected by last query to ODBC Server</b></i><br/>
+$result = odbc_row_count()<br/>
+<i>Returns false on failure, number of rows on success, assumes connection opened by odbc_connect and valid previous odbc_query</i><br/>
+<br/>
+<i>Example</i><br/>
+$my_rows = odbc_row_count();<br/>
+
+

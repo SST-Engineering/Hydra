@@ -1,0 +1,11 @@
+<h2>path_info</h2>
+<i><b>Get details about a file</b></i><br/>
+$result = path_info(file_path)<br/>
+<i>Returns the structured array of file details on success, false otherwise</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$a = path_info($file_to_read);
+dump($a);
+</pre>
+

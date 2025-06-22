@@ -1,0 +1,190 @@
+  <TABLE class=alc-table>
+    <CAPTION><STRONG>The following characters are recognized in the
+    <EM><i>format</CODE></i></STRONG></CAPTION>
+    <THEAD>
+    <TR>
+      <TH><EM><CODE>format</CODE></EM> character</TH>
+      <TH>Description</TH>
+      <TH>Example returned values</TH></TR></THEAD>
+    <TBODY class=3D"tbody">
+    <TR>
+      <TD style=3D"text-align: center;"><EM>Day</EM></TD>
+      <TD>---</TD>
+      <TD>---</TD></TR>
+    <TR>
+      <TD><EM>d</EM></TD>
+      <TD>Day of the month, 2 digits with leading zeros</TD>
+      <TD><EM>01</EM> to <EM>31</EM></TD></TR>
+    <TR>
+      <TD><EM>D</EM></TD>
+      <TD>A textual representation of a day, three letters</TD>
+      <TD><EM>Mon</EM> through <EM>Sun</EM></TD></TR>
+    <TR>
+      <TD><EM>j</EM></TD>
+      <TD>Day of the month without leading zeros</TD>
+      <TD><EM>1</EM> to <EM>31</EM></TD></TR>
+    <TR>
+      <TD><EM>l</EM> (lowercase 'L')</TD>
+      <TD>A full textual representation of the day of the week</TD>
+      <TD><EM>Sunday</EM> through <EM>Saturday</EM></TD></TR>
+    <TR>
+      <TD><EM>N</EM></TD>
+      <TD>ISO-8601 numeric representation of the day of the week</TD>
+      <TD><EM>1</EM> (for Monday) through <EM>7</EM> (Sunday)</TD></TR>
+    <TR>
+      <TD><EM>S</EM></TD>
+      <TD>English ordinal suffix for the day of the month, 2 characters</TD>
+      <TD><EM>st</EM>, <EM>nd</EM>, <EM>rd</EM> or <EM>th</EM> Works well with <EM>j</EM></TD></TR>
+    <TR>
+      <TD><EM>w</EM></TD>
+      <TD>Numeric representation of the day of the week</TD>
+      <TD><EM>0</EM> (for Sunday) through <EM>6</EM> (for Saturday)</TD></TR>
+    <TR>
+      <TD><EM>z</EM></TD>
+      <TD>The day of the year (starting from 0)</TD>
+      <TD><EM>0</EM> through <EM>365</EM></TD></TR>
+    <TR>
+      <TD class="head" style="text-align: center;"><EM>Week</EM></TD>
+      <TD>---</TD>
+      <TD>---</TD></TR>
+    <TR>
+      <TD><EM>W</EM></TD>
+      <TD>ISO-8601 week number of year, weeks starting on Monday</TD>
+      <TD>Example: <EM>42</EM> (the 42nd week in the year)</TD></TR>
+    <TR>
+      <TD class="head" style="text-align: center;"><EM>Month</EM></TD>
+      <TD>---</TD>
+      <TD>---</TD></TR>
+    <TR>
+      <TD><EM>F</EM></TD>
+      <TD>A full textual representation of a month, such as January or March</TD>
+      <TD><EM>January</EM> through <EM>December</EM></TD></TR>
+    <TR>
+      <TD><EM>m</EM></TD>
+      <TD>Numeric representation of a month, with leading zeros</TD>
+      <TD><EM>01</EM> through <EM>12</EM></TD></TR>
+    <TR>
+      <TD><EM>M</EM></TD>
+      <TD>A short textual representation of a month, three letters</TD>
+      <TD><EM>Jan</EM> through <EM>Dec</EM></TD></TR>
+    <TR>
+      <TD><EM>n</EM></TD>
+      <TD>Numeric representation of a month, without leading zeros</TD>
+      <TD><EM>1</EM> through <EM>12</EM></TD></TR>
+    <TR>
+      <TD><EM>t</EM></TD>
+      <TD>Number of days in the given month</TD>
+      <TD><EM>28</EM> through <EM>31</EM></TD></TR>
+    <TR>
+      <TD class="head" style="text-align: center;"><EM>Year</EM></TD>
+      <TD>---</TD>
+      <TD>---</TD></TR>
+    <TR>
+      <TD><EM>L</EM></TD>
+      <TD>Whether it's a leap year</TD>
+      <TD><EM>1</EM> if it is a leap year, <EM>0</EM> =
+otherwise.</TD></TR>
+    <TR>
+      <TD><EM>o</EM></TD>
+      <TD>ISO-8601 year number. This has the same value as <EM>Y</EM>, except that if the ISO week number (<EM>W</EM>)
+        belongs to the previous or next year, that year is used 
+        instead. </TD>
+      <TD>Examples: <EM>1999</EM> or <EM>2003</EM></TD></TR>
+    <TR>
+      <TD><EM>Y</EM></TD>
+      <TD>A full numeric representation of a year, 4 digits</TD>
+      <TD>Examples: <EM>1999</EM> or <EM>2003</EM></TD></TR>
+    <TR>
+      <TD><EM>y</EM></TD>
+      <TD>A two digit representation of a year</TD>
+      <TD>Examples: <EM>99</EM> or <EM>03</EM></TD></TR>
+    <TR>
+      <TD class="head" style="text-align: center;"><EM>Time</EM></TD>
+      <TD>---</TD>
+      <TD>---</TD></TR>
+    <TR>
+      <TD><EM>a</EM></TD>
+      <TD>Lowercase Ante meridiem and Post meridiem</TD>
+      <TD><EM>am</EM> or <EM>pm</EM></TD></TR>
+    <TR>
+      <TD><EM>A</EM></TD>
+      <TD>Uppercase Ante meridiem and Post meridiem</TD>
+      <TD><EM>AM</EM> or <EM>PM</EM></TD></TR>
+    <TR>
+      <TD><EM>B</EM></TD>
+      <TD>Swatch Internet time</TD>
+      <TD><EM>000</EM> through <EM>999</EM></TD></TR>
+    <TR>
+      <TD><EM>g</EM></TD>
+      <TD>12-hour format of an hour without leading zeros</TD>
+      <TD><EM>1</EM> through <EM>12</EM></TD></TR>
+    <TR>
+      <TD><EM>G</EM></TD>
+      <TD>24-hour format of an hour without leading zeros</TD>
+      <TD><EM>0</EM> through <EM>23</EM></TD></TR>
+    <TR>
+      <TD><EM>h</EM></TD>
+      <TD>12-hour format of an hour with leading zeros</TD>
+      <TD><EM>01</EM> through <EM>12</EM></TD></TR>
+    <TR>
+      <TD><EM>H</EM></TD>
+      <TD>24-hour format of an hour with leading zeros</TD>
+      <TD><EM>00</EM> through <EM>23</EM></TD></TR>
+    <TR>
+      <TD><EM>i</EM></TD>
+      <TD>Minutes with leading zeros</TD>
+      <TD><EM>00</EM> to <EM>59</EM></TD></TR>
+    <TR>
+      <TD><EM>s</EM></TD>
+      <TD>Seconds, with leading zeros</TD>
+      <TD><EM>00</EM> through <EM>59</EM></TD></TR>
+    <TR>
+      <TD><EM>u</EM></TD>
+      <TD>Microseconds (added in PHP 5.2.2)</TD>
+      <TD>Example: <EM>654321</EM></TD></TR>
+    <TR>
+      <TD class="head" style="text-align: center;"><EM>Timezone</EM></TD>
+      <TD>---</TD>
+      <TD>---</TD></TR>
+    <TR>
+      <TD><EM>e</EM></TD>
+      <TD>Timezone identifier </TD>
+      <TD>Examples: <EM>UTC</EM>, <EM>GMT</EM>, <EM>Atlantic/Azores</EM></TD></TR>
+    <TR>
+      <TD><EM>I</EM> (capital i)</TD>
+      <TD>Whether or not the date is in daylight saving time</TD>
+      <TD><EM>1</EM> if Daylight Saving Time, <EM>0</EM> otherwise.</TD></TR>
+    <TR>
+      <TD><EM>O</EM></TD>
+      <TD>Difference to Greenwich time (GMT) in hours</TD>
+      <TD>Example: <EM>+0200</EM></TD></TR>
+    <TR>
+      <TD><EM>P</EM></TD>
+      <TD>Difference to Greenwich time (GMT) with colon between hours and
+        minutes </TD>
+      <TD>Example: <EM>+02:00</EM></TD></TR>
+    <TR>
+      <TD><EM>T</EM></TD>
+      <TD>Timezone abbreviation</TD>
+      <TD>Examples: <EM>EST</EM>, <EM>MDT</EM> ...</TD></TR>
+    <TR>
+      <TD><EM>Z</EM></TD>
+      <TD>Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always
+      positive.</TD>
+      <TD><EM>-43200</EM> through <EM>50400</EM></TD></TR>
+    <TR>
+      <TD class="head" style="text-align: center;"><EM class=3D"emphasis">Full Date/Time</EM></TD>
+      <TD>---</TD>
+      <TD>---</TD></TR>
+    <TR>
+      <TD><EM>c</EM></TD>
+      <TD>ISO 8601 date (added in PHP 5)</TD>
+      <TD>2004-02-12T15:19:21+00:00</TD></TR>
+    <TR>
+      <TD><EM>r</EM></TD>
+      <TD>rfc2822 formatted date</TD>
+      <TD>Example: <EM>Thu, 21 Dec 2000 16:01:07 +0200</EM></TD></TR>
+    <TR>
+      <TD><EM>U</EM></TD>
+      <TD>Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)</TD>
+</TR></TBODY></TABLE>

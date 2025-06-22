@@ -1,0 +1,15 @@
+<h2>keep_alive</h2>
+<i><b>Resets the ALCW timeout (usually 300 secs)</b></i><br/>
+keep_alive()<br/>
+keep_alive(0)<br/>
+<i>Resets the ALCW timeout, used in ALCODE loops that in total may exceed default timeout </i><br/>
+Use of the optional parameter value zero says, keep alive always (no timeout), use with care<br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+for all properties $i in $a begin
+   keep_alive(); // reset timeout for each pass through a
+   // do a lot of work
+   end
+
+</pre>

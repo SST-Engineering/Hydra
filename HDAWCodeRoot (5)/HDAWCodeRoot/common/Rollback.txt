@@ -1,0 +1,34 @@
+/* These common functions and  in-line code deal with rollback, retries and resetting DWH after reloads or
+   handling duplicate data loads
+*/
+
+function rollback_check() begin
+   $fn_title = "In function rollback_check, ";
+
+   if is_rollback() is true begin
+      if rollback_handler exists begin
+         $ok = rollback_handler();
+         if $ok is not true return return_with_error("{$fn_title} Profile had custom rollback function, which failed");
+         end
+      else begin
+         return return_with_error("{$fn_title} This run is a ALCW rollback request which is not suitable for this profile");
+         end
+      end
+   return true;
+   end
+
+
+function retry_check() begin
+   $fn_title = "In function retry_check, ";
+   if is_retry()is true begin
+      if retry_handler exists begin
+         $ok = retry_handler();
+         if $ok is not true return return_with_error("{$fn_title} Profile had a custom retry function, which failed");
+         end
+      else begin
+         return return_with_error("{$fn_title} This run is a ALCW retry request which is not suitable for this profile");
+         end
+      end
+   return true;
+   end
+

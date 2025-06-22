@@ -1,0 +1,13 @@
+<h2>running_process_owner</h2>
+<i><b>Get the owner details of the running profile</b></i><br/>
+$result = running_process_owner()<br/>
+<i>Return structure on success, false on failure</i><br/>
+Structure is <br>
+$result.Owner // Full name of owner<br>
+$result.Email // Email of owner<br>
+
+<br/>
+<i>Example</i><br/>
+$this_proc_owner = running_process_owner()<br/>
+email_this($this_proc_owner.Email, "Hello", "Hello {$this_proc_owner.Owner}");<br/>
+

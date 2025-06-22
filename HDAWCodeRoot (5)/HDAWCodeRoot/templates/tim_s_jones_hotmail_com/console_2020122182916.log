@@ -1,0 +1,5 @@
+Request to execute process ref Snippet_2020-12-21-8-26 at 2020-12-21 8:29:16
+Fails to compile in C:\Gentia\HDAWCodeRoot/templates/tim_s_jones_hotmail_com/
+Syntax error near .."10 ; | $b = 10 ; | IF $a <> $b console ( ".. Invalid IF statement
+Syntax error near .."10 ; | $b = 10 ; | IF $a <> $b console ( ".. Invalid statement
+Ends with Exit Code FALSE (Failed)

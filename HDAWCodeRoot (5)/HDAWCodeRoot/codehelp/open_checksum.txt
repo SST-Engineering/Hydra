@@ -1,0 +1,11 @@
+<h2>open_checksum</h2>
+<i><b>Begin to accumulate a checksum</b></i><br/>
+$result = open_checksum()&nbsp;..or..<br/>
+$result = open_checksum(<i>target</i>)<br/>
+<i>Returns true </i><br/>
+With a target, checksum is initialized with this string
+<br/>
+<i>Example</i><br/>
+open_checksum();
+open_checksum("Hello World");
+

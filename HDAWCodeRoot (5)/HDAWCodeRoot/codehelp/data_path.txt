@@ -1,0 +1,9 @@
+<h2>data_path</h2>
+<i><b>Data for this profile</b></i><br/>
+$result = data_path()<br/>
+<i>Return string on success, false on failure</i><br/>
+The filename of the data for this profile run
+<br/>
+<i>Example</i><br/>
+$process_this_file = data_path()<br/>
+

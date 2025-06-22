@@ -1,0 +1,9 @@
+<h2>string_to_time</h2>
+<i><b>Parse a date time string</b></i><br/>
+$result = string_to_time(<i>string</i>)<br/>
+<i>Return integer of unix time on success, false on failure</i><br/>
+Parse the given time date string to a unix value
+<br/>
+<i>Example</i><br/>
+string_to_time("2012-01-12 17:03")<br/>
+

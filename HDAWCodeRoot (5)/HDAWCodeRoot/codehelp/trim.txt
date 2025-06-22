@@ -1,0 +1,10 @@
+<h2>trim</h2>
+<i><b>Removes whitespace or other characters start of and end of target string</b></i><br/>
+$result = trim(<i>target_string</i>)&nbsp;..or..<br/>
+$result = trim(<i>target_string</i>, <i>characters_to_trim</i>)<br/>
+<i>Returns the resulting string, false for failure</i><br/>
+<br/>
+<i>Example</i><br/>
+$a = trim("   Hello World   "); // returns just Hello World<br/>
+$a = trim("hello,.", ".,"); // returns just hello <br/>
+

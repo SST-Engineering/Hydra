@@ -1,0 +1,10 @@
+// Snippet to convert a number form, see snippet Extract Number for similar to get amount,
+// This is showing a system function call, but could also be done in the process record form of:
+// $file_field_process.Amount = "CURRENCY_SYMBOL";
+$amount = "€1.000,50";
+$value = value_adjust($amount, "EURO_TO_EN_NUMBER");
+console("Obtained en-us amount from {$amount} giving {$value}");
+// You can then make that a number as well, by this, see snippet Extract Number
+$value = value_adjust($value, "NUMBER");
+console("Obtained value amount from {$amount} giving {$value}");
+exit true;

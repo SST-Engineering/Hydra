@@ -1,0 +1,19 @@
+<h2>array_to_csv</h2>
+<i><b>Form a csv string from an array</b></i><br/>
+$result = array_to_csv(array)<br/>
+$result = array_to_csv(array, include_keys)<br/>
+<i>Returns false on failure, csv string on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$a.C1 = 100;
+$a.C2 = 200;
+$s = array_to_csv($a);
+console($s);
+// Outputs 100,200
+$s = array_to_csv($a, true);
+console($s);
+// Outputs C1 100,C2 200
+</pre>
+<br/>
+

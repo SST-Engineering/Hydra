@@ -1,0 +1,40 @@
+$record.name = "my name"; $record.value = "a value";
+$name = $record.name;
+$v = $record.value;
+$q = literal {
+   VALUES('$name','$v'
+   };
+exit true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

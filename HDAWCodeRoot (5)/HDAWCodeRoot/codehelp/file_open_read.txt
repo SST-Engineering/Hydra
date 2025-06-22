@@ -1,0 +1,9 @@
+<h2>file_open_read</h2>
+<i><b>Open a file for reading</b></i><br/>
+$result = file_open_read(<i>file_name</i>)<br/>
+<i>Return true sucess, false on not exists or failure</i><br/>
+Open a file in the working directory to be read
+<br/>
+<i>Example</i><br/>
+$a = file_open_read("my_data.csv");
+

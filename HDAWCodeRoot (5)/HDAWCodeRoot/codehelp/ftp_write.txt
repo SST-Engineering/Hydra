@@ -1,0 +1,10 @@
+<h2>ftp_write</h2>
+<i><b>Make a connection to an FTP server and write a string to a file</b></i><br/>
+$result = ftp_write(<i>string</i>, <i>dictionary_name</i>)&nbsp;..or..<br/>
+$result = ftp_write(<i>string</i>, <i>url</i>, <i>remote_dir</i>, <i>remote_file</i>, <i>username</i>, <i>password</i>)<br/>
+<i>Returns false on failure, true on sucess</i><br/>
+<i>Example</i><br/>
+$ok = ftp_write(file_get_contents("myfile"), "my_ftp_site");<br/>
+$ok = ftp_write(file_get_contents("myfile"), "vhosts.mysite", "www/alcw", "myfile", "username", "pw");<br/>
+
+

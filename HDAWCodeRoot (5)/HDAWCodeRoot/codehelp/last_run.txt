@@ -1,0 +1,19 @@
+<h2>last_run</h2>
+<i><b>Returns the date time string of last run</b></i><br/>
+$result = last_run()<br/>
+$result = last_run('Profile_Title')<br/>
+<i>Returns the last run date of the calling or specified profile, false on failure, null if not run yet </i><br/>
+<br/>
+<i>Example</i><br/>
+
+$my_last = last_run();<br/>
+if $my_last is false console("Fails to get a last run date for this profile");<br/>
+else if $my_last is null console("This profile has not run yet");<br/>
+else console("My last run was at {$my_last}");<br/>
+
+<br/>
+You can use days_ago() or hours_ago() to check for late runs, example<br/>
+$your_last = last_run('ETL_Barclays_CSV');<br/>
+$ago = hours_ago($your_last);<br/>
+if $ago is > 3 console("Warning Barclays load is more than 3 hours late");<br/>
+

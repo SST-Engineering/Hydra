@@ -1,0 +1,12 @@
+<h2>default</h2>
+<i><b>DEFAULT Keyword</b></i><br/>
+Conditionally set a value to a variable<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+$myval DEFAULT "Initial";
+// if $myval has no value set then initialize with the string "Initial"
+
+
+
+

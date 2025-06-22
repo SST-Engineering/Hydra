@@ -1,0 +1,10 @@
+<h2>exec_last_error</h2>
+<i><b>Get last error after an exec call</b></i><br/>
+$result = exec_last_error()<br/>
+<i>Returns the error string after an exec call, false otherwise</i>
+<i>Example</i><br/>
+<pre>
+$result = exec("dir c:\");
+if $result is false console("Ends with error "+exec_last_error());
+</pre>
+

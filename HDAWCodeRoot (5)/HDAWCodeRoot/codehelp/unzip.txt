@@ -1,0 +1,19 @@
+<h2>unzip</h2>
+<i><b>UNZIP a file</b></i><br/>
+$result = unzip(<i>file_path</i>[, form_name_with_directory_info(true|false)])<br/>
+<i>Return structured array of unzipped package on success, false on failure</i><br/>
+Unzip file path to a package, if the zip package contains directories then package is unzipped flat, to maintain some directory info parameter 1 can be
+true (the default is false), then the filename will be formed from directory info and the original file name, see example, also the
+structured return will contain the property DirName.
+<br/>
+<i>Example</i><br/>
+<pre>
+$a = unzip("C:\ALCW_TEMP\my_pack.zip");
+dump($a);
+$a = unzip("C:\ALCW_TEMP\my_pack.zip", true);
+dump($a);
+// $a.0.Filename = "ASH_BAT2SEND.dbf";
+// $a.0.DirName = "ASH";
+// Where original is in ASH/BAT2SEND.dbf
+</pre>
+

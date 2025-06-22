@@ -1,0 +1,6 @@
+// Snippet to extract number, this is showing a system function call, but could also be done in the process record form of:
+// $file_field_process.Amount = "NUMBER";
+$amount = "£10.50";
+$value = value_adjust($amount, "NUMBER");
+console("Adjusted input from {$amount} to {$value}");
+exit true;

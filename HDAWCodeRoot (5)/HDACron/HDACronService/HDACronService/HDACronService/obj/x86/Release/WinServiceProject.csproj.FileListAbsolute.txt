@@ -1,0 +1,6 @@
+C:\ExcelInBusiness\ALCW\ALCWCron\WinServiceProject\WinServiceProject\WinServiceProject\bin\Release\WinServiceProject.exe.config
+C:\ExcelInBusiness\ALCW\ALCWCron\WinServiceProject\WinServiceProject\WinServiceProject\bin\Release\WinServiceProject.exe
+C:\ExcelInBusiness\ALCW\ALCWCron\WinServiceProject\WinServiceProject\WinServiceProject\bin\Release\WinServiceProject.pdb
+C:\ExcelInBusiness\ALCW\ALCWCron\WinServiceProject\WinServiceProject\WinServiceProject\obj\x86\Release\ResolveAssemblyReference.cache
+C:\ExcelInBusiness\ALCW\ALCWCron\WinServiceProject\WinServiceProject\WinServiceProject\obj\x86\Release\WinServiceProject.exe
+C:\ExcelInBusiness\ALCW\ALCWCron\WinServiceProject\WinServiceProject\WinServiceProject\obj\x86\Release\WinServiceProject.pdb

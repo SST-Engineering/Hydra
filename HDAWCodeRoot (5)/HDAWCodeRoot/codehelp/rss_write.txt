@@ -1,0 +1,7 @@
+<h2>rss_write</h2>
+<i><b>Make a connection to an RSS server and issue an item</b></i><br/>
+$result = rss_write(<i>subject</i>, <i>subject_text</i>)<br/>
+<i>Returns false on failure, true on success</i><br/>
+<i>Example</i><br/>
+$result = rss_write("Cube Builds", "The latest cubes are ready for inspection");<br/>
+

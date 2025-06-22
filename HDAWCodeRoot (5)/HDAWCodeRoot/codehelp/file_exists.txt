@@ -1,0 +1,9 @@
+<h2>file_exists</h2>
+<i><b>Test for file exists</b></i><br/>
+$result = file_exists(<i>file_name</i>)<br/>
+<i>Return true if file exists, false on not exists or failure</i><br/>
+Test a file exists in the working directory
+<br/>
+<i>Example</i><br/>
+$a = file_exists("my_data.csv");
+

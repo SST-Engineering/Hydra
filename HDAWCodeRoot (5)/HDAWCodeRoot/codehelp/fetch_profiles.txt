@@ -1,0 +1,9 @@
+<h2>fetch_profiles</h2>
+<i><b>Dependent Profiles</b></i><br/>
+$result = fetch_profiles(<i>process_name</i>)<br/>
+<i>Return array of profile details, false on failure</i><br/>
+Gets a property array of the profiles that this process depends on
+<br/>
+<i>Example</i><br/>
+$my_profiles = fetch_profiles()<br/>
+

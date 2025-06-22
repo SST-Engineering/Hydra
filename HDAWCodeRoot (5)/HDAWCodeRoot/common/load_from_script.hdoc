@@ -1,0 +1,24 @@
+<h2>load_from_script</h2>
+Function that is passed a structured parameter to 
+<ul><li>Open an mssql connection</li>
+<li>Execute a structured list of t-sql commands</li>
+Return: false on failure, true on success<br>
+
+Call of the form <br><code>
+$success = load_from_script($p);<br>
+if $success is false then console("Fails in load_from_script,"+last_error());<br>
+else console("Success in running script");<br>
+</code>
+<br><br>
+Where $p is this structure:<br><br>
+<table class="alc-help" >
+<tr><th>Property Name</th><th>Can be Null or Missing</th><th>Default value taken if Null or Missing</th><th>Example of setting</th></tr>
+   <tr><td>use_db_connect </td><td>No</td><td> <u><i><b>Must be set to a valid value</b></i></u> </td><td>$p.use_db_connect = "ICE_DWH";</td></tr>
+   <tr><td>use_script</td><td>No</td><td> <u><i><b>Must be set to a valid value</b></i></u> </td><td>$scripts.1 = "USE [MI_CSS]";<br>$scripts.2 = "SELECT ..";<br>$p.use_script = $scripts;</td></tr>
+   <tr><td>verbose</td><td>Yes</td><td>false, otherwise output debug trace code</td><td>$p.verbose = true;</td></tr>
+</table>
+<br>
+Then there are no <b>"callback"</b> functions
+
+
+

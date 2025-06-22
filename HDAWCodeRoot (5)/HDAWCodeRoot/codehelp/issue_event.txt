@@ -1,0 +1,14 @@
+<h2>issue_event</h2>
+<i><b>Register this event with this profile</b></i><br/>
+Record the event code and value for this profile<br/>
+<i>$ok = issue_event(event_code, event_value)<i><br/>
+True on success, false on failure. The event is associated with current date for search and validation purposes, see GET_EVENTS.
+<br/>
+<i>Example</i><br/>
+<pre>
+$CurrCode = 'GBP';
+$ok = issue_event('CURRENCY_LOADED', $CurrCode);
+
+</pre>
+<br/>
+

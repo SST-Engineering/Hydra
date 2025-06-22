@@ -1,0 +1,162 @@
+// Common Loader for XLS where there are multiple sheets to load, and multiple records are picked from rows
+// Type of pivot function
+// This profile loads data from all sheets, unset  any not needed
+COMMON "OnError.txt";
+COMMON "ChecksumCheck.txt";
+COMMON "Loader-INIT.txt";
+COMMON "Loader-INSERT.txt";
+
+function load_from_xls_map($p) begin
+   metatags "load_from_xls_map";
+   $fn_title = "In function load_from_xls_map, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.use_dwh_table = $NOT_NULL;
+   $p.file_to_read = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.truncate_table = true;
+   $p.create_table = false;
+   $p.verbose = false;
+   $p.use_sheet = null;
+   $p.use_sheet_list = null;
+   $p.header_row = null;
+   $p.first_data_row = null;
+   $p.start_column = true;
+   $p.last_column = null;
+   $p.checksum_field = null;
+   $p.guid = null;
+   $p.file_lines_limit = null;
+   $p.xls_exclude = null;
+   $p.xls_include = null;
+   $p.use_file_date = null;
+   */
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_db_table = $p.use_db_table;
+   if $use_db_table is null return return_with_error("{$fn_title} must supply a property use_db_table");
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $file_field_lookup = $p.file_field_lookup;
+   $file_field_lookup default null;
+   $file_add_fields = $p.file_add_fields;
+   $file_add_fields default null;
+   $file_field_process = $p.file_field_process;
+   $file_field_process default null;
+   $file_not_null_fields = $p.file_not_null_fields;
+   $file_not_null_fields default null;
+   $truncate_db_table = $p.truncate_table;
+   $truncate_db_table default true;
+   $create_db_table = $p.create_table;
+   $create_db_table default false;
+   $use_file_date = $p.use_file_date;
+   $use_dwh_table = $p.use_dwh_table;
+   $use_dwh_table DEFAULT $use_db_table;
+   $verbose = $p.verbose;
+   $verbose default false;
+   $use_sheet = $p.use_sheet;
+   $use_sheet_list = $p.use_sheet_list;
+   $use_sheet_pattern = $p.use_sheet_pattern;
+   $xls_exclude = $p.xls_exclude;
+   $xls_include = $p.xls_include;
+
+   $s = loader_init($use_db_connect, $use_db_table, $file_to_read, $truncate_db_table, $create_db_table);
+   if $s is false return false;
+   if $verbose is true console(" {$fn_title} loader init complete for {$file_to_read} using db {$use_db_connect} and table {$use_db_table} ");
+   $s = null; // Not required
+
+   $header_row = $p.header_row;
+   $header_row DEFAULT 1;
+   $first_data_row = $p.first_data_row;
+   $first_data_row DEFAULT 0;
+   $start_column = $p.start_column;
+   $start_column DEFAULT "A";
+   $last_column = $p.last_column;
+   $last_column DEFAULT "Q";
+
+
+   if $use_sheet_list is null begin
+      // Need to get sheets list
+      $did_open = excel_open($file_to_read);
+      if $did_open is not true return return_with_error("{$fn_title} Fails to open xls data file {$file_to_read}");
+      $ok = excel_restrict_columns("A", "B");
+      if $ok is not true return return_with_error("{$fn_title} Fails to restrict columns to A:B");
+      $ok = excel_restrict_rows(1,2);
+      if $ok is not true return return_with_error("{$fn_title} Fails to restrict rows 1 and 2");
+      $did_load = excel_load();
+      if $did_load is not true return return_with_error("{$fn_title} Fails to load xls data file {$file_to_read}");
+
+      $use_sheet_list = excel_get_sheets();
+      excel_close();
+      end
+   if $use_sheet_list_pattern is not null begin
+      for all properties $i in $use_sheet_list begin
+         if preg_match("/{$use_sheet_list_pattern}/i", $use_sheet_list.$i) is false unset $i in $use_sheet_list;
+         end
+      end
+
+   // Open the checksum method
+   do_open_checksum($p.checksum_field, $p.guid);
+
+   $file_lines = 0;
+   for all properties $sheet_index in $use_sheet_list begin
+      if $verbose is true console("{$fn_title} Will load from {$use_sheet_list.$sheet_index}");
+      $did_open = excel_open($file_to_read);
+      if $did_open is not true return return_with_error("{$fn_title} Fails to open xls data file {$file_to_read}");
+      $ok = excel_restrict_sheet($use_sheet_list.$sheet_index);
+      if $ok is not true return return_with_error("{$fn_title} Fails to restrict sheet to {$use_sheet_list.$sheet_index} (missing sheet?) ");
+      if $start_column is not null begin
+         $ok = excel_restrict_columns($start_column, $last_column);
+         if $ok is not true return return_with_error("{$fn_title} Fails to restrict columns to {$first_column}:{$last_column}");
+         end
+      $did_load = excel_load();
+      if $did_load is not true return return_with_error("{$fn_title} Fails to load xls data file {$file_to_read}");
+      $a = excel_array();
+      if $a is null return return_with_error("{$fn_title} Fails to obtain data array from {$file_to_read}");
+      // Fill record with certain cells
+      if $file_field_map is not null begin
+         for all properties $field in $file_field_map begin
+            if $file_field_map.$field has not property "row" $record.$field = excel_cell($file_field_map.$field);
+            if $file_field_map.$field has property "row" $record.$field = excel_cell($file_field_map.$field.row,$file_field_map.$field.column);
+            end
+         end
+      if $verbose is true console("Loading from row {$file_data_start_row}");
+      for all properties $i in $a begin
+         if $i is gt $file_data_start_row begin
+            for all properties $field in $file_data_map begin
+               if $a.$i has property $file_data_map.$field begin
+                  $column = $file_data_map.$field;
+                  $record.$field = $a.$i.$column;
+                  end
+               end
+            $on_col = $file_pivot_col_start;
+            while $on_col is lt $file_pivot_col_end begin 
+               for all properties $field in $file_pivot_fields begin
+                  $r = $file_pivot_fields.$field.row;
+                  if $r is null $r = $i;
+                  $c = $file_pivot_fields.$field.column;
+                  if $c is null $c = $on_col;
+                  $record.$field = excel_cell($r, $c);
+                  end
+               $on_col = $on_col+1;
+
+               // Load Insert the record
+			   $p.record = $record;
+               if loader_insert($p) is true $file_lines = $file_lines+1;
+               end
+            end
+         end
+      excel_close();
+      end
+
+   check_checksum(close_write_checksum($p.checksum_field, $p.guid), $p.checksum_field, $p.guid, $file_lines, $use_db_table, $file_field_lookup); 
+
+   // Close destination DB
+   mssql_close();
+
+   console("Completed load of "+running_process()+" from {$file_to_read} with load of {$file_lines} records");
+   return $file_lines;
+   end

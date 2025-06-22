@@ -1,0 +1,17 @@
+<h2>marker_value</h2>
+<i><b>Write a key-value pair for global access </b></i><br/>
+marker_value(<i>key string</i>,<i>value for key</i>)<br/>
+$read_key_value = marker_value(<i>key string</i>)<br/>
+<i>Read or write a key value pair </i><br/>
+Profile can write some key value, to be later collected by itself or another profile, the maximum length
+for the key is 80 characters, the maximum length for value is 512 characters<br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+// Process file
+marker_value("ATM_59_Start","Started processing "+style_datetime());
+// ... later, or in any other profile
+$my_marker = marker_value("ATM_59_Start");
+if $my_marker is null console("ATM 59 not started yet")
+else console("ATM 59 started {$my_marker)");
+</pre>

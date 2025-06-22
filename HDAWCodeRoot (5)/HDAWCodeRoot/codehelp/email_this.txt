@@ -1,0 +1,9 @@
+<h2>email_this</h2>
+<i><b>Send email</b></i><br/>
+$result = email_this(<i>mail_to</i>, <i>subject</i>, <i>message</i>)<br/>
+<i>Return true on success, false on failure</i><br/>
+Send an email to a user of ALCE
+<br/>
+<i>Example</i><br/>
+$ok = email_this("user@myco.com", "Report", "Completed Monthly Summary")<br/>
+

@@ -1,0 +1,9 @@
+<h2>data_filename</h2>
+<i><b>Data for this profile</b></i><br/>
+$result = data_filename()<br/>
+<i>Return string on success, false on failure</i><br/>
+The ORIGINAL filename of the data for this profile run, not the current filename or path (see data_path)
+<br/>
+<i>Example</i><br/>
+$process_filename = data_filename()<br/>
+

@@ -1,0 +1,7 @@
+<h2>exec</h2>
+<i><b>Run a native executable</b></i><br/>
+$result = exec(<i>command</i>)<br/>
+<i>Returns true on success, false otherwise</i>
+<i>Example</i><br/>
+$result = exec("dir c:\");
+

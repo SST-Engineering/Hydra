@@ -1,0 +1,74 @@
+// Common Loader Insert Record
+
+#insert_lines DEFAULT 0;
+
+function loader_insert($p) begin
+   $record = $p.record;
+   $checksum_field = $p.checksum_field;
+   $use_db_table = $p.use_db_table;
+   $file_field_lookup = $p.file_field_lookup;
+   $file_add_fields = $p.file_add_fields;
+   $file_field_process = $p.file_field_process;
+   $file_not_null_fields = $p.file_not_null_fields;
+   $on_update = $p.on_update;
+   $fn_title = "In function loader_insert, ";
+   #insert_lines = #insert_lines + 1; // Keep count of the lines processed
+   // Make record adjustments
+   if $file_field_process is not null begin
+      for all properties $field in $record begin
+         $db_field_name = $field;
+         if $file_field_lookup has property $field $db_field_name = $file_field_lookup.$field;
+         if $file_field_process has property $db_field_name begin
+            $record.$field = value_adjust($record.$field, $file_field_process.$db_field_name);
+			end
+         end
+      end
+   // Validate record
+   if file_custom_validate exists begin
+      for all properties $field_name in $record begin
+         $db_field_name = $field_name;
+         if $file_field_lookup has property $field_name $db_field_name = $file_field_lookup.$field_name;
+         $record.$field_name = file_custom_validate($db_field_name,$record.$field_name);
+		 end
+      end
+
+   // Check for loading
+   $skip = false;
+   if $file_not_null_fields is not null begin
+      for all properties $field in $file_not_null_fields begin
+         if $record.$field is null begin
+            if $file_not_null_fields.$field is "ABORT" return return_with_error("{$fn_title} Found null field {$field} at row {#insert_lines}");
+            $skip = true;
+            end
+         if string_length($record.$field) is 0 begin
+            if $file_not_null_fields.$field is "ABORT" return return_with_error("{$fn_title} Found empty field {$field} at row {#insert_lines}");
+            $skip = true;
+            end
+         end
+      end
+   if $skip is true return false;
+
+
+   if file_custom_fields exists begin 
+      $record = file_custom_fields($record); 
+      end
+
+   if file_conditional_insert exists begin
+      $do_insert = file_conditional_insert($record);
+      if $do_insert is false return false;
+      if $do_insert is null return true;
+      if is_array($do_insert) is true $record = $do_insert;
+      end
+
+
+
+  $record.ProcessId = $p.guid;
+  /*    $insert_query = make_insert($record, $use_db_table, $file_field_lookup, $file_add_fields);
+   $ok = mssql_query($insert_query);
+   if $ok is not true begin
+		set_last_error("{$fn_title} failed to insert record to destination DB {$insert_query} {$ok} "+last_error());
+		return false;
+		end
+		*/
+   return true;
+   end

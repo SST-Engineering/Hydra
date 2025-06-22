@@ -1,0 +1,110 @@
+// Common XML Loader
+
+COMMON "OnError.txt";
+COMMON "ChecksumCheck.txt";
+COMMON "Loader-INIT.txt";
+COMMON "Loader-INSERT.txt";
+
+function load_from_xml($p) begin
+   metatags "load_from_xml";
+   $fn_title = "In function load_from_xml, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.file_to_read = $NOT_NULL;
+   $p.file_record_tag = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.truncate_table = true;
+   $p.create_table = false;
+   $p.verbose = false;
+   $p.checksum_field = null;
+   $p.guid = null;
+   */
+   $start_time = time();
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_db_table = $p.use_db_table;
+   if $use_db_table is null return return_with_error("{$fn_title} must supply a property use_db_table");
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $file_record_tag = $p.file_record_tag;
+   if $file_record_tag is null return return_with_error("{$fn_title} must supply xml tag to indicate record block (set $file_record_tag)");
+   $file_field_lookup = $p.file_field_lookup;
+   $file_field_lookup DEFAULT null;
+   $file_add_fields = $p.file_add_fields;
+   $file_add_fields DEFAULT null;
+   $file_field_process = $p.file_field_process;
+   $file_field_process DEFAULT null;
+   $file_not_null_fields = $p.file_not_null_fields;
+   $file_not_null_fields DEFAULT null;
+   $verbose = $p.verbose;
+   $verbose DEFAULT false;
+   $checksum_field = $p.checksum_field;
+   $checksum_field DEFAULT null;
+   $file_lines_limit = $p.file_lines_limit;
+   $method = $p.method;
+   $method DEFAULT 'NORMAL';
+   $filter = $p.file_filter_record;
+   $guid = $p.guid;
+   $use_file_date = $p.use_file_date;
+   $use_dwh_table = $p.use_dwh_table;
+   $use_dwh_table DEFAULT $use_db_table;
+   loader_check($use_db_connect, $use_db_table, $file_to_read);
+   // Open the checksum method
+   do_open_checksum($checksum_field, $guid);
+
+   if $method is 'STREAM' begin
+	  xml_streamer($file_to_read, $file_record_tag, $filter.NODE, $filter.VALUE);
+	  $a.. = 0;
+	  end
+   else if $method is 'SIMPLE' begin
+      $a = xml_extract(file_get_contents($file_to_read), $file_record_tag, $filter);
+	  end
+   else if $method is 'SEEK' begin
+      $a = xml_seek(file_get_contents($file_to_read), $file_record_tag, $filter.NODE, $filter.VALUE);
+	  end
+   else begin
+      $a = xml_to_array(file_get_contents($file_to_read));
+	  end
+   if is_array($a) is not true return return_with_error("{$fn_title} unable to parse xml data, misformed in {$file_to_read}");
+
+   $extracting_records = true;
+   $file_lines = 0;
+   $xml_index = 0;
+   issue_monitor("Start Stream");
+   while $extracting_records is true begin
+      $extracting_records = false;
+	  case ($method) begin
+		when 'STREAM' $record = xml_stream_record();
+		$record = get_xml_record($a, $file_record_tag, $xml_index);
+		issue_monitor("Extract {$file_lines}");
+		end
+      $xml_index = $xml_index + 1;
+      if $record is not false begin
+         $extracting_records = true;
+         // Load Insert the record
+		 $p.record = $record;
+         if loader_insert($p) is true $file_lines = $file_lines+1;
+         end
+	  if ($file_lines_limit is not null) and ($file_lines is > $file_lines_limit) $extracting_records = false;
+      end
+
+	case ($method) begin
+		when 'STREAM' xml_stream_close();
+		end
+
+   check_checksum(close_write_checksum($checksum_field, $guid), $checksum_field, $guid, $file_lines, $use_db_table, $file_field_lookup); 
+
+   // And close off the destination
+   mssql_close();
+   return $file_lines;
+   end
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+<h3>all</h3>
+<i><b>ALL Keyword</b></i><br/>
+Optional
+As in example:<br/>
+<i>Example</i><br/>
+for <b>all</b> properties $index in $array console("{$array.$index}");
+
+
+
+

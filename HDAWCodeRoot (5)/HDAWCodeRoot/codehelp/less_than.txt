@@ -1,0 +1,12 @@
+<h3>less_than</h3>
+<i><b>LESS_THAN Keyword</b></i><br/>
+Less than, used in conditional expressions<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+if $a <b>less_than</b> $b then $c = add_these($a, $b); 
+
+
+
+
+

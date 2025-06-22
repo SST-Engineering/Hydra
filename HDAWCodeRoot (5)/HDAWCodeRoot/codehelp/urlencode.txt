@@ -1,0 +1,8 @@
+<h2>urlencode</h2>
+<i><b>Encodes a target string suitable for transmission in a url</b></i><br/>
+$result = urlencode(<i>target_string</i>)<br/>
+<i>Returns the resulting string, false for failure</i><br/>
+<br/>
+<i>Example</i><br/>
+$a = urlencode("Send &amp; Receive");<br/>
+

@@ -1,0 +1,59 @@
+
+
+14:04:57> 2021-09-30
+14:04:57> 1632960000
+
+
+DEBUG:
+0000: DBG  1
+0001: GET  $nvalue
+0002: NOP  
+0003: PUSH 30/09/2021
+0004: PUT  
+0005: DBG  2
+0006: GET  $v
+0007: PUSHA 14
+0008: GET  $nvalue
+0009: EVAL 
+0010: NOP  
+0011: PUSH DATE#Y-m-d#d/m/y
+0012: PUSH 2
+0013: CALL value_adjust
+0014: LBL  2
+0015: PUT  
+0016: DBG  3
+0017: GET  $t
+0018: PUSHA 23
+0019: GET  $v
+0020: EVAL 
+0021: PUSH 1
+0022: CALL string_to_time
+0023: LBL  3
+0024: PUT  
+0025: DBG  4
+0026: PUSHA 31
+0027: GET  $v
+0028: EVAL 
+0029: PUSH 1
+0030: CALL console
+0031: LBL  4
+0032: POP  
+0033: DBG  5
+0034: PUSHA 39
+0035: GET  $t
+0036: EVAL 
+0037: PUSH 1
+0038: CALL console
+0039: LBL  5
+0040: POP  
+0041: PUSH 1
+0042: LBL  1
+0043: EXIT 
+Exit with success
+
+Memory 4194304 4194304 0
+
+(0):$_scope =>[ (Date formats...) ]
+(0):$nvalue =>[ (30/09/2021...) ]
+(0):$v =>[ (2021-09-30...) ]
+(0):$t =>[ (1632960000...) ]

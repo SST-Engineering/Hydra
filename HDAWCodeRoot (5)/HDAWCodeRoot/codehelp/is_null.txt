@@ -1,0 +1,11 @@
+<h2>is_null</h2>
+<i><b>Test if parameter is a null value</b></i><br/>
+$result = is_null(<i>target</i>)<br/>
+<i>Returns true if target is null or false</i><br/>
+<br/>
+<i>Example</i><br/>
+$a = "Hello World";
+$no = is_null($a);
+$b = null;
+$yes = is_null($b);
+

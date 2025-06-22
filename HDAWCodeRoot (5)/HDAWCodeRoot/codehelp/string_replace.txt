@@ -1,0 +1,8 @@
+<h2>string_replace</h2>
+<i><b>Substitute one string for another in a target string</b></i><br/>
+$result = string_replace(<i>pattern</i>, <replacement</i>, <i>target</i>)<br/>
+<i>Returns result string, null for failure</i><br/>
+<br/>
+<i>Example</i><br/>
+$hello_friend = string_replace("world", "friend", "hello world");<br/>
+

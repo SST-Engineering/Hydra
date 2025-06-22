@@ -1,0 +1,14 @@
+
+ $p.src_query = literal {
+ WITH m AS (
+ SELECT $use_dwh_msisdn.Status FROM $use_dwh_msisdn 
+ LEFT JOIN $use_dwh_subscriber 
+ ON $use_dwh_msisdn.SubscriberRef=$use_dwh_subscriber.ID 
+ WHERE $use_dwh_subscriber.COV_ID = '#record.COV_ID'
+ )
+ UPDATE m 
+ SET Status='ARCHIVED'
+ };
+ console("Using query {$p.src_query}");
+
+

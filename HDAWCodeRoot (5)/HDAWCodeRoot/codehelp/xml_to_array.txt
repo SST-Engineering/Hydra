@@ -1,0 +1,8 @@
+<h2>xml_to_array</h2>
+<i><b>Parse an xml string to a property array</b></i><br/>
+$result = xml_to_array(<i>xml_string</i>)<br/>
+<i>Return false on failure (bad xml), an array of node properties and values </i><br/>
+<br/>
+<i>Example</i><br/>
+$a = xml_to_array("<ItemList><Item id=xx>item xx</Item></ItemList>");
+

@@ -1,0 +1,17 @@
+/* Load from DOC, DOCX */
+COMMON "load_from_regex.txt";
+function load_from_doc($p) begin
+   metatags "load_from_doc";
+   $fn_title = "In function load_from_doc, ";
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+
+	$txt = FILE_TO_TEXT($file_to_read);
+	$to_dir = working_dir_path()+"/tmp";
+	make_directory_path($to_dir);
+	$path_info = path_info($file_to_read);
+	$txt_file = $to_dir+"/{$path_info.filename}.txt";
+	$p.file_to_read = $txt_file;
+	file_put_contents($txt_file, $txt);
+	return load_from_regex($p);
+	end

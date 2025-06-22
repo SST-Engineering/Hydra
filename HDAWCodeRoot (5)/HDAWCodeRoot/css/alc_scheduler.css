@@ -1,0 +1,183 @@
+div.profile_mark {
+   background-color:rgb(180,255,180);
+   color:black;
+   text-align:left;
+   }
+div.process_mark {
+   background-color:rgb(180,180,255);
+   color:black;
+   text-align:left;
+   }
+
+div.dhx_body {
+   background-color:inherit;
+   }
+div.dhx_title {
+   background-color:inherit;
+   }
+
+
+.dhx_agenda_line div{
+   text-align:left;
+   }
+.dhx_agenda_line span{
+   float:left;
+   text-align:left;
+   }
+.dhx_wa_ev_body div{
+   text-align:left;
+   }
+.dhx_wa_day_data div{
+   text-align:left;
+   }
+div.dhx_scale_holder {
+   background-image:url("HDAW_GET_IMAGE=databg.png");
+   }
+div.dhx_scale_holder_now {
+   background-image:url("HDAW_GET_IMAGE=databg_now.png");
+   }
+div.dhx_mark{
+    background-image:url("HDAW_GET_IMAGE=controls.gif");
+}
+.dhx_save_btn{
+    background-image:url("HDAW_GET_IMAGE=controls.gif");
+}
+.dhx_cancel_btn{
+    background-image:url("HDAW_GET_IMAGE=controls.gif");
+}
+.dhx_delete_btn{
+    background-image:url("HDAW_GET_IMAGE=controls.gif");
+}
+.dhx_cal_prev_button{
+    background-image:url("HDAW_GET_IMAGE=buttons.png");
+   }
+.dhx_cal_next_button{
+   background-image:url("HDAW_GET_IMAGE=buttons.png");
+   }
+.dhx_cal_today_button{
+   background-image:url("HDAW_GET_IMAGE=buttons.png");
+   }
+.dhx_multi_day_icon{
+   background-image:url("HDAW_GET_IMAGE=clock_big.gif");
+   }
+.dhx_multi_day_icon_small{
+   background-image:url("HDAW_GET_IMAGE=clock_small.gif");
+   }
+div.dhx_menu_head{
+   background-image:url("HDAW_GET_IMAGE=controls.gif");
+   }
+div.dhx_menu_icon{
+   background-image:url("HDAW_GET_IMAGE=controls.gif");
+   }
+.dhx_custom_button_recurring{
+   background-image:url("HDAW_GET_IMAGE=but_repeat.gif");
+   }
+.dhx_loading{
+   background-image:url("HDAW_GET_IMAGE=loading.gif");
+   }
+
+.dhx_cal_container {
+   background-color:white;
+   }
+.dhx_scale_bar {
+   background-color:rgb(150, 216, 233);
+   }
+.dhx_wa_scale_bar {
+   background-color:rgb(150, 216, 233);
+   }
+.active.dhx_cal_tab {
+   background-color:rgb(150, 216, 233);
+   }
+.dhx_cal_light, .dhx_cal_ltitle {
+   -moz-border-radius:15px;
+   -webkit-border-radius:15px;
+   -khtml-border-radius:15px;
+   -ms-border-radius:15px;
+   border-radius:15px;
+   -moz-box-shadow:rgba(0,0,0,0.20) 5px 5px 5px 5px;
+   -webkit-box-shadow: rgba(0,0,0,0.30) 5px 5px 5px;
+   box-shadow: rgba(0,0,0,0.20) 5px 5px 15px 0px;
+   border:2px inset rgb(150, 216, 233);
+   background-color:white;
+   color:black;
+   }
+.dhx_cal_ltitle {
+   padding:6px;
+   position:relative;
+   display:block;
+   margin-bottom:8px;
+   margin-top:4px;
+   margin-left:2px;
+   margin-right:2px;
+   font-size:14px;
+   font-weight:bold;
+   color:blue;
+   background-image:url("HDAW_GET_IMAGE=BackCmdTab.jpg");
+   }
+.dhx_cal_larea {
+   background-color:white;
+   border:1px solid rgb(150, 216, 233);
+   border-collapse:collapse;
+   }
+.dhx_cal_lsection {
+   color:blue;
+   background-color:white;
+   font-size:12px;
+   text-align:left;
+   }
+.dhx_cal_ltext {
+   border:1px solid rgb(150, 216, 233);
+   border-collapse:collapse;
+   }
+.dhx_cal_ltext textarea{
+   color:black;
+   background-color:white;
+   }
+.dhx_form_repeat {
+   width:100%;
+   background-color:white;
+   border:1px solid rgb(150, 216, 233);
+   border-collapse:collapse;
+   text-align:left;
+   }
+.dhx_repear_divider {
+   border-left-color:rgb(150, 216, 233);
+   }
+.dhx_section_time {
+   background-color:white;
+   border:1px solid rgb(150, 216, 233);
+   border-collapse:collapse;
+   }
+.dhx_cal_light select {
+   color:black;
+   }
+.dhx_custom_button {
+   color:black;
+   background-color:white;
+   -moz-border-radius:5px;
+   -webkit-border-radius:5px;
+   -khtml-border-radius:5px;
+   -ms-border-radius:5px;
+   border-radius:5px;
+   border:2px inset rgb(150, 216, 233);
+   }
+.dhx_btn_set {
+   color:black;
+   background-color:white;
+   -moz-border-radius:5px;
+   -webkit-border-radius:5px;
+   -khtml-border-radius:5px;
+   -ms-border-radius:5px;
+   border-radius:5px;
+   border:2px inset rgb(150, 216, 233);
+   padding:2px;
+   margin:4px;
+   }
+.dhx_matrix_scell {
+   background-color:rgb(150, 216, 233);
+   }
+
+
+
+
+

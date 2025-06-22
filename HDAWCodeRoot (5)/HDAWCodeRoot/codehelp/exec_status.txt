@@ -1,0 +1,10 @@
+<h2>exec_status</h2>
+<i><b>Get exit status after an exec call</b></i><br/>
+$result = exec_status()<br/>
+<i>Returns the close status after an exec call (that code's exit status), false otherwise</i>
+<i>Example</i><br/>
+<pre>
+$result = exec("dir c:\");
+console("Ends with status "+exec_status());
+</pre>
+

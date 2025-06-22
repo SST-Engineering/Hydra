@@ -1,0 +1,26 @@
+$nvalue = "30/09/2021";
+$v = value_adjust($nvalue,"DATE#Y-m-d#d/m/y");
+$t = string_to_time($v);
+console($v);
+console($t);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

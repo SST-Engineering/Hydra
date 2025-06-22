@@ -1,0 +1,13 @@
+<h2>issue_report</h2>
+<i><b>Register this record count with this profile</b></i><br/>
+Record the loaded record count associated with this profile<br/>
+<i>$ok = issue_report($record_count)<i><br/>
+True on success, false on failure
+<br/>
+<i>Example</i><br/>
+<pre>
+$ok = issue_report($file_lines_loaded);
+
+</pre>
+<br/>
+

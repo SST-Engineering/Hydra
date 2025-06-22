@@ -1,0 +1,16 @@
+<h2>bin_dir_path</h2>
+<i><b>Get the fully resolved binary directory path for this site ALCW</b></i><br/>
+$result = bin_dir_path()<br/>
+$result = bin_dir_path(filename)<br/>
+<i>Returns the fully resolved path of the binary directory for this site, will append the exe file name if specified</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$a = bin_dir_path();
+console($a);
+// Outputs C:\ALCWDevelopment\binary
+$a = bin_dir_path("psftp.exe");
+console($a);
+// Outputs C:\ALCWDevelopment\binary\psftp.exe
+</pre>
+

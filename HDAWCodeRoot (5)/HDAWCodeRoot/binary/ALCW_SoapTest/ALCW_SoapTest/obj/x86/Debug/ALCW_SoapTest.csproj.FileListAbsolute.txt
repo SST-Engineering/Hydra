@@ -1,0 +1,9 @@
+C:\EIB\ALCWCodeRoot\binary\ALCW_SoapTest\ALCW_SoapTest\bin\Debug\ALCW_SoapTest.exe
+C:\EIB\ALCWCodeRoot\binary\ALCW_SoapTest\ALCW_SoapTest\bin\Debug\ALCW_SoapTest.pdb
+C:\EIB\ALCWCodeRoot\binary\ALCW_SoapTest\ALCW_SoapTest\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\EIB\ALCWCodeRoot\binary\ALCW_SoapTest\ALCW_SoapTest\obj\x86\Debug\ALCW_SoapTest.Form1.resources
+C:\EIB\ALCWCodeRoot\binary\ALCW_SoapTest\ALCW_SoapTest\obj\x86\Debug\ALCW_SoapTest.Properties.Resources.resources
+C:\EIB\ALCWCodeRoot\binary\ALCW_SoapTest\ALCW_SoapTest\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\EIB\ALCWCodeRoot\binary\ALCW_SoapTest\ALCW_SoapTest\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\EIB\ALCWCodeRoot\binary\ALCW_SoapTest\ALCW_SoapTest\obj\x86\Debug\ALCW_SoapTest.exe
+C:\EIB\ALCWCodeRoot\binary\ALCW_SoapTest\ALCW_SoapTest\obj\x86\Debug\ALCW_SoapTest.pdb

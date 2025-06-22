@@ -1,0 +1,12 @@
+<h3>gt</h3>
+<i><b>GT Keyword</b></i><br/>
+Greater than, used in conditional expressions<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+if $a <b>gt</b> $b then $c = add_these($a, $b); 
+
+
+
+
+

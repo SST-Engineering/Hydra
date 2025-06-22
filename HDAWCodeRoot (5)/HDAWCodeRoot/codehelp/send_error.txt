@@ -1,0 +1,8 @@
+<h2>send_error</h2>
+<i><b>Send an email to the error receiver</b></i><br/>
+send_error("This is very serious");
+<i>Send an error message as email to the nominated receiver of error mails</i><br/>
+BE VERY CAREFUL. This should only ever be used in the most exceptional cases. It sends an email directly, it will stall the execution until sent.
+It sends the message to the nominated receiver, who normally only expects serious system type errors.
+<br/>
+

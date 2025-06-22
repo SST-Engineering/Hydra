@@ -1,0 +1,13 @@
+<h2>file_csv_line</h2>
+<i><b>Return an array from a read line in open file</b></i><br/>
+$result = file_csv_line()<br/>
+<i>Returns false on failure, array on success</i><br/>
+The file is the current file after file_open_read<br/>
+<i>Example</i><br/>
+<pre>
+$a = file_csv_line();
+for all properties $i in $a
+   console("This line field index {$i} is {$a.$i}");
+</pre>
+<br/>
+

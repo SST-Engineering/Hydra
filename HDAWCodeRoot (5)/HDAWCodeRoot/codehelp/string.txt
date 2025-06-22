@@ -1,0 +1,11 @@
+<h3>string</h3>
+<i><b>STRING Keyword</b></i><br/>
+Used in for loop on properties<br/>
+<br/>
+As in example:<br/>
+<i>Example</i><br/>
+for <br>string</b> properties $s in $a console("{$a.$s}");
+
+
+
+

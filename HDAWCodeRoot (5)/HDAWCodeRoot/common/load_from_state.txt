@@ -1,0 +1,106 @@
+ // Common TXT Loader for multiple records from a txt file
+// Uses the State Machine
+COMMON "OnError.txt";
+COMMON "ChecksumCheck.txt";
+COMMON "Loader-INIT.txt";
+COMMON "Loader-INSERT.txt";
+
+
+function load_from_state($p) begin
+   metatags "load_from_state";
+   $fn_title = "In function load_from_state, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.use_dwh_table = $NOT_NULL;
+   $p.file_to_read = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.truncate_table = true;
+   $p.create_table = false;
+   $p.verbose = false;
+   $p.checksum_field = null;
+   $p.guid = null;
+   $p.custom_regex = null;
+   $p.use_state = null;
+   $p.emit_on_state = null;
+   $p.use_file_date = null;
+   */
+ //  #p = $p;
+   if $p.use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   if $p.use_db_table is null return return_with_error("{$fn_title} must supply a property use_db_table");
+   if $p.file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $p.file_field_lookup default null;
+   $p.file_add_fields default null;
+   $p.file_field_process default null;
+   $p.file_not_null_fields default null;
+   $p.truncate_db_table default true;
+   $p.create_db_table default null;
+   $p.verbose default false;
+   $use_file_date = $p.use_file_date;
+   $use_dwh_table = $p.use_dwh_table;
+   $use_dwh_table DEFAULT $use_db_table;
+   $p.checksum_field default null;
+   $s = loader_init($p.use_db_connect, $p.use_db_table, $p.file_to_read, $p.truncate_db_table, $p.create_db_table);
+   if $s is false return false;
+   if $p.verbose is true console("{$fn_title} loader init complete for {$p.file_to_read} using db {$p.use_db_connect} and table {$p.use_db_table}");
+   // Open the checksum method
+   do_open_checksum($p.checksum_field, $p.guid);
+   #file_lines = 0;
+   $lines = string_lines($s);
+   $s = "";
+   
+   if $p.custom_regex is not null begin
+      for all properties $line_no in $lines begin
+         $line = $lines.$line_no;
+	     $record = null;
+	     for all properties $rx_indx in $p.custom_regex begin
+	        $matches = preg_match($p.custom_regex.$rx_indx, $line);
+		    if $matches is not false begin
+		       for string properties $field in $matches $record.$field = $matches.$field;
+			   end
+		    end
+         // Load Insert the record
+		 $p.record = $record;
+         if loader_insert($p) is true #file_lines = #file_lines+1;
+	     end
+	  end
+   else begin
+      // using state machine
+	  state ProxyLoad extends $p.use_state;
+	  #_load_from_state = $p;
+      for all properties $line_no in $lines begin
+         $line = $lines.$line_no;
+		 ProxyLoad->$line;
+	     end
+	  end
+
+   check_checksum(close_write_checksum($p.checksum_field, $p.guid), $p.checksum_field, $p.guid, #file_lines, $p.use_db_table, $p.file_field_lookup);
+   // And close off the destination
+   mssql_close();
+   if $p.verbose is true console("{$fn_title} Completed load of " + running_process()+ " from {$p.file_to_read} with load of {#file_lines} records");
+   return #file_lines;
+   end
+   
+   function ProxyLoad() begin
+	  $fn_state = #_load_from_state.use_state;
+      if $fn_state exists begin
+		 $fn_state();
+		 end
+      case (ProxyLoad?) begin
+	     when #_load_from_state.emit_on_state begin
+		    for string properties $field in ProxyLoad $record.$field = ProxyLoad.$field;
+			$p.record = $record;
+			$p.checksum_field = #_load_from_state.checksum_field;
+			$p.use_db_table = #_load_from_state.use_db_table;
+			$p.file_field_lookup = #_load_from_state.file_field_lookup;
+			$p.file_add_fields = #_load_from_state.file_add_fields;
+			$p.file_field_process = #_load_from_state.file_field_process;
+			$p.file_not_null_fields = #_load_from_state.file_not_null_fields;
+			$p.guid = #_load_from_state.guid;
+            if loader_insert($p) is true #file_lines = #file_lines+1;
+		    end
+         end
+	  end

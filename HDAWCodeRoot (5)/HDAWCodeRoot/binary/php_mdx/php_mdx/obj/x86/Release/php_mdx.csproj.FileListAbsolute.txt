@@ -1,0 +1,5 @@
+C:\EIB\ALCWDevelopment\binary\php_mdx\php_mdx\obj\x86\Release\ResolveAssemblyReference.cache
+C:\EIB\ALCWDevelopment\binary\php_mdx\php_mdx\bin\Release\php_mdx.exe
+C:\EIB\ALCWDevelopment\binary\php_mdx\php_mdx\bin\Release\php_mdx.pdb
+C:\EIB\ALCWDevelopment\binary\php_mdx\php_mdx\obj\x86\Release\php_mdx.exe
+C:\EIB\ALCWDevelopment\binary\php_mdx\php_mdx\obj\x86\Release\php_mdx.pdb

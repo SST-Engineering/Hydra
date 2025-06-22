@@ -1,0 +1,28 @@
+ // ALCODE.ALC - generated Fri, 15th Jun 12 at 10:30
+// The olap connection can be an actual connection string or a registered ALCW global connection name of type MDX
+// $use_olap_conn = "Data Source=localhost;Initial Catalog=FoodMart 2000;Integrated Security=SSPI;";
+$use_olap_conn = "KPI_MDX";
+$mdx_query = "SELECT {[Store].[USA].Children} ON COLUMNS, {[Account].[All Account].[Net Income].Children} ON ROWS FROM [Budget]";
+// The mdx_query returns the results as a structured property array, it also writes a csv file into the local working directory for this profile
+$record = mdx_query($use_olap_conn, $mdx_query);
+if $record is false console("Fails in mdx");
+// The mdx_output returns the results of the mdx query including the errors, not used to handle the data, use the output file for that
+console(mdx_output());
+if $record is not false  begin
+   for all properties $column in $record  begin
+      for all properties $row in $record.$column  begin
+         console("{$column} {$row} {$record.$column.$row} ");
+         end
+      end
+   // Outside of testing, registering the result file will move that csv file to FilesToProcess directory, for correct rollback and audit
+   $ok = mdx_register_data();
+   if $ok is false console("Fails to register mdx data " + last_error());
+   // Get some information about the output file produced
+   $file_to_read = mdx_result_file();
+   console("MDX says output is in {$file_to_read}");
+   $ok = file_exists($file_to_read);
+   if $ok is true console("MDX says that file exists")
+   else console("MDX says file does not exist");
+   $path_info_mdx = path_info($file_to_read);
+   dump($path_info_mdx);
+   end

@@ -1,0 +1,11 @@
+<h3>begin</h3>
+<i><b>BEGIN Keyword, Statement</b></i><br/>
+Starts a block of statements
+As in example:<br/>
+<i>Example</i><br/>
+if $a is not true then <b>begin</b>
+   $b = "false a";
+<b>end</b>
+
+
+

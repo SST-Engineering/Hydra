@@ -1,0 +1,8 @@
+<h2>ssh2_auth_hostbased_file</h2>
+<i><b>Authenticate using a host based file</b></i><br/>
+$result = ssh2_auth_hostbased_file(username,hostname,pubfilefilename,privkeyfile,passphrase,local_username);<br/>
+<i>Returns true, on success, false on fail </i><br/>
+
+<br/>
+<i>Example</i><br/>
+ssh2_auth_hostbased_file("tjones","sftp.yourhost.com","/usr/local/etc/srolph/fluentkey.pub","/usr/local/etc/srolph/fluentkey","hello world","srolph");<br/>

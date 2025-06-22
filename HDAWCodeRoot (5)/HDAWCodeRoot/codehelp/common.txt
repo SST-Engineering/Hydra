@@ -1,0 +1,11 @@
+<h3>common</h3>
+<i><b>COMMON Keyword, compile time directive</b></i><br/>
+Inserts code from the common code library<br/>
+<br/>
+As in example:<br/>
+<i>Example</i><br/>
+<b>COMMON</b> "core_functions.alc";
+
+
+
+

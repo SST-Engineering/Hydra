@@ -1,0 +1,12 @@
+<h2>data_source</h2>
+<i><b>Return sode indicating source of this data capture for current profile</b></i><br/>
+Returns codes like UPLOAD, FTP, FILE, EMAIL <br/>
+<i>$src = data_source()</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$src = data_source();
+if $src is "UPLOAD" console("This profile run is after an upload");
+</pre>
+<br/>
+

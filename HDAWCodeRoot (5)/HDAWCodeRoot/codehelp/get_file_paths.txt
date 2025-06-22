@@ -1,0 +1,10 @@
+<h2>get_file_paths</h2>
+<i><b>Get the fully resolved file paths for files in given directory</b></i><br/>
+$result = get_file_paths(in_directory)<br/>
+<i>Returns the structured array of file paths in directory on success, false otherwise</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$a = get_file_paths("C:\ALCW_TEMP");
+</pre>
+

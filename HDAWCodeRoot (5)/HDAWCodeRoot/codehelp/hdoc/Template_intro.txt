@@ -1,0 +1,4 @@
+<h2>Template Help</h2>
+This template represents an example profile for most data load scenarios. This example loads data into a staging warehouse, usually indicated by the STA prefix to the database table name, then on successful load
+checks the target warehouse for duplicate offered data - by deleting rows in the target warehouse with the same unique key as those in the stage warehouse.
+

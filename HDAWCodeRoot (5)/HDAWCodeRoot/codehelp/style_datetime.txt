@@ -1,0 +1,11 @@
+<h2>style_datetime</h2>
+<i><b>Get date and time</b></i><br/>
+$result = style_datetime()&nbsp;..or..<br/>
+$result = style_datetime(<i>timestamp</i>)<br/>
+<i>Return string on success, false on failure</i><br/>
+Return the current date and time as a styled string, or the time as passed by parameter
+<br/>
+<i>Example</i><br/>
+$a = style_datetime();
+$a = style_datetime($my_time_int);
+

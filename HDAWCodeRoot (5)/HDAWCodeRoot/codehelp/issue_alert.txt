@@ -1,0 +1,18 @@
+<h2>issue_alert</h2>
+<i><b>Issues warning and error messages</b></i><br/>
+issue_alert(<i>message</i>)<br/>
+<i>Issue a sequence of messages and alerts </i><br/>
+USE WITH CARE: this function can send SMS messages to groups if the calling profile is associated with an SMS Collection
+and that collection is enabled, and SMS is enabled. This should only be used to alert a group that a serious failure has occured.
+<br/>
+Message should be short, not more than 120 characters<br/>
+The function will:<br/>
+Send an Alert Email to users of the profile and owner<br/>
+Log the Alert in the Logging Tab and the Profile Notes Area<br/>
+Issue an Alert to all logged on users in the rolling message area<br/>
+Send an SMS message, if the profile has an associated SMS collection, and SMS is enabled<br/>
+<i>Example</i><br/>
+<pre>
+// Serious error, need to get resolved
+issue_alert("The ATM Consolidation Process failed to run");<br/>
+</pre>

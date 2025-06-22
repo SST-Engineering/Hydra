@@ -1,0 +1,14 @@
+<h2>mssql_connect</h2>
+<i><b>Connect to Microsoft SQL Server</b></i><br/>
+$result = mssql_connect(connection name) .. or ..<br/>
+$result = mssql_connect(host, database, user, password)<br/>
+<i>Returns false on failure, true on success</i><br/>
+<br/>
+<i>Example</i><br/>
+$conn = mssql_connect("KPI_Data_Connect");<br/>
+$conn = mssql_connect("host", "KPI_Data", "TSJones","password");<br/>
+<i>if $conn is not true begin<br/>
+   console("Fails to connect"); exit;<br/>
+   end<br/></i>
+
+

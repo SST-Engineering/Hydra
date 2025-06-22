@@ -1,0 +1,1172 @@
+<?php
+// CLASS
+
+class pChart
+  {
+   /* Some static vars used in the class */
+   var $XSize          = NULL;
+   var $YSize          = NULL;
+   var $Picture        = NULL;
+   var $ImageMap       = NULL;
+
+
+   /* vars related to the graphing area */
+   var $GArea_X1       = NULL;
+   var $GArea_Y1       = NULL;
+   var $GArea_X2       = NULL;
+   var $GArea_Y2       = NULL;
+   var $GAreaXOffset   = NULL;
+   var $VMax           = NULL;
+   var $VMin           = NULL;
+   var $Divisions      = NULL;
+   var $DivisionHeight = NULL;
+   var $DivisionCount  = NULL;
+   var $DivisionRatio  = NULL;
+   var $DivisionWidth  = NULL;
+   var $DataCount      = NULL;
+
+   /* Text format related vars */
+   var $FontName       = NULL;
+   var $FontSize       = NULL;
+
+   /* Lines format related vars */
+   var $LineWidth      = 1;
+   var $LineDotSize    = 0;
+
+   /* Layer related vars */
+   var $Layers         = NULL;
+
+   /* Set antialias quality : 0 is maximum, 100 minimum*/
+   var $AntialiasQuality = 10;
+
+   function _imagecreate_($XSize, $YSize) {
+      if (function_exists('imagecreatetruecolor')) return imagecreatetruecolor($XSize, $YSize);
+      return imagecreate($XSize, $YSize);
+   }
+
+
+   /* This function create the background picture */
+   function __construct($XSize,$YSize)
+    {
+     $this->XSize   = $XSize;
+     $this->YSize   = $YSize;
+     $this->Picture = $this->_imagecreate_($XSize,$YSize);
+
+     $C_White = imagecolorallocate($this->Picture,255,255,255);
+     imagefilledrectangle($this->Picture,0,0,$XSize,$YSize,$C_White);
+     imagecolortransparent($this->Picture,$C_White);
+
+     $this->setFontProperties("tahoma.ttf",8);
+    }
+
+
+   /* Set the font properties */
+   function setFontProperties($FontName,$FontSize)
+    {
+	global $code_root, $home_root;
+     $this->FontName = "../{$code_root}/Classes/CHART/Fonts/".$FontName;
+     $this->FontSize = $FontSize;
+    }
+
+   /* Set line style */
+  function setLineStyle($Width=1,$DotSize=0)
+   {
+    $this->LineWidth   = $Width;
+    $this->LineDotSize = $DotSize;
+   }
+
+   /* Set the graph area location */
+   function setGraphArea($X1,$Y1,$X2,$Y2)
+    {
+     $this->GArea_X1 = $X1;
+     $this->GArea_Y1 = $Y1;
+     $this->GArea_X2 = $X2;
+     $this->GArea_Y2 = $Y2;
+    }
+
+   /* Prepare the graph area */
+   function drawGraphArea($R,$G,$B)
+    {
+     $this->drawFilledRectangle($this->GArea_X1,$this->GArea_Y1,$this->GArea_X2,$this->GArea_Y2,$R,$G,$B,FALSE);
+     $this->drawRectangle($this->GArea_X1,$this->GArea_Y1,$this->GArea_X2,$this->GArea_Y2,$R-40,$G-40,$B-40);
+    }
+
+// TEXT
+
+   function getTextSize($text, &$width, &$height, $angle=0) {
+     $position = imageftbbox($this->FontSize, $angle, $this->FontName, $text);
+     $width = abs($position[2]-$position[0]);
+     $height = abs($position[5])+abs($position[3]);
+     return $position;
+    }
+
+   /* Draw a text box with text align & alpha properties */
+   function drawTextBox($X1,$Y1,$X2,$Y2,$Text,$Angle=0,$R=255,$G=255,$B=255,$Align=ALIGN_LEFT,$Shadow=TRUE,$BgR=-1,$BgG=-1,$BgB=-1,$Alpha=100, $Underline=false)
+    {
+     $Position   = imageftbbox($this->FontSize,$Angle,$this->FontName,$Text);
+     $TextWidth  = $Position[2]-$Position[0];
+     $TextHeight = $Position[5]-$Position[3];
+     $AreaWidth  = $X2 - $X1;
+     $AreaHeight = $Y2 - $Y1;
+
+     if ( $BgR != -1 && $BgG != -1 && $BgB != -1 )
+      $this->drawFilledRectangle($X1,$Y1,$X2,$Y2,$BgR,$BgG,$BgB,FALSE,$Alpha);
+
+     if ( $Align == ALIGN_TOP_LEFT )      { $X = $X1+1; $Y = $Y1+$this->FontSize+1; }
+     if ( $Align == ALIGN_TOP_CENTER )    { $X = $X1+($AreaWidth/2)-($TextWidth/2); $Y = $Y1+$this->FontSize+1; }
+     if ( $Align == ALIGN_TOP_RIGHT )     { $X = $X2-$TextWidth-1; $Y = $Y1+$this->FontSize+1; }
+     if ( $Align == ALIGN_LEFT )          { $X = $X1+1; $Y = $Y1+($AreaHeight/2)-($TextHeight/2); }
+     if ( $Align == ALIGN_CENTER )        { $X = $X1+($AreaWidth/2)-($TextWidth/2); $Y = $Y1+($AreaHeight/2)-($TextHeight/2); }
+     if ( $Align == ALIGN_RIGHT )         { $X = $X2-$TextWidth-1; $Y = $Y1+($AreaHeight/2)-($TextHeight/2); }
+     if ( $Align == ALIGN_BOTTOM_LEFT )   { $X = $X1+1; $Y = $Y2-1; }
+     if ( $Align == ALIGN_BOTTOM_CENTER ) { $X = $X1+($AreaWidth/2)-($TextWidth/2); $Y = $Y2-1; }
+     if ( $Align == ALIGN_BOTTOM_RIGHT )  { $X = $X2-$TextWidth-1; $Y = $Y2-1; }
+
+     $C_TextColor   = imagecolorallocate($this->Picture,$R,$G,$B);
+     $C_ShadowColor = imagecolorallocate($this->Picture,0,0,0);
+     if ( $Shadow )
+      imagettftext($this->Picture,$this->FontSize,$Angle,$X+1,$Y+1,$C_ShadowColor,$this->FontName,$Text);     
+
+     imagettftext($this->Picture,$this->FontSize,$Angle,$X,$Y,$C_TextColor,$this->FontName,$Text); 
+     if ($Underline)
+      $this->drawLine($X, $Y,  $X+$TextWidth, $Y, $R, $G, $B);   
+    }
+
+
+
+
+
+// SHAPES - LINES, RECTANGLES, CIRCLES ETC
+
+
+   /* This function create a rectangle with antialias */
+   function drawRectangle($X1,$Y1,$X2,$Y2,$R,$G,$B)
+    {
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     $C_Rectangle = imagecolorallocate($this->Picture,$R,$G,$B);
+
+     $X1=$X1-.2;$Y1=$Y1-.2;
+     $X2=$X2+.2;$Y2=$Y2+.2;
+     $this->drawLine($X1,$Y1,$X2,$Y1,$R,$G,$B);
+     $this->drawLine($X2,$Y1,$X2,$Y2,$R,$G,$B);
+     $this->drawLine($X2,$Y2,$X1,$Y2,$R,$G,$B);
+     $this->drawLine($X1,$Y2,$X1,$Y1,$R,$G,$B);
+    }
+
+   /* This function create a filled rectangle with antialias */
+   function drawFilledRectangle($X1,$Y1,$X2,$Y2,$R,$G,$B,$DrawBorder=TRUE,$Alpha=100)
+    {
+     if ( $X2 > $X1 ) { list($X1, $X2) = array($X2, $X1); }
+     if ( $Y2 > $Y1 ) { list($Y1, $Y2) = array($Y2, $Y1); }
+
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     if ( $Alpha == 100 )
+      {
+       $C_Rectangle = imagecolorallocate($this->Picture,$R,$G,$B);
+       imagefilledrectangle($this->Picture,$X1,$Y1,$X2,$Y2,$C_Rectangle);
+      }
+     else
+      {
+       $LayerWidth  = abs($X2-$X1)+2;
+       $LayerHeight = abs($Y2-$Y1)+2;
+
+
+       $this->Layers[0] = $this->_imagecreate_($LayerWidth,$LayerHeight);
+       $C_White         = imagecolorallocate($this->Layers[0],255,255,255);
+       imagefilledrectangle($this->Layers[0],0,0,$LayerWidth,$LayerHeight,$C_White);
+       imagecolortransparent($this->Layers[0],$C_White);
+
+       $C_Rectangle = imagecolorallocate($this->Layers[0],$R,$G,$B);
+       imagefilledrectangle($this->Layers[0],1,1,$LayerWidth-1,$LayerHeight-1,$C_Rectangle);
+
+       imagecopymerge($this->Picture,$this->Layers[0],min($X1,$X2)-1,min($Y1,$Y2)-1,0,0,$LayerWidth,$LayerHeight,$Alpha);
+       imagedestroy($this->Layers[0]);
+      }
+
+     if ( $DrawBorder )
+      $this->drawRectangle($X1,$Y1,$X2,$Y2,$R,$G,$B);
+    }
+
+   /* This function create a rectangle with rounded corners and antialias */
+   function drawRoundedRectangle($X1,$Y1,$X2,$Y2,$Radius,$R,$G,$B)
+    {
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     $C_Rectangle = imagecolorallocate($this->Picture,$R,$G,$B);
+
+     $Step = 90 / ((3.1418 * $Radius)/2);
+
+     for($i=0;$i<=90;$i=$i+$Step)
+      {
+       $X = cos(($i+180)*3.1418/180) * $Radius + $X1 + $Radius;
+       $Y = sin(($i+180)*3.1418/180) * $Radius + $Y1 + $Radius;
+       $this->drawAntialiasPixel($X,$Y,$R,$G,$B);
+
+       $X = cos(($i-90)*3.1418/180) * $Radius + $X2 - $Radius;
+       $Y = sin(($i-90)*3.1418/180) * $Radius + $Y1 + $Radius;
+       $this->drawAntialiasPixel($X,$Y,$R,$G,$B);
+
+       $X = cos(($i)*3.1418/180) * $Radius + $X2 - $Radius;
+       $Y = sin(($i)*3.1418/180) * $Radius + $Y2 - $Radius;
+       $this->drawAntialiasPixel($X,$Y,$R,$G,$B);
+
+       $X = cos(($i+90)*3.1418/180) * $Radius + $X1 + $Radius;
+       $Y = sin(($i+90)*3.1418/180) * $Radius + $Y2 - $Radius;
+       $this->drawAntialiasPixel($X,$Y,$R,$G,$B);
+      }
+
+     $X1=$X1-.2;$Y1=$Y1-.2;
+     $X2=$X2+.2;$Y2=$Y2+.2;
+     $this->drawLine($X1+$Radius,$Y1,$X2-$Radius,$Y1,$R,$G,$B);
+     $this->drawLine($X2,$Y1+$Radius,$X2,$Y2-$Radius,$R,$G,$B);
+     $this->drawLine($X2-$Radius,$Y2,$X1+$Radius,$Y2,$R,$G,$B);
+     $this->drawLine($X1,$Y2-$Radius,$X1,$Y1+$Radius,$R,$G,$B);
+    }
+
+   /* This function create a filled rectangle with rounded corners and antialias */
+   function drawFilledRoundedRectangle($X1,$Y1,$X2,$Y2,$Radius,$R,$G,$B)
+    {
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     $C_Rectangle = imagecolorallocate($this->Picture,$R,$G,$B);
+
+     $Step = 90 / ((3.1418 * $Radius)/2);
+
+     for($i=0;$i<=90;$i=$i+$Step)
+      {
+       $Xi1 = cos(($i+180)*3.1418/180) * $Radius + $X1 + $Radius;
+       $Yi1 = sin(($i+180)*3.1418/180) * $Radius + $Y1 + $Radius;
+
+       $Xi2 = cos(($i-90)*3.1418/180) * $Radius + $X2 - $Radius;
+       $Yi2 = sin(($i-90)*3.1418/180) * $Radius + $Y1 + $Radius;
+
+       $Xi3 = cos(($i)*3.1418/180) * $Radius + $X2 - $Radius;
+       $Yi3 = sin(($i)*3.1418/180) * $Radius + $Y2 - $Radius;
+
+       $Xi4 = cos(($i+90)*3.1418/180) * $Radius + $X1 + $Radius;
+       $Yi4 = sin(($i+90)*3.1418/180) * $Radius + $Y2 - $Radius;
+
+       imageline($this->Picture,$Xi1,$Yi1,$X1+$Radius,$Yi1,$C_Rectangle);
+       imageline($this->Picture,$X2-$Radius,$Yi2,$Xi2,$Yi2,$C_Rectangle);
+       imageline($this->Picture,$X2-$Radius,$Yi3,$Xi3,$Yi3,$C_Rectangle);
+       imageline($this->Picture,$Xi4,$Yi4,$X1+$Radius,$Yi4,$C_Rectangle);
+
+       $this->drawAntialiasPixel($Xi1,$Yi1,$R,$G,$B);
+       $this->drawAntialiasPixel($Xi2,$Yi2,$R,$G,$B);
+       $this->drawAntialiasPixel($Xi3,$Yi3,$R,$G,$B);
+       $this->drawAntialiasPixel($Xi4,$Yi4,$R,$G,$B);
+      }
+
+     imagefilledrectangle($this->Picture,$X1,$Y1+$Radius,$X2,$Y2-$Radius,$C_Rectangle);
+     imagefilledrectangle($this->Picture,$X1+$Radius,$Y1,$X2-$Radius,$Y2,$C_Rectangle);
+
+     $X1=$X1-.2;$Y1=$Y1-.2;
+     $X2=$X2+.2;$Y2=$Y2+.2;
+     $this->drawLine($X1+$Radius,$Y1,$X2-$Radius,$Y1,$R,$G,$B);
+     $this->drawLine($X2,$Y1+$Radius,$X2,$Y2-$Radius,$R,$G,$B);
+     $this->drawLine($X2-$Radius,$Y2,$X1+$Radius,$Y2,$R,$G,$B);
+     $this->drawLine($X1,$Y2-$Radius,$X1,$Y1+$Radius,$R,$G,$B);
+    }
+
+   /* This function create a circle with antialias */
+   function drawCircle($Xc,$Yc,$Height,$R,$G,$B,$Width=0)
+    {
+     if ( $Width == 0 ) { $Width = $Height; }
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     $C_Circle = imagecolorallocate($this->Picture,$R,$G,$B);
+     $Step     = 360 / (2 * 3.1418 * max($Width,$Height));
+
+     for($i=0;$i<=360;$i=$i+$Step)
+      {
+       $X = cos($i*3.1418/180) * $Height + $Xc;
+       $Y = sin($i*3.1418/180) * $Width + $Yc;
+       $this->drawAntialiasPixel($X,$Y,$R,$G,$B);
+      }
+    }
+
+   /* This function create a filled circle/ellipse with antialias */
+   function drawFilledCircle($Xc,$Yc,$Height,$R,$G,$B,$Width=0)
+    {
+     if ( $Width == 0 ) { $Width = $Height; }
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     $C_Circle = imagecolorallocate($this->Picture,$R,$G,$B);
+     $Step     = 360 / (2 * 3.1418 * max($Width,$Height));
+
+     for($i=90;$i<=270;$i=$i+$Step)
+      {
+       $X1 = cos($i*3.1418/180) * $Height + $Xc;
+       $Y1 = sin($i*3.1418/180) * $Width + $Yc;
+       $X2 = cos((180-$i)*3.1418/180) * $Height + $Xc;
+       $Y2 = sin((180-$i)*3.1418/180) * $Width + $Yc;
+
+       $this->drawAntialiasPixel($X1-1,$Y1-1,$R,$G,$B);
+       $this->drawAntialiasPixel($X2-1,$Y2-1,$R,$G,$B);
+
+       if ( ($Y1-1) > $Yc - max($Width,$Height) )
+        imageline($this->Picture,$X1,$Y1-1,$X2-1,$Y2-1,$C_Circle);
+      }
+    }
+
+   /* This function create a filled circle/ellipse with antialias */
+   function drawFilledSegment($Xc,$Yc,$Height,$R,$G,$B,$Angle1, $Angle2)
+    {
+     $Width = $Height;
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     $C_Circle = imagecolorallocate($this->Picture,$R,$G,$B);
+     $Step     = 1; //0.05;//($Angle2-$Angle1) / (2 * 3.1418 * $Width);
+     for ($i=$Angle1; $i<=$Angle2; $i = $i + $Step) {
+        if ($i>=0 && $i<=180) {
+           $Y1 = $Yc - cos($i*3.1418/180) * $Width;
+           $X1 = $Xc + sin($i*3.1418/180) * $Width;
+           $this->drawLine($Xc, $Yc, $X1, $Y1, $R, $G, $B);
+           $this->drawAntialiasPixel($X1,$Y1,$R,$G,$B);
+           }
+        else {
+           $Y2 = $Yc + cos(($i-180)*3.1418/180) * $Width;
+           $X2 = $Xc - sin(($i-180)*3.1418/180) * $Width;
+           $this->drawLine($Xc, $Yc, $X2, $Y2, $R, $G, $B);
+           $this->drawAntialiasPixel($X2,$Y2,$R,$G,$B);
+           }
+        }
+
+    }
+	function drawRadiusLine($Xc,$Yc,$Radius,$R,$G,$B,$Angle) {
+		$C_Circle = imagecolorallocate($this->Picture,$R,$G,$B);
+        if ($Angle>=0 && $Angle<=180) {
+           $Y1 = $Yc - cos($Angle*3.1418/180) * $Radius;
+           $X1 = $Xc + sin($Angle*3.1418/180) * $Radius;
+           $this->drawLine($Xc, $Yc, $X1, $Y1, $R, $G, $B);
+           }
+        else {
+           $Y2 = $Yc + cos(($Angle-180)*3.1418/180) * $Radius;
+           $X2 = $Xc - sin(($Angle-180)*3.1418/180) * $Radius;
+           $this->drawLine($Xc, $Yc, $X2, $Y2, $R, $G, $B);
+           }
+		}
+
+   /* This function will draw a filled ellipse */
+   function drawEllipse($Xc,$Yc,$Height,$Width,$R,$G,$B)
+    { $this->drawCircle($Xc,$Yc,$Height,$R,$G,$B,$Width); }
+
+   /* This function will draw an ellipse */
+   function drawFilledEllipse($Xc,$Yc,$Height,$Width,$R,$G,$B)
+    { $this->drawFilledCircle($Xc,$Yc,$Height,$R,$G,$B,$Width); }
+
+   /* This function create a line with antialias */
+   function drawLine($X1,$Y1,$X2,$Y2,$R,$G,$B,$GraphFunction=FALSE)
+    {
+     if ( $this->LineDotSize > 1 ) { $this->drawDottedLine($X1,$Y1,$X2,$Y2,$this->LineDotSize,$R,$G,$B,$GraphFunction); return(0); }
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     $Distance = sqrt(($X2-$X1)*($X2-$X1)+($Y2-$Y1)*($Y2-$Y1));  
+     if ( $Distance == 0 )
+      return(-1);
+     $XStep = ($X2-$X1) / $Distance;
+     $YStep = ($Y2-$Y1) / $Distance;
+
+     for($i=0;$i<=$Distance;$i++)
+      {
+       $X = $i * $XStep + $X1;
+       $Y = $i * $YStep + $Y1;
+
+       if ( ($X >= $this->GArea_X1 && $X <= $this->GArea_X2 && $Y >= $this->GArea_Y1 && $Y <= $this->GArea_Y2) || !$GraphFunction )
+        {
+         if ( $this->LineWidth == 1 )
+          $this->drawAntialiasPixel($X,$Y,$R,$G,$B);
+         else
+          {
+           $StartOffset = -($this->LineWidth/2); $EndOffset = ($this->LineWidth/2);
+           for($j=$StartOffset;$j<=$EndOffset;$j++)
+            $this->drawAntialiasPixel($X+$j,$Y+$j,$R,$G,$B);
+          }
+        }
+      }
+    }
+
+   /* This function create a line with antialias */
+   function drawDottedLine($X1,$Y1,$X2,$Y2,$DotSize,$R,$G,$B,$GraphFunction=FALSE)
+    {
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     $Distance = sqrt(($X2-$X1)*($X2-$X1)+($Y2-$Y1)*($Y2-$Y1));  
+
+     $XStep = ($X2-$X1) / $Distance;
+     $YStep = ($Y2-$Y1) / $Distance;
+
+     $DotIndex = 0;
+     for($i=0;$i<=$Distance;$i++)
+      {
+       $X = $i * $XStep + $X1;
+       $Y = $i * $YStep + $Y1;
+
+       if ( $DotIndex <= $DotSize)
+        {
+         if ( ($X >= $this->GArea_X1 && $X <= $this->GArea_X2 && $Y >= $this->GArea_Y1 && $Y <= $this->GArea_Y2) || !$GraphFunction )
+          {
+           if ( $this->LineWidth == 1 )
+            $this->drawAntialiasPixel($X,$Y,$R,$G,$B);
+           else
+            {
+             $StartOffset = -($this->LineWidth/2); $EndOffset = ($this->LineWidth/2);
+             for($j=$StartOffset;$j<=$EndOffset;$j++)
+              $this->drawAntialiasPixel($X+$j,$Y+$j,$R,$G,$B);
+            }
+          }
+        }
+
+       $DotIndex++;
+       if ( $DotIndex == $DotSize * 2 )
+        $DotIndex = 0;        
+      }
+    }
+
+// IMAGES **************************************************************************
+
+   /* Load a PNG file and draw it over the chart */
+   function drawFromPNG($FileName,$X,$Y,$Alpha=100, $Width = NULL, $Height = NULL)
+    { $this->drawFromPicture(1,$FileName,$X,$Y,$Alpha, $Width, $Height); }
+
+   /* Load a GIF file and draw it over the chart */
+   function drawFromGIF($FileName,$X,$Y,$Alpha=100, $Width = NULL, $Height = NULL)
+    { $this->drawFromPicture(2,$FileName,$X,$Y,$Alpha, $Width, $Height); }
+
+   /* Load a JPEG file and draw it over the chart */
+   function drawFromJPG($FileName,$X,$Y,$Alpha=100, $Width = NULL, $Height = NULL)
+    { $this->drawFromPicture(3,$FileName,$X,$Y,$Alpha, $Width, $Height); }
+
+   function infoOfImage($FileName, &$width, &$height) {
+      if (file_exists($FileName)) {
+         $Infos = getimagesize($FileName);
+         $width = $Infos[0];
+         $height = $Infos[1];
+         return true;
+         }
+      return false;
+      }
+
+   /* Generic loader function for external pictures */
+   function drawFromPicture($PicType,$FileName,$X,$Y,$Alpha=100, $width=NULL, $height=NULL)
+    {
+     if ( file_exists($FileName))
+      {
+       $resize = false;
+       $Infos  = getimagesize($FileName);
+       $Width  = $Infos[0];
+       $Height = $Infos[1];
+       if (!isset($width) || !isset($height)) {
+          $width = $Width; $height = $Height;
+          }
+       else $resize = true;
+       if ( $PicType == 1 ) { $Raster = imagecreatefrompng($FileName); }
+       if ( $PicType == 2 ) { $Raster = imagecreatefromgif($FileName); }
+       if ( $PicType == 3 ) { $Raster = imagecreatefromjpeg($FileName); }
+       if ($resize) {
+          $resized = $this->_imagecreate_($width, $height);
+          imagecopyresized($resized, $Raster, 0, 0, 0, 0, $width, $height, $Width, $Height);
+          imagedestroy($Raster);
+          $Raster = $resized;
+          }
+
+       imagecopymerge($this->Picture,$Raster,$X,$Y,0,0,$width,$height,$Alpha);
+       imagedestroy($Raster);
+      }
+    }
+
+// UTILITIES **************************************************************************
+
+
+   /* Draw an alpha pixel */
+   function drawAlphaPixel($X,$Y,$Alpha,$R,$G,$B)
+    {
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     if ( $X < 0 || $Y < 0 || $X >= $this->XSize || $Y >= $this->YSize )
+      return(-1);
+
+     $RGB2 = imagecolorat($this->Picture, $X, $Y);
+     $R2   = ($RGB2 >> 16) & 0xFF;
+     $G2   = ($RGB2 >> 8) & 0xFF;
+     $B2   = $RGB2 & 0xFF;
+
+     $iAlpha = (100 - $Alpha)/100;
+     $Alpha  = $Alpha / 100;
+
+     $Ra   = floor($R*$Alpha+$R2*$iAlpha);
+     $Ga   = floor($G*$Alpha+$G2*$iAlpha);
+     $Ba   = floor($B*$Alpha+$B2*$iAlpha);
+
+     $C_Aliased = imagecolorallocate($this->Picture,$Ra,$Ga,$Ba);
+     imagesetpixel($this->Picture,$X,$Y,$C_Aliased);
+    }
+
+   /* Color helper */
+   function AllocateColor($Picture,$R,$G,$B,$Factor=0)
+    {
+     $R = $R + $Factor;
+     $G = $G + $Factor;
+     $B = $B + $Factor;
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     return(imagecolorallocate($Picture,$R,$G,$B));
+    }
+
+   /* Add a border to the picture */
+   function addBorder($Size=3,$R=0,$G=0,$B=0)
+    {
+     $Width  = $this->XSize+2*$Size;
+     $Height = $this->YSize+2*$Size;
+
+     $Resampled    = $this->_imagecreate_($Width,$Height);
+     $C_Background = imagecolorallocate($Resampled,$R,$G,$B);
+     imagefilledrectangle($Resampled,0,0,$Width,$Height,$C_Background);
+
+     imagecopy($Resampled,$this->Picture,$Size,$Size,0,0,$this->XSize,$this->YSize);
+     imagedestroy($this->Picture);
+
+     $this->XSize = $Width;
+     $this->YSize = $Height;
+
+     $this->Picture = $this->_imagecreate_($this->XSize,$this->YSize);
+     $C_White = imagecolorallocate($this->Picture,255,255,255);
+     imagefilledrectangle($this->Picture,0,0,$this->XSize,$this->YSize,$C_White);
+     imagecolortransparent($this->Picture,$C_White);
+     imagecopy($this->Picture,$Resampled,0,0,0,0,$this->XSize,$this->YSize);
+    }
+
+// RENDER **************************************************************************
+
+   /* Render the current picture to a file */
+   function Render($FileName)
+    {
+     imagepng($this->Picture,$FileName);
+    }
+
+   /* Render the current picture to STDOUT */
+   function Stroke()
+    {
+     header('Content-type: image/png');
+     imagepng($this->Picture);
+    }
+
+   /* Private functions for internal processing */
+   function drawAntialiasPixel($X,$Y,$R,$G,$B)
+    {
+     if ( $R < 0 ) { $R = 0; } if ( $R > 255 ) { $R = 255; }
+     if ( $G < 0 ) { $G = 0; } if ( $G > 255 ) { $G = 255; }
+     if ( $B < 0 ) { $B = 0; } if ( $B > 255 ) { $B = 255; }
+
+     $Plot = "";
+     $Xi   = floor($X);
+     $Yi   = floor($Y);
+
+     if ( $Xi == $X && $Yi == $Y)
+      {
+       /* $this->drawAlphaPixel($Xi,$Yi,0,$R,$G,$B); */
+       $C_Aliased = imagecolorallocate($this->Picture,$R,$G,$B);
+       imagesetpixel($this->Picture,$X,$Y,$C_Aliased);
+      }
+     else
+      {
+       $Alpha1 = (1 - ($X - floor($X))) * (1 - ($Y - floor($Y))) * 100;
+       if ( $Alpha1 > $this->AntialiasQuality ) { $this->drawAlphaPixel($Xi,$Yi,$Alpha1,$R,$G,$B); }
+
+       $Alpha2 = ($X - floor($X)) * (1 - ($Y - floor($Y))) * 100;
+       if ( $Alpha2 > $this->AntialiasQuality ) { $this->drawAlphaPixel($Xi+1,$Yi,$Alpha2,$R,$G,$B); }
+
+       $Alpha3 = (1 - ($X - floor($X))) * ($Y - floor($Y)) * 100;
+       if ( $Alpha3 > $this->AntialiasQuality ) { $this->drawAlphaPixel($Xi,$Yi+1,$Alpha3,$R,$G,$B); }
+
+       $Alpha4 = ($X - floor($X)) * ($Y - floor($Y)) * 100;
+       if ( $Alpha4 > $this->AntialiasQuality ) { $this->drawAlphaPixel($Xi+1,$Yi+1,$Alpha4,$R,$G,$B); }
+      }
+    }
+
+
+
+// END CLASS **************************************************************************
+
+
+}
+
+ define("ALIGN_TOP_LEFT",1);
+ define("ALIGN_TOP_CENTER",2);
+ define("ALIGN_TOP_RIGHT",3);
+ define("ALIGN_LEFT",4);
+ define("ALIGN_CENTER",5);
+ define("ALIGN_RIGHT",6);
+ define("ALIGN_BOTTOM_LEFT",7);
+ define("ALIGN_BOTTOM_CENTER",8);
+ define("ALIGN_BOTTOM_RIGHT",9);
+
+// CHARTS ************************************************************************
+   function PRO_ClusterGraph($g, &$Data, $gsize)
+    {
+    $Shadow = false;
+    $Alpha = 100;
+    $x_inset = 10;
+    $y_inset = 20;
+    $size = array($gsize[0]-($x_inset*2), $gsize[1]-($y_inset*2));
+    $g->setFontProperties("tahoma.ttf",6);
+    $tw=0; $th=0;
+    $g->getTextSize("999",$tw, $th, 0);
+
+    $max_neg_y = 0; $max_pos_y = 0;
+    for ($k=0; $k<count($Data); $k++) {
+       $pts = $Data[$k]['VALUE']['POINTS'];
+	   foreach ($pts as $v) {
+		if ($v<0) $max_neg_y = max($max_neg_y, -$v); else $max_pos_y = max($max_pos_y, $v);
+		}
+       }
+    $max_y = $max_neg_y+$max_pos_y;
+    if ($max_y<=0) $max_y=1;
+    $scale = $size[1]/$max_y;
+    $bar_width = round($size[0]/((count($Data)+2)*2));
+
+    $y_zero = ($y_inset)+$size[1]-round(floor($max_neg_y*$scale));
+    /* Draw Y axis */
+    $g->drawLine($x_inset,$y_inset,$x_inset,$y_zero,0,0,0);
+    /* Draw X axis */
+    $g->drawLine($x_inset,$y_zero,$size[0],$y_zero,0,0,0);
+
+    $x = $x_inset+$bar_width; 
+	$skip_key = 1;
+    for ($k=0; $k<count($Data); $k++) {
+       $Data[$k]['COLOR'] = $color = (array_key_exists('COLOR',$Data[$k]))?$Data[$k]['COLOR']:PRO_LookUpColor($k);
+		$g->drawLine($x_inset,$y_inset,$x_inset,$y_zero, $color[0],$color[1],$color[2]);
+       $pts = $Data[$k]['VALUE']['POINTS'];
+	   foreach ($pts as $v) {
+        $y_v = round(floor($v*$scale));
+        $g->drawFilledCircle($x, $y_zero-$y_v, 1, $color[0],$color[1],$color[2]);
+		}
+	   $ctr = $Data[$k]['VALUE']['CENTRE'];
+        $y_v = round(floor($ctr*$scale));
+        $g->drawFilledCircle($x, $y_zero-$y_v, 1, 0,0,255);
+
+
+       $Caption = $Data[$k]['KEY']; 
+       $g->getTextSize($Caption, $ttw, $tth, 0);
+       if ((($ttw+10)<$y_v)&&($tth<($bar_width*$skip_key))) {
+	      $skip_key = 1;
+          $TX=$x; //+($bar_width-2); 
+		  $TY=$y_zero+$ttw+10; //-$y_v+$ttw+10;
+          $C_TextColor = imagecolorallocate($g->Picture,30,30,30);
+          imagettftext($g->Picture,$g->FontSize,90,$TX,$TY,$C_TextColor,$g->FontName,$Caption);
+          }
+	   else $skip_key++;
+
+       $x += ($bar_width*2);
+      }
+
+    $g->setFontProperties("tahoma.ttf",10);
+   }
+   
+	function PRO_DrawFlatPieGraph($g, &$Data,$XPos,$YPos,$Radius=100) {
+		$g->setFontProperties("tahoma.ttf",8);
+		$PieSum = 0; for ($i=0; $i<count($Data); $i++) $PieSum += $Data[$i]['VALUE'];
+		if ($PieSum==0) $PieSum = 1;
+		$Angle1 = 0;
+		for ($i=0; $i<count($Data); $i++) {
+			$color = (array_key_exists('COLOR',$Data[$i]))?$Data[$i]['COLOR']:PRO_LookUpColor($i);
+			$Data[$i]['COLOR'] = $color;
+			$C_GraphLo = $g->AllocateColor($g->Picture,$color[0],$color[1],$color[2]);
+			$Angle2 = $Angle1+360*($Data[$i]['VALUE']/$PieSum);
+			$g->drawFilledSegment($XPos,$YPos,$Radius,$color[0],$color[1],$color[2],$Angle1, $Angle2);
+			$g->drawRadiusLine($XPos,$YPos,$Radius,0,0,0,$Angle1);
+			$g->drawRadiusLine($XPos,$YPos,$Radius,0,0,0,$Angle2);
+			$Angle1 = $Angle2;
+			}
+		$g->setFontProperties("tahoma.ttf",10);
+		}
+
+   function PRO_DrawPieGraph($g, &$Data,$XPos,$YPos,$Radius=100) {
+    $Skew=50;
+    $SpliceHeight=20;
+    $SpliceDistance=5;
+
+    $PieSum = 0; for ($i=0; $i<count($Data); $i++) $PieSum += $Data[$i]['VALUE'];
+    if ($PieSum==0) $PieSum = 1;
+     $SpliceDistanceRatio = $SpliceDistance;
+     $SkewHeight          = ($Radius * $Skew) / 100;
+     $SpliceRatio         = (360 - $SpliceDistanceRatio * count($Data) ) / $PieSum;
+     $rSplicePercent      = 100 / $PieSum;
+     $g->setFontProperties("tahoma.ttf",8);
+
+     /* Calculate all polygons */
+     $Angle    = 0; $TopPlots = ""; $BotPlots = ""; $CDev = 5;
+     for ($k=0; $k<count($Data); $k++) {
+       $v = $Data[$k]['VALUE']; 
+       $XCenterPos = cos(($Angle-$CDev+($v*$SpliceRatio+$SpliceDistanceRatio)/2) * 3.1418 / 180 ) * $SpliceDistance + $XPos;
+       $YCenterPos = sin(($Angle-$CDev+($v*$SpliceRatio+$SpliceDistanceRatio)/2) * 3.1418 / 180 ) * $SpliceDistance + $YPos;
+       $XCenterPos2 = cos(($Angle+$CDev+($v*$SpliceRatio+$SpliceDistanceRatio)/2) * 3.1418 / 180 ) * $SpliceDistance + $XPos;
+       $YCenterPos2 = sin(($Angle+$CDev+($v*$SpliceRatio+$SpliceDistanceRatio)/2) * 3.1418 / 180 ) * $SpliceDistance + $YPos;
+
+       $TopPlots[$k][] = $XCenterPos; $BotPlots[$k][] = $XCenterPos;
+       $TopPlots[$k][] = $YCenterPos; $BotPlots[$k][] = $YCenterPos + $SpliceHeight;
+
+       /* Process labels position & size */
+       $TAngle   = $Angle+($v*$SpliceRatio/2);
+	   $Pct = round($v * $rSplicePercent)."%";
+       if (!array_key_exists('CAPTION', $Data[$k])) $Data[$k]['CAPTION'] = $Caption  = $Pct;
+	   else {
+		$Caption = $Data[$k]['CAPTION'];
+		$Data[$k]['RESULT'] = $Pct;
+		}
+       $TX       = cos(($TAngle) * 3.1418 / 180 ) * ($Radius + 10)+ $XPos;
+
+       if ( $TAngle > 0 && $TAngle < 180 )
+          $TY = sin(($TAngle) * 3.1418 / 180 ) * ($SkewHeight + 10) + $YPos + $SpliceHeight + 4;
+       else
+          $TY = sin(($TAngle) * 3.1418 / 180 ) * ($SkewHeight + 10) + $YPos + 4;
+
+       if ( $TAngle > 90 && $TAngle < 270 )
+          {
+           $Position  = imageftbbox($g->FontSize,0,$g->FontName,$Caption);
+           $TextWidth = $Position[2]-$Position[0];
+           $TX = $TX - $TextWidth;
+          }
+
+       $C_TextColor = imagecolorallocate($g->Picture,70,70,70);
+       imagettftext($g->Picture,$g->FontSize,0,$TX,$TY,$C_TextColor,$g->FontName,$Caption);
+       
+
+       /* Process pie slices */
+       for($iAngle=$Angle;$iAngle<=$Angle+$v*$SpliceRatio;$iAngle=$iAngle+.5)
+        {
+         $TopX = cos($iAngle * 3.1418 / 180 ) * $Radius + $XPos;
+         $TopY = sin($iAngle * 3.1418 / 180 ) * $SkewHeight + $YPos;
+
+         $TopPlots[$k][] = $TopX; $BotPlots[$k][] = $TopX;
+         $TopPlots[$k][] = $TopY; $BotPlots[$k][] = $TopY + $SpliceHeight;
+        }
+
+       $TopPlots[$k][] = $XCenterPos2; $BotPlots[$k][] = $XCenterPos2;
+       $TopPlots[$k][] = $YCenterPos2; $BotPlots[$k][] = $YCenterPos2 + $SpliceHeight;
+
+       $Angle = $iAngle + $SpliceDistanceRatio;
+      }
+
+     /* Draw Bottom polygons */
+     for ($k=0; $k<count($Data); $k++) {
+       $color = (array_key_exists('COLOR',$Data[$k]))?$Data[$k]['COLOR']:PRO_LookUpColor($k);
+       $C_GraphLo = $g->AllocateColor($g->Picture,$color[0],$color[1],$color[2],-20);
+       imagefilledpolygon($g->Picture,$BotPlots[$k],(count($BotPlots[$k])+1)/2,$C_GraphLo);
+
+       for($j=0;$j<=count($BotPlots[$k])-4;$j=$j+2)
+        $g->drawLine($BotPlots[$k][$j],$BotPlots[$k][$j+1],$BotPlots[$k][$j+2],$BotPlots[$k][$j+3],$color[0]-20,$color[1]-20,$color[2]-20);
+      }
+
+     /* Draw pie layers */
+     $ColorRatio = 30 / $SpliceHeight; 
+     for($s=$SpliceHeight-1;$s>=1;$s--)
+      {
+       for ($k=0; $k<count($Data); $k++) {
+         $color = (array_key_exists('COLOR',$Data[$k]))?$Data[$k]['COLOR']:PRO_LookUpColor($k);
+         $C_GraphLo = $g->AllocateColor($g->Picture,$color[0],$color[1],$color[2],-10);
+         $Plots = ""; $Plot = 0;
+         foreach($TopPlots[$k] as $Key2 => $Value2)
+          {
+           $Plot++;
+           if ( $Plot % 2 == 1 )
+            $Plots[] = $Value2;
+           else
+            $Plots[] = $Value2+$s;
+          }
+         imagefilledpolygon($g->Picture,$Plots,(count($Plots)+1)/2,$C_GraphLo);
+
+         $Index       = count($Plots);
+         $ColorFactor = -20 + ($SpliceHeight - $i) * $ColorRatio;
+         $g->drawAntialiasPixel($Plots[0],$Plots[1],$color[0]+$ColorFactor,$color[1]+$ColorFactor,$color[2]+$ColorFactor);
+         $g->drawAntialiasPixel($Plots[2],$Plots[3],$color[0]+$ColorFactor,$color[1]+$ColorFactor,$color[2]+$ColorFactor);
+         $g->drawAntialiasPixel($Plots[$Index-4],$Plots[$Index-3],$color[0]+$ColorFactor,$color[1]+$ColorFactor,$color[2]+$ColorFactor);
+        }
+      }
+     /* Draw Top polygons */
+     for($k=count($Data)-1;$k>=0;$k--){ 
+       $color = (array_key_exists('COLOR',$Data[$k]))?$Data[$k]['COLOR']:PRO_LookUpColor($k);
+       $Data[$k]['COLOR'] = $color;
+       $C_GraphLo = $g->AllocateColor($g->Picture,$color[0],$color[1],$color[2]);
+       imagefilledpolygon($g->Picture,$TopPlots[$k],(count($TopPlots[$k])+1)/2,$C_GraphLo);
+
+       $En = 10;
+       for($j=0;$j<=count($TopPlots[$k])-4;$j=$j+2)
+        $g->drawLine($TopPlots[$k][$j],$TopPlots[$k][$j+1],$TopPlots[$k][$j+2],$TopPlots[$k][$j+3],$color[0]+$En,$color[1]+$En,$color[2]+$En);
+      }
+    $g->setFontProperties("tahoma.ttf",10);
+    }
+
+// BAR CHART ***************************************************************
+
+   function PRO_DrawBarGraph($g, &$Data, $gsize)
+    {
+		if (count($Data)==0) return false;
+    $Shadow = false;
+    $Alpha = 100;
+    $x_inset = (count($gsize)>2)?$gsize[2]:10;
+    $y_inset = (count($gsize)>3)?$gsize[3]:20;
+	$fsz = (count($gsize)>4)?$gsize[4]:6;
+    $size = array($gsize[0]-($x_inset*2), $gsize[1]-($y_inset+20));
+    $g->setFontProperties("tahoma.ttf",$fsz);
+    $tw=0; $th=0;
+    $g->getTextSize("999",$tw, $th, 0);
+
+    $max_neg_y = 0; $max_pos_y = 0;
+    for ($k=0; $k<count($Data); $k++) {
+       $v = $Data[$k]['VALUE'];
+       if ($v<0) $max_neg_y = max($max_neg_y, -$v); else $max_pos_y = max($max_pos_y, $v);
+       }
+    $max_y = $max_neg_y+$max_pos_y;
+    if ($max_y<=0) $max_y=1;
+    $scale = $size[1]/$max_y;
+    $bar_width = round($size[0]/((count($Data)+2)*2));
+
+    $y_zero = /*($y_inset)+*/20 + $size[1]-round(floor($max_neg_y*$scale));
+    /* Draw Y axis */
+    $g->drawLine($x_inset,/*$y_inset*/ 20,$x_inset,$y_zero,0,0,0);
+    /* Draw X axis */
+    $g->drawLine($x_inset,$y_zero,$size[0],$y_zero,0,0,0);
+
+    $x = $x_inset+$bar_width; 
+	$skip_key = 1;
+    for ($k=0; $k<count($Data); $k++) {
+       $Data[$k]['COLOR'] = $color = (array_key_exists('COLOR',$Data[$k]))?$Data[$k]['COLOR']:PRO_LookUpColor($k);
+       $v = $Data[$k]['VALUE'];
+       $y_v = round(floor($v*$scale));
+       $g->drawFilledRectangle($x, $y_zero, $x+$bar_width, $y_zero-$y_v, $color[0],$color[1],$color[2]);
+
+       $Caption = "{$v} "; $TX=$x; $TY=$y_zero-$y_v-$th;
+		$g->setFontProperties("tahoma.ttf",6);
+       $g->getTextSize($Caption, $ttw, $tth, 0);
+	   if ($ttw<($bar_width*2)) {
+          $C_TextColor = imagecolorallocate($g->Picture,70,70,70);
+          imagettftext($g->Picture,$g->FontSize,0,$TX,$TY,$C_TextColor,$g->FontName,$Caption);
+		  }
+
+       $Caption = $Data[$k]['KEY']; 
+		$g->setFontProperties("tahoma.ttf",$fsz);
+       $g->getTextSize($Caption, $ttw, $tth, 0);
+    //   if ((($ttw+10)<$y_v)&&($tth<($bar_width*$skip_key))) {
+	      $skip_key = 1;
+          $TX=$x +($bar_width/2); 
+		  $TY=$y_zero+$ttw+10; //-$y_v+$ttw+10;
+          $C_TextColor = imagecolorallocate($g->Picture,30,30,30);
+          imagettftext($g->Picture,$g->FontSize,90,$TX,$TY,$C_TextColor,$g->FontName,$Caption);
+   //       }
+	//   else $skip_key++;
+
+       $x += ($bar_width*2);
+      }
+
+    $g->setFontProperties("tahoma.ttf",10);
+   }
+
+   function PRO_DrawMultiBarGraph($g, &$Data, $gsize)
+    {
+		if (count($Data)==0) return false;
+    $Shadow = false;
+    $Alpha = 100;
+    $x_inset = (count($gsize)>2)?$gsize[2]:10;
+    $y_inset = (count($gsize)>3)?$gsize[3]:20;
+	$fsz = (count($gsize)>4)?$gsize[4]:6;
+    $size = array($gsize[0]-($x_inset*2), $gsize[1]-($y_inset+20));
+    $g->setFontProperties("tahoma.ttf",$fsz);
+    $tw=0; $th=0;
+    $g->getTextSize("999",$tw, $th, 0);
+
+    $max_neg_y = 0; $max_pos_y = 0;
+    for ($k=0; $k<count($Data); $k++) {
+		for ($i=0; $i<count($Data[0]); $i++) {
+			$v = $Data[$k][$i]['VALUE'];
+			if ($v<0) $max_neg_y = max($max_neg_y, -$v); else $max_pos_y = max($max_pos_y, $v);
+		}
+       }
+    $max_y = $max_neg_y+$max_pos_y;
+    if ($max_y<=0) $max_y=1;
+    $scale = $size[1]/$max_y;
+    $bar_width = round(($size[0]-20)/((count($Data))*(count($Data[0])+1)));
+	$all_bars_width = $bar_width*(count($Data[0])+1);
+
+    $y_zero = /*($y_inset)+*/20 + $size[1]-round(floor($max_neg_y*$scale));
+    /* Draw Y axis */
+    $g->drawLine($x_inset,/*$y_inset*/ 20,$x_inset,$y_zero,0,0,0);
+    /* Draw X axis */
+    $g->drawLine($x_inset,$y_zero,$size[0],$y_zero,0,0,0);
+
+	for ($i=0; $i<count($Data[0]); $i++) {
+		$Data[0][$i]['COLOR'] = $color = (array_key_exists('COLOR',$Data[0][$i]))?$Data[0][$i]['COLOR']:PRO_LookUpColor($i);
+		$x = $x_inset+$bar_width+($bar_width*$i); 
+		for ($k=0; $k<count($Data); $k++) {
+			$v = $Data[$k][$i]['VALUE'];
+			$y_v = round(floor($v*$scale));
+			$g->drawFilledRectangle($x, $y_zero, $x+$bar_width, $y_zero-$y_v, $color[0],$color[1],$color[2]);
+
+			$Caption = "{$v} "; 
+			$TX=$x; 
+			$TY=$y_zero-$y_v-$th;
+			$g->setFontProperties("tahoma.ttf",6);
+			$g->getTextSize($Caption, $ttw, $tth, 0);
+			if ($ttw<($bar_width*2)) {
+				$C_TextColor = imagecolorallocate($g->Picture,70,70,70);
+				imagettftext($g->Picture,$g->FontSize,0,$TX,$TY,$C_TextColor,$g->FontName,$Caption);
+				}
+			$x += ($all_bars_width);
+			}
+	}
+
+
+	$x = $x_inset+$bar_width+($bar_width); 
+	for ($i=0; $i<count($Data); $i++) {
+       $Caption = $Data[$i][0]['KEY']; 
+		$g->setFontProperties("tahoma.ttf",$fsz);
+       $g->getTextSize($Caption, $ttw, $tth, 0);
+          $TX=$x; 
+		  $TY=$y_zero+$ttw+10; //-$y_v+$ttw+10;
+          $C_TextColor = imagecolorallocate($g->Picture,30,30,30);
+          imagettftext($g->Picture,$g->FontSize,90,$TX,$TY,$C_TextColor,$g->FontName,$Caption);
+
+       $x += ($all_bars_width);
+      }
+
+    $g->setFontProperties("tahoma.ttf",10);
+   }
+
+// LINE CHART ***************************************************************
+
+   function PRO_DrawLineGraph($g, &$Data, $gsize)
+    { 
+    $x_inset = (count($gsize)>2)?$gsize[2]:10;
+    $y_inset = (count($gsize)>3)?$gsize[3]:20;
+	$fsz = (count($gsize)>4)?$gsize[4]:6;
+    $size = array($gsize[0]-($x_inset*2), $gsize[1]-($y_inset+20));
+    $tw=0; $th=0;
+    $g->setFontProperties("tahoma.ttf",6);
+    $g->getTextSize("999",$tw,$th,0);
+
+    $max_y=0; $max_neg_y = 0; $max_pos_y = 0;
+    for ($k=0; $k<count($Data); $k++) {
+       $v = $Data[$k]['VALUE'];
+       $max_y = max($max_y, abs($v));
+       if ($v<0) $max_neg_y = max($max_neg_y, -$v); else $max_pos_y = max($max_pos_y, $v);
+       }
+    if ($max_y<=0) $max_y=1;
+    $scale = $size[1]/$max_y;
+    $point_gap = round($size[0]/(count($Data)+2));
+
+     $y_zero = 20+$size[1];
+    /* Draw Y axis */
+    $g->drawLine($x_inset,20,$x_inset,$y_zero,0,0,0);
+    /* Draw X axis */
+    $g->drawLine($x_inset,$y_zero,$size[0],$y_zero,0,0,0);
+
+
+    $x = $x_inset+$point_gap; 
+    $y = $y_zero - round(floor($Data[0]['VALUE']*$scale));
+    $Data[0]['COLOR'] = $color = PRO_LookUpColor(0);
+    for ($k=0; $k<count($Data); $k++) {
+       $Data[$k]['COLOR'] = $color;
+       $v = $Data[$k]['VALUE'];
+       $y_v = $y_zero-round(floor($v*$scale));
+       $g->drawLine($x, $y, $x+$point_gap, $y_v, $color[0],$color[1],$color[2]);
+
+
+       $Caption = "{$v} "; $TX=$x+$point_gap; $TY=$y_v-$th;
+       $C_TextColor = imagecolorallocate($g->Picture,0,0,255);
+		$g->setFontProperties("tahoma.ttf",6);
+       imagettftext($g->Picture,$g->FontSize,0,$TX,$TY,$C_TextColor,$g->FontName,$Caption);
+	   
+       $Caption = $Data[$k]['KEY']; 
+		$g->setFontProperties("tahoma.ttf",$fsz);
+       $g->getTextSize($Caption, $ttw, $tth, 0);
+    //   if ((($ttw+10)<$y_v)&&($tth<($bar_width*$skip_key))) {
+	      $skip_key = 1;
+          $TX=$x+$point_gap;
+		  $TY=$y_zero+$ttw+10; //-$y_v+$ttw+10;
+          $C_TextColor = imagecolorallocate($g->Picture,30,30,30);
+          imagettftext($g->Picture,$g->FontSize,90,$TX,$TY,$C_TextColor,$g->FontName,$Caption);
+   //       }
+	//   else $skip_key++;
+    $g->drawLine($TX,20,$TX,$y_zero,128,128,128);
+
+       $x += ($point_gap);
+       $y = $y_v;
+      }
+    $g->setFontProperties("tahoma.ttf",10);
+   }
+   function PRO_DrawMultiLineGraph($g, &$Data, $gsize)
+    { 
+    $x_inset = (count($gsize)>2)?$gsize[2]:10;
+    $y_inset = (count($gsize)>3)?$gsize[3]:20;
+	$fsz = (count($gsize)>4)?$gsize[4]:6;
+    $size = array($gsize[0]-($x_inset*2), $gsize[1]-($y_inset+20));
+    $g->setFontProperties("tahoma.ttf",6);
+    $tw=0; $th=0;
+    $g->getTextSize("999",$tw,$th,0);
+
+    $max_y=0; $max_neg_y = 0; $max_pos_y = 0;
+	for ($i = 0; $i<count($Data); $i++) {
+		for ($k=0; $k<count($Data[$i]); $k++) {
+		   $v = $Data[$i][$k]['VALUE'];
+		   $max_y = max($max_y, abs($v));
+		   if ($v<0) $max_neg_y = max($max_neg_y, -$v); else $max_pos_y = max($max_pos_y, $v);
+		   }
+		if ($max_y<=0) $max_y=1;
+		$scale = $size[1]/$max_y;
+       }
+	$point_gap = round($size[0]/(count($Data)+2));
+	   
+
+     $y_zero = 20+$size[1];
+    /* Draw Y axis */
+    $g->drawLine($x_inset,20,$x_inset,$y_zero,0,0,0);
+    /* Draw X axis */
+    $g->drawLine($x_inset,$y_zero,$size[0],$y_zero,0,0,0);
+	
+    $x_root = $x_inset+$point_gap; 
+    $y_root = $y_zero - round(floor($Data[0][0]['VALUE']*$scale));
+	for ($k = 0; $k<count($Data[0]); $k++) {
+	    $x = $x_root;
+		$y = $y_root;
+		$color = PRO_LookUpColor($k);
+		for ($i=0; $i<count($Data); $i++) {
+		   $Data[$i][$k]['COLOR'] = $color;
+		   $v = $Data[$i][$k]['VALUE'];
+		   $y_v = $y_zero-round(floor($v*$scale));
+		   if ($i>0) {
+			   $g->drawLine($x, $y, $x+$point_gap, $y_v, $color[0],$color[1],$color[2]);
+
+
+			   $Caption = "{$v} "; $TX=$x+$point_gap; $TY=$y_v-$th;
+			   $C_TextColor = imagecolorallocate($g->Picture,70,70,70);
+			   imagettftext($g->Picture,$g->FontSize,0,$TX,$TY,$C_TextColor,$g->FontName,$Caption);
+		   }
+
+		   $x += ($point_gap);
+		   $y = $y_v;
+		  }
+	  }
+	//
+    $x_root = $x_inset+$point_gap; 
+    $y_root = $y_zero - round(floor($Data[0][0]['VALUE']*$scale));
+	    $x = $x_root;
+		$y = $y_root;
+	for ($k = 0; $k<count($Data); $k++) {
+       $Caption = $Data[$k][0]['KEY']; 
+		$g->setFontProperties("tahoma.ttf",$fsz);
+       $g->getTextSize($Caption, $ttw, $tth, 0);
+    //   if ((($ttw+10)<$y_v)&&($tth<($bar_width*$skip_key))) {
+	      $skip_key = 1;
+          $TX=$x+$point_gap;
+		  $TY=$y_zero+$ttw+10; //-$y_v+$ttw+10;
+          $C_TextColor = imagecolorallocate($g->Picture,30,30,30);
+          imagettftext($g->Picture,$g->FontSize,90,$TX,$TY,$C_TextColor,$g->FontName,$Caption);
+   //       }
+	//   else $skip_key++;
+    $g->drawLine($TX,20,$TX,$y_zero,128,128,128);
+
+       $x += ($point_gap);
+       $y = $y_v;
+	}
+	//
+    $g->setFontProperties("tahoma.ttf",10);
+   }
+   
+
+// Association ***************************************************************
+
+   function PRO_DrawAssoc($g, &$Data, $gsize)
+    {
+    $Shadow = false;
+    $Alpha = 100;
+    $x_inset = 10;
+    $y_inset = 20;
+    $size = array($gsize[0]-($x_inset*2), $gsize[1]-($y_inset*2));
+    $g->setFontProperties("tahoma.ttf",6);
+    $tw=0; $th=0;
+    $g->getTextSize("999",$tw, $th, 0);
+	
+	$R = $G = $B =128;
+	$Xc = $Yc = $gsize[0]/2; $Height = $gsize[0]/2 - 60;
+	
+	$g->drawCircle($Xc,$Yc,$Height,$R,$G,$B);
+	$grid = $Data['grid'];
+	asort($grid);
+	$from = array(); $to = array(); $max_wt = 1;
+	foreach ($grid as $sdns=>$wt) {
+		list($fsdn, $tsdn) = explode(':',$sdns);
+		if (!array_key_exists($fsdn,$from)) if (count($from)<20) $from[$fsdn]=0;
+		if (!array_key_exists($tsdn,$to)) if (count($to)<20) $to[$tsdn] = 0;
+		$max_wt = max($max_wt, $wt);
+		}
+	$fact = 128/$max_wt;
+	$n = $nn = (count($from)>0)?floor(160/(count($from))):160;
+	$cx = $Xc;
+	$cy = $Yc;
+	$boxes = array();
+	$sdns = array_keys($from);
+	for ($i=0; $i<count($sdns); $i++) {
+		$px = $cx + $Height*sin(deg2rad($nn+190));
+		$py = $cy + $Height*cos(deg2rad($nn+190));
+		$g->getTextSize($sdns[$i], $ttw, $tth, 0);
+		$C_TextColor = imagecolorallocate($g->Picture,70,70,70);
+		imagettftext($g->Picture,$g->FontSize,0,$px-$ttw-4,$py,$C_TextColor,$g->FontName,$sdns[$i]);
+		$g->drawFilledCircle($px,$py,1,0,255,255);
+		$from[$sdns[$i]] = array($px,$py);
+		$nn += $n;
+		$boxes[] = array($px-$ttw-4, $py, $ttw, $tth, $sdns[$i]); 
+		}
+	$n = $nn = (count($to)>0)?floor(160/(count($to))):160;
+	$sdns = array_keys($to);
+	for ($i=0; $i<count($sdns); $i++) {
+		$px = $cx + $Height*sin(deg2rad($nn+10));
+		$py = $cy + $Height*cos(deg2rad($nn+10));
+		$g->getTextSize($sdns[$i], $ttw, $tth, 0);
+		$C_TextColor = imagecolorallocate($g->Picture,70,70,70);
+		imagettftext($g->Picture,$g->FontSize,0,$px+4,$py,$C_TextColor,$g->FontName,$sdns[$i]);
+		$g->drawFilledCircle($px,$py,1,0,0,255);
+		$to[$sdns[$i]] = array($px,$py);
+		$nn += $n;
+		$boxes[] = array($px+4, $py, $ttw, $tth, $sdns[$i]); 
+		}
+	foreach ($grid as $sdns=>$wt) {
+		list($fsdn, $tsdn) = explode(':',$sdns);
+		if (array_key_exists($fsdn,$from) && array_key_exists($tsdn, $to)) {
+			$color = 128-floor($wt*$fact);
+			$colorR= $colorG = $colorB = 255;
+			if ($wt<($max_wt/3)) $colorG = $color;
+			elseif ($wt<($max_wt*2/3)) $colorB = $color;
+			else $colorR = $color;
+			$g->drawLine($from[$fsdn][0], $from[$fsdn][1], $to[$tsdn][0], $to[$tsdn][1], $colorR,$colorG,$colorB);
+			}
+		}
+    $g->setFontProperties("tahoma.ttf",10);
+	$Data = $boxes;
+   }
+
+
+?>

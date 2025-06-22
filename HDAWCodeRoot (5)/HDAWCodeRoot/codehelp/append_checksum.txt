@@ -1,0 +1,9 @@
+<h2>append_checksum</h2>
+<i><b>Add to the checksum</b></i><br/>
+$result = append_checksum(<i>target</i>)<br/>
+<i>Returns true </i><br/>
+Add target into the opened checksum
+<br/>
+<i>Example</i><br/>
+append_checksum("More String");
+

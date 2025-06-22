@@ -1,0 +1,10 @@
+<h3>return</h3>
+<i><b>RETURN Keyword, Statement</b></i><br/>
+Terminate execution of function, return to caller
+As in example:<br/>
+<i>Example</i><br/>
+if $a > 10 <b>return</b> "over limit";
+
+
+
+

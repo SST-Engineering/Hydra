@@ -1,0 +1,12 @@
+<h3>greater_than</h3>
+<i><b>GREATER_THAN Keyword</b></i><br/>
+Greater than, used in conditional expressions<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+if $a <b>greater_than</b> $b then $c = add_these($a, $b); 
+
+
+
+
+

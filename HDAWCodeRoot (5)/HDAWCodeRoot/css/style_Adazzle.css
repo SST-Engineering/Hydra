@@ -1,0 +1,32 @@
+
+table.ad-table td{
+   text-align:left;
+}
+
+table.ad-table > tbody, 
+table.ad-table > tbody > tr > td,
+table.ad-table > tbody > tr > th{
+      border:1px solid rgb(150, 216, 233);
+      border-collapse:collapse;
+}
+
+table.ad-table  {
+   background-repeat:no-repeat;
+   padding:4px;
+   }
+   
+table.ad-table {
+   padding: 0px;
+   width:100%;
+   margin-left: auto;
+   margin-right: auto;
+   font-size: 10px; 
+   font-weight:normal; 
+   color:black;
+   background-color:white; 
+   cellspacing:0;
+}
+
+table.ad-table { table-layout:fixed; }
+table.ad-table td { overflow: hidden; word-wrap: nowrap; }
+table.ad-table th { overflow: hidden; word-wrap: nowrap; }

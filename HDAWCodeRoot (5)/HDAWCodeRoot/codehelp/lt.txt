@@ -1,0 +1,12 @@
+<h3>lt</h3>
+<i><b>LT Keyword</b></i><br/>
+Less than, used in conditional expressions<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+if $a <b>lt</b> $b then $c = add_these($a, $b); 
+
+
+
+
+

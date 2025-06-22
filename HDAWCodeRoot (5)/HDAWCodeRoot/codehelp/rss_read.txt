@@ -1,0 +1,13 @@
+<h2>rss_read</h2>
+<i><b>Make a connection to an RSS server and get latest feed</b></i><br/>
+$result = rss_read(<i>dictionary_name</i>)<br/>
+<i>Returns false on failure, an array of property indexed items</i><br/>
+<i>Example</i><br/>
+$result = rss_read("my_rss_site");<br/>
+if $result is not false begin
+   for all properties $index in $result begin
+      for all properties $key in $result.$index 
+         console("{$key} is {$result.$index.$key}");
+      end
+   end
+

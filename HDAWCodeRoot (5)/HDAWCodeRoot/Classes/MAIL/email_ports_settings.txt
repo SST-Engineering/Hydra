@@ -1,0 +1,72 @@
+For purposes of configuring firewalls or for troubleshooting communications issues, it may be useful to know what TCP/UDP ports Exchange 2000 Server and Exchange 2000 Conferencing Server are using. This article is also true for Exchange Server 2003 installations.
+
+Protocol: LDAP
+•Port (TCP/UDP): 389 (TCP)
+•Description: Lightweight Directory Access Protocol (LDAP), used by Active Directory, Active Directory Connector, and the Microsoft Exchange Server 5.5 directory.
+
+Protocol: LDAP/SSL
+•Port (TCP/UDP): 636 (TCP)
+•Description: LDAP over Secure Sockets Layer (SSL). When SSL is enabled, LDAP data that is transmitted and received is encrypted.
+•To enable SSL, you must install a Computer certificate on the domain controller or Exchange Server 5.5 computer.
+
+Protocol: LDAP
+•Port (TCP/UDP): 379 (TCP)
+•Description: The Site Replication Service (SRS) uses TCP port 379.
+
+Protocol: LDAP
+•Port (TCP/UDP): 390 (TCP)
+•Description: While not a standard LDAP port, TCP port 390 is the recommended alternate port to configure the Exchange Server 5.5 LDAP protocol when Exchange Server 5.5 is running on a Microsoft Windows 2000 Active Directory domain controller.
+
+Protocol: LDAP
+•Port (TCP/UDP): 3268 (TCP)
+•Description: Global catalog. The Windows 2000 Active Directory global catalog (which is really a domain controller "role") listens on TCP port 3268. When you are troubleshooting issues that may be related to a global catalog, connect to port 3268 in LDP.
+
+Protocol: LDAP/SSL
+•Port (TCP/UDP): 3269 (TCP)
+•Description: Global catalog over SSL. Applications that connect to TCP port 3269 of a global catalog server can transmit and receive SSL encrypted data. To configure a global catalog to support SSL, you must install a Computer certificate on the global catalog.
+
+Protocol: IMAP4
+•Port (TCP/UDP): 143 (TCP)
+•Description: Internet Message Access Protocol version 4, may be used by "standards-based" clients such as Microsoft Outlook Express or Netscape Communicator to access the e-mail server. IMAP4 runs on top of the Microsoft Internet Information Service (IIS) Admin Service (Inetinfo.exe), and enables client access to the Exchange 2000 information store.
+
+Protocol: IMAP4/SSL
+•Port (TCP/UDP): 993 (TCP)
+•Description: IMAP4 over SSL uses TCP port 993. Before an Exchange 2000 server supports IMAP4 (or any other protocol) over SSL, you must install a Computer certificate on the Exchange 2000 server.
+
+Protocol: POP3
+•Port (TCP/UDP): 110 (TCP)
+•Description: Post Office Protocol version 3, enables "standards-based" clients such as Outlook Express or Netscape Communicator to access the e-mail server. As with IMAP4, POP3 runs on top of the IIS Admin Service, and enables client access to the Exchange 2000 information store.
+
+Protocol: POP3/SSL
+•Port (TCP/UDP): 995 (TCP)
+•Description: POP3 over SSL. To enable POP3 over SSL, you must install a Computer certificate on the Exchange 2000 server.
+
+Protocol: NNTP
+•Port (TCP/UDP): 119 (TCP)
+•Description: Network News Transport Protocol, sometimes called Usenet protocol, enables "standards-based" client access to public folders in the information store. As with IMAP4 and POP3, NNTP is dependent on the IIS Admin Service.
+
+Protocol: NNTP/SSL
+
+Port (TCP/UDP): 563 (TCP)
+
+Description: NNTP over SSL. To enable NNTP over SSL, you must install a Computer certificate on the Exchange 2000 Server.
+
+Protocol: HTTP
+•Port (TCP/UDP): 80 (TCP)
+•Description: Hyper-Text Transfer Protocol is the protocol used primarily by Microsoft Outlook Web Access (OWA), but also enables some administrative actions in Exchange System Manager. HTTP is implemented through the World Wide Web Publishing Service (W3Svc), and runs on top of the IIS Admin Service.
+
+Protocol: HTTP/SSL
+•Port (TCP/UDP): 443 (TCP)
+•Description: HTTP over SSL. To enable HTTP over SSL, you must install a Computer certificate on the Exchange 2000 server.
+
+Protocol: SMTP
+•Port (TCP/UDP): 25 (TCP)
+•Description: Simple Mail Transfer Protocol, is the foundation for all e-mail transport in Exchange 2000. The SMTP Service (SMTPSvc) runs on top of the IIS Admin Service. Unlike IMAP4, POP3, NNTP, and HTTP, SMTP in Exchange 2000 does not use a separate port for secure communication (SSL), but rather, employs an "in-band security sub-system" called Transport Layer Security (TLS).
+
+Protocol: SMTP/SSL
+•Port (TCP/UDP): 465 (TCP)
+•Description: SMTP over SSL. TCP port 465 is reserved by common industry practice for secure SMTP communication using the SSL protocol. However, unlike IMAP4, POP3, NNTP, and HTTP, SMTP in Exchange 2000 does not use a separate port for secure communication (SSL), but rather, employs an "in-band security sub-system" called Transport Layer Security (TLS). To enable TLS to work on Exchange 2000, you must install a Computer certificate on the Exchange 2000 server.
+
+Protocol: SMTP/LSA
+•Port (TCP/UDP): 691 (TCP)
+•Description: The Microsoft Exchange Routing Engine (also known as RESvc) listens for routing link state information on TCP port 691. Exchange 2000 uses routing link state information to route messages and the routing table is constantly updated. The Link State Algorithm (LSA) propagates outing status information between Exchange 2000 servers. This algorithm is based on the Open Shortest Path First (OSPF) protocol from networking technology, and transfers link state information between routing groups by using the X-LSA-2 command verb over SMTP and by using a Transmission Control Protocol (TCP) connection to port 691 in a routing group.

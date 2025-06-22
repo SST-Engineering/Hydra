@@ -1,0 +1,85 @@
+ // Common TXT Loader for multiple records from a txt file
+// Uses [optional] ALCW Text Processor
+COMMON "OnError.txt";
+COMMON "ChecksumCheck.txt";
+COMMON "Loader-INIT.txt";
+COMMON "Loader-INSERT.txt";
+
+
+function load_from_regex($p) begin
+   metatags "load_from_regex";
+   $fn_title = "In function load_from_regex, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.use_dwh_table = $NOT_NULL;
+   $p.file_to_read = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.truncate_table = true;
+   $p.create_table = false;
+   $p.verbose = false;
+   $p.checksum_field = null;
+   $p.guid = null;
+   $p.custom_regex = null;
+   $p.use_file_date = null;
+   */
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_db_table = $p.use_db_table;
+   if $use_db_table is null return return_with_error("{$fn_title} must supply a property use_db_table");
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $file_field_lookup = $p.file_field_lookup;
+   $file_field_lookup default null;
+   $file_add_fields = $p.file_add_fields;
+   $file_add_fields default null;
+   $file_field_process = $p.file_field_process;
+   $file_field_process default null;
+   $file_not_null_fields = $p.file_not_null_fields;
+   $file_not_null_fields default null;
+   $truncate_db_table = $p.truncate_table;
+   $truncate_db_table default true;
+   $create_db_table = $p.create_table;
+   $create_db_table default null;
+   $use_file_date = $p.use_file_date;
+   $use_dwh_table = $p.use_dwh_table;
+   $use_dwh_table DEFAULT $use_db_table;
+   $verbose = $p.verbose;
+   $verbose default false;
+   $checksum_field = $p.checksum_field;
+   $checksum_field default null;
+   $trim_lines = $p.trim_lines;
+   $trim_lines default true;
+   $guid = $p.guid;
+   $file_custom_regx = $p.custom_regex;
+   $s = loader_init($use_db_connect, $use_db_table, $file_to_read, $truncate_db_table, $create_db_table);
+   if $s is false return false;
+   if $verbose is true console("{$fn_title} loader init complete for {$file_to_read} using db {$use_db_connect} and table {$use_db_table}");
+   // Open the checksum method
+   do_open_checksum($checksum_field, $guid);
+   $file_lines = 0;
+   $lines = string_lines($s, $trim_lines);
+   $s = "";
+   for all properties $line_no in $lines begin
+      $line = $lines.$line_no;
+	  $record = null;
+	  for all properties $rx_indx in $file_custom_regx begin
+	     $matches = preg_match($file_custom_regx.$rx_indx, $line);
+		 if $matches is not false begin
+		    for string properties $field in $matches $record.$field = $matches.$field;
+			end
+		 end
+      // Load Insert the record
+	  $p.record = $record;
+      if loader_insert($p) is true $file_lines = $file_lines+1;
+	  end
+
+   check_checksum(close_write_checksum($checksum_field, $guid), $checksum_field, $guid, $file_lines, $use_db_table, $file_field_lookup);
+   // And close off the destination
+   mssql_close();
+   if $verbose is true console("{$fn_title} Completed load of " + running_process()+ " from {$file_to_read} with load of {$file_lines} records");
+   return $file_lines;
+   end

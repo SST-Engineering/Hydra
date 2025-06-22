@@ -1,0 +1,8 @@
+<h2>lookup_dictionary</h2>
+<i><b>Retrieve the details from a global dictionary name</b></i><br/>
+$result = exec(<i>name</i>)<br/>
+<i>Returns false on failure, an array of properties and values on success</i>
+<i>Example</i><br/>
+$my_conn = lookup_dictionary("My_db_connect");<br/>
+if $my_conn is not false then $host=$my_conn['Host'];<br/>
+

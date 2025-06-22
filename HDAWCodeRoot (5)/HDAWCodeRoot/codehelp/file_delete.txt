@@ -1,0 +1,13 @@
+<h2>file_delete</h2>
+<i><b>Delete a local working directory file</b></i><br/>
+Delete a file, given just a file name (for working directory), or full file path <br/>
+<i>$ok = file_delete(filename_or_path )</i><br/>
+True on success, false on failure
+<br/>
+<i>Example</i><br/>
+<pre>
+$ok = file_delete("MyFile.csv");
+
+</pre>
+<br/>
+

@@ -1,0 +1,44 @@
+<h2>load_from_csv</h2>
+Function that is passed a structured parameter to 
+<ul><li>Open a destination db table</li>
+<li>Open and read a text file in csv format</li>
+<li>Insert each record from the text file into the detsination db table</li></ul>
+Return: false on failure, number of records read and inserted on success<br>
+
+Call of the form <br><code>
+$records_loaded = load_from_csv($p);<br>
+if $records_loaded is false then console("Fails in load_from_csv,"+last_error());<br>
+else console("Success in loading {$records_loaded} records");<br>
+</code>
+<br><br>
+Where $p is this structure:<br><br>
+<table class="alc-help" >
+<tr><th>Property Name</th><th>Can be Null or Missing</th><th>Default value taken if Null or Missing</th><th>Example of setting</th></tr>
+   <tr><td>use_db_connect </td><td>No</td><td> <u><i><b>Must be set to a valid value</b></i></u> </td><td>$p.use_db_connect = "ICE_DWH"</td></tr>
+   <tr><td>use_db_table</td><td>No</td><td> <u><i><b>Must be set to a valid value</b></i></u> </td><td>$p.use_db_table = "STG_Bank_Tbl"</td></tr>
+   <tr><td>file_to_read</td><td>No</td><td> <u><i><b>Must be set to a valid value</b></i></u> </td><td>$p.file_to_read = $file_to_read</td></tr>
+   <tr><td>file_field_lookup</td><td>Yes</td><td>Null, no source to destination translation lookup, all fields in the source are written to destination</td><td>$p.file_field_lookup = $file_field_lookup</td></tr>
+   <tr><td>file_add_fields</td><td>Yes</td><td>Null, no fields added to destination, otherwise these fields added</td><td>$p.file_add_fields = $file_add_fields</td></tr>
+   <tr><td>file_field_process</td><td>Yes</td><td>Null, no value adjust on any fields, otherwise field names in these properties are processed</td><td>$p.file_field_process = $file_field_process</td></tr>
+   <tr><td>file_not_null_fields</td><td>Yes</td><td>Null, null fields are inserted, otherwise fields in these properties are checked for null</td><td>$p.file_not_null_fields = $file_not_null_fields</td></tr>
+   <tr><td>verbose</td><td>Yes</td><td>false, otherwise output debug trace code</td><td>$p.verbose = true</td></tr>
+   <tr><td>delimiter</td><td>Yes</td><td>comma (,), otherwise set to delimiter string</td><td>$p.delimiter = "|"</td></tr>
+   <tr><td>file_title_lines</td><td>Yes</td><td>0, Number of initial lines in source file to skip and ignore</td><td>$p.file_title_lines= 0</td></tr>
+   <tr><td>skip_to_field_line</td><td>Yes</td><td>null, pattern to seek as the title line</td><td>$p.skip_to_field_line = "GRP, Acc Id"</td></tr>
+   <tr><td>field_line</td><td>Yes</td><td>true, says there is a field line, otherwise you need to skip to field line or provide file_fields see below</td><td>$p.field_line = false;</td></tr>
+   <tr><td>file_fields</td><td>Yes</td><td>null, structure list of column names in the source file</td><td>$p.use_db_connect = $file_fields;</td></tr>
+   <tr><td>checksum_field</td><td>Yes</td><td>null, otherwise the name of the source column name to use as the checksum field</td><td>$p.checksum_field = "ACC NO";</td></tr>
+   <tr><td>guid</td><td>Yes</td><td>null, otherwise obtained from guid() and used as processId (typically)</td><td>$p.guid = $guid;</td></tr>
+   <tr><td>file_lines_limit</td><td>Yes</td><td>null (note:not zero), limit load to this number of lines from source</td><td>$p.file_lines_limit = 60;</td></tr>
+</table>
+<br>
+Then there are some <b>"callback"</b> functions, callback means that the loader will call these functions (if they exist) in the profile alcode.alc
+<ul>
+<li><b> function file_custom_validate </b>(<i>db_field_name</i>,<i>proposed value</i>) - return the validated value for this field, or exit inside the function</li>
+
+<li><b> function file_conditional_insert </b>(<i>record</i>) - last chance to abort this insert, return false to abort (skip) this record</li>
+
+<li><b> function file_custom_fields </b>(<i>record</i>) - make any final changes to the fields in this record, maybe set a field by calculation of other fields</li>
+</ul>
+
+

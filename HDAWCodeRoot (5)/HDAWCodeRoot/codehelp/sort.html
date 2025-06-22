@@ -1,0 +1,92 @@
+<html>
+<h2>sort</h2>
+<i><b>Return a structure ordered</b></i><br/>
+Ascending is indicated by ASC and Descending by DESC in the examples, and sorting on keys is indicated by KEYS while by value is VALUE <br/>
+<i>$result = sort($source[, ASC | DESC [, VALUE | KEY]])</i><br/>
+<br/>
+Examples: <br>
+$result = sort($source); // default same as sort($source, 'ASC', 'VALUE');<br>
+$result = sort($source, 'DESC'); // same as sort($source, 'DESC', 'VALUE');<br> 
+
+<div style='white-space:pre;'>
+<pre>
+
+Sorting examples:
+Example 1 - default value sorting:
+$p.. = "orange";
+$p.. = "apple";
+$p.. = "banana";
+$p = sort($p);
+console("Defaults:"); dump($p);
+Example 1 - results:
+Defaults:
+.[1] apple
+.[2] banana
+.[0] orange
+
+Example 2 - default descending:
+$p = sort($p, 'DESC');
+console("DESC:"); dump($p);
+Example 2 - results:
+DESC:
+.[0] orange
+.[1] banana
+.[2] apple
+
+Example 3 - key descending:
+$p.orange = "10 available";
+$p.apple = "20 available";
+$p.banana = "30 available";
+$p = sort($p, 'DESC', 'KEY');
+console("KEY DESC:"); dump($p);
+Example 3 - results:
+KEY DESC:
+.[orange] 10 available
+.[banana] 30 available
+.[apple] 20 available
+
+Example 4 - file order, where date is in filename:
+Might not be an issue as get_file_paths seems to return files in a name order.
+
+$dir = lookup_dictionary("MI_WMI");
+$dir = $dir.directory;
+$dir = "{$dir}\History1";
+$files = get_file_paths($dir);
+console("Original processing order would have been:");
+for all $file_index in $files begin
+   console($files.$file_index);
+   end
+// Extract a date or order from file name
+for all $file_index in $files begin
+   $matches = preg_match("/region[\d]{1,1}[\d]{2,2}(?P<sort_on>[\d]{8,8}).*/i",$files.$file_index);
+   if $matches is not false begin
+      $key = $matches.sort_on;
+      $sorted_files.$key = $files.$file_index;
+      end
+   end
+$sorted_files = sort($sorted_files, 'ASC', 'KEY');
+console("Sorted order would be:");
+for all $date_order in $sorted_files begin
+ console("{$date_order}: {$sorted_files.$date_order}");
+ end
+ 
+Example 4 - results:
+Original processing order would have been:
+c:\MI_WMI\History1/region202201203091024.zip
+c:\MI_WMI\History1/region206201203051252.zip
+c:\MI_WMI\History1/region211201203061257.zip
+c:\MI_WMI\History1/region21720120308125.zip
+c:\MI_WMI\History1/region239201203071220.zip
+c:\MI_WMI\History1/region271201203021216.zip
+Sorted order would be:
+20120302: c:\MI_WMI\History1/region271201203021216.zip
+20120305: c:\MI_WMI\History1/region206201203051252.zip
+20120306: c:\MI_WMI\History1/region211201203061257.zip
+20120307: c:\MI_WMI\History1/region239201203071220.zip
+20120308: c:\MI_WMI\History1/region21720120308125.zip
+20120309: c:\MI_WMI\History1/region202201203091024.zip
+
+
+</pre>
+</div>
+</html>

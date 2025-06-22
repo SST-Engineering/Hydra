@@ -1,0 +1,9 @@
+<h2>file_open_write</h2>
+<i><b>Open a file for writing</b></i><br/>
+$result = file_open_write(<i>filename</i>)<br/>
+<i>Return true success, false on failure</i><br/>
+Open a file, create if not exists, to be written to.
+<br/>
+<i>Example</i><br/>
+$a = file_open_write("file_path");
+

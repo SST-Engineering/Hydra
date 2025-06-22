@@ -1,0 +1,9 @@
+<h2>file_read_line</h2>
+<i><b>Read a line from an open file</b></i><br/>
+$result = file_read_line()<br/>
+<i>Return string of line, false on failure or end of file</i><br/>
+Read a line from a file opened by file_open_read
+<br/>
+<i>Example</i><br/>
+$a = file_read_line();
+

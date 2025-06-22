@@ -1,0 +1,7 @@
+<h2>urldecode</h2>
+<i><b>Decodes a target string previously encoded</b></i><br/>
+$result = urldecode(<i>target_string</i>)<br/>
+<i>Returns the resulting string, false for failure</i><br/>
+<br/>
+<i>Example</i><br/>
+

@@ -1,0 +1,14 @@
+<h2>orcl_fetch_row</h2>
+<i><b>Get next row in result set of query sent to Oracle</b></i><br/>
+$result = orcl_fetch_row()<br/>
+<i>Returns false on failure, array of fields, assumes connection opened by orcl_connect and valid previous orcl_query</i><br/>
+<br/>
+<i>Example</i><br/>
+$my_row = orcl_fetch_row();<br/>
+<i>if $my_row is not false begin<br/>
+   for all properties $field in $my_row begin<br/>
+      console("Field {$field} is {$my_row.$field}");<br/>
+   end<br/></i>
+
+
+

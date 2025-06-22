@@ -1,0 +1,132 @@
+ // Common CSV Loader
+COMMON "OnError.txt";
+COMMON "ChecksumCheck.txt";
+COMMON "Loader-INIT.txt";
+COMMON "Loader-INSERT.txt";
+
+
+function load_from_csv($p) begin
+   metatags "load_from_csv";
+   $fn_title = "In function load_from_csv, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.use_dwh_table = $NOT_NULL;
+   $p.file_to_read = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.truncate_table = true;
+   $p.create_table = false;
+   $p.verbose = false;
+   $p.delimiter = ',';
+   $p.enclosure = '"';
+   $p.escape = null;
+   $p.file_title_lines = null;
+   $p.skip_to_field_line = null;
+   $p.field_line = true;
+   $p.file_fields = null;
+   $p.checksum_field = null;
+   $p.guid = null;
+   $p.file_lines_limit = null;
+   $p.use_file_date = null;
+   */
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_db_table = $p.use_db_table;
+   if $use_db_table is null return return_with_error("{$fn_title} must supply a property use_db_table");
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $file_field_lookup = $p.file_field_lookup;
+   $file_field_lookup default null;
+   $file_add_fields = $p.file_add_fields;
+   $file_add_fields default null;
+   $file_field_process = $p.file_field_process;
+   $file_field_process default null;
+   $file_not_null_fields = $p.file_not_null_fields;
+   $file_not_null_fields default null;
+   $truncate_db_table = $p.truncate_table;
+   $truncate_db_table default true;
+   $create_db_table = $p.create_table;
+   $create_db_table default false;
+   $verbose = $p.verbose;
+   $verbose default false;
+   $file_delimiter = $p.delimiter;
+   $file_delimiter default ",";
+   $file_enclosure = $p.enclosure;
+   $file_enclosure default '"';
+   $file_escape = $p.escape;
+   $file_escape default null;
+   $file_title_lines = $p.file_title_lines;
+   $file_title_lines default 0;
+   $file_skip_to_field_line = $p.skip_to_field_line;
+   $file_skip_to_field_line default null;
+   $file_field_line = $p.field_line;
+   $file_field_line default true;
+   $file_fields = $p.file_fields;
+   $file_fields default null;
+   $use_file_date = $p.use_file_date;
+   $use_dwh_table = $p.use_dwh_table;
+   $use_dwh_table DEFAULT $use_db_table;
+   $checksum_field = $p.checksum_field;
+   $checksum_field default null;
+   $guid = $p.guid;
+   $file_lines_limit = $p.file_lines_limit;
+   $s = loader_init($use_db_connect, $use_db_table, $file_to_read, $truncate_db_table, $create_db_table);
+   if $s is false return false;
+   if $verbose is true console("{$fn_title} CSV loader init complete for {$file_to_read} using db {$use_db_connect} and table {$use_db_table} ");
+   $s = null; // Not required
+   $ok = file_open_read($file_to_read);
+   if $ok is not true  begin
+      return return_with_error("{$fn_title} Fails to open file for CSV {$file_to_read} ");
+      end
+   if $file_title_lines is gt 0  begin
+      $i = 0;
+      while $i is lt $file_title_lines  begin
+         $titles.$i = file_read_line();
+         $i = $i + 1;
+         end
+      end
+   if $file_skip_to_field_line is not null  begin
+      if $verbose is true console(" {$fn_title} Skipping to field line, Looking for {$file_skip_to_field_line} ");
+      $seeking_field_line = true;
+      while $seeking_field_line is true  begin
+         $line = file_read_line();
+         if $line is false return return_with_error(" {$fn_title} Skipping to field line in CSV loader, unable to find line {$file_skip_to_field_line} ");
+         if preg_match("/{$file_skip_to_field_line}/i", $line)is not false  begin
+            $seeking_field_line = false;
+            if $verbose is true console("{$fn_title} Skipping to field line, Found {$line} ");
+            if $file_field_line is true $file_fields = string_split($file_delimiter, trim($line));
+            $file_field_line = false;
+            end
+         end
+      end
+   if $file_field_line is true  begin
+      $file_fields = file_csv_line($file_delimiter, $file_enclosure, $file_escape);
+      end
+   if $file_fields is null return return_with_error("{$fn_title} Running a CSV loader without a field definition or a field line in file ");
+   // Open the checksum method
+   if $checksum_field is not null do_open_checksum($checksum_field, $guid);
+   // Write the file to DB
+   $file_lines = 0;
+   $a = file_csv_line($file_delimiter, $file_enclosure, $file_escape);
+   while $a is not false  begin
+      for all properties $i in $a  begin
+         $field_name = $file_fields.$i;
+         if $field_name is not null $record.$field_name = $a.$i;
+         end
+      // Load Insert the record
+	  $p.record = $record;
+      if loader_insert($p)is true $file_lines = $file_lines + 1;
+      $a = file_csv_line($file_delimiter, $file_enclosure, $file_escape);
+      if ($file_lines_limit is not null) and ($file_lines is > $file_lines_limit) $a = false;
+      end
+   if $checksum_field is not null check_checksum(close_write_checksum($checksum_field, $guid), $checksum_field, $guid, $file_lines, $use_db_table, $file_field_lookup);
+   console("{$fn_title} Records read : {$file_lines}");
+   // And close off the destination
+   mssql_close();
+   // and input
+   file_read_close();
+   return $file_lines;
+   end

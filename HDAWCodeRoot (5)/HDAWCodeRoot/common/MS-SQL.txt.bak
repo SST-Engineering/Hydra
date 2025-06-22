@@ -1,0 +1,112 @@
+/* MS-SQL helper functions
+   mssql_drop_and_create(use_db_connect, use_db_table, db_create_table);
+   mssql_test_exists(use_db_connect, use_db_table);
+   mssql_create(use_db_connect, use_db_table);
+*/
+
+function mssql_drop_and_create($use_db_connect, $use_db_table, $db_create_table, $db_create_finals) begin
+   $fn_title = "In function mssql_drop_and_create, ";
+   if $use_db_connect is null return return_with_error("{$fn_title} Running sql function (drop and create) without a valid DB connect");
+   if $use_db_table is null return return_with_error("{$fn_title} Running a sql function (drop and create) without specifying destination table");
+   if $db_create_table is null return return_with_error("{$fn_title} Running a sql function (drop and create) without specifying table details");
+
+   if mssql_test_exists($use_db_connect, $use_db_table) begin
+      $ok = mssql_connect($use_db_connect);
+      if $ok is not true return return_with_error("{$fn_title} Failed to open the target DB for drop and create ");
+      $query = "DROP TABLE {$use_db_table}";
+      $ok = mssql_query($query);
+      if $ok is false return return_with_error("{$fn_title} Failed in DROP TABLE query for table {$use_db_table} ");
+      mssql_close();
+      end
+   if $db_create_finals is null $db_create_finals = " ON [PRIMARY] ";
+   return mssql_create_table($use_db_connect, $use_db_table, $db_create_table, $db_create_finals);
+
+   end
+
+function mssql_test_exists($use_db_connect, $use_db_table) begin
+   $fn_title = "In mssql_test_exists, ";
+   if $use_db_connect is null return return_with_error("{$fn_title} Running sql function (test exists) without a valid DB connect");
+   if $use_db_table is null return return_with_error("{$fn_title} Running a sql function (test exists) without specifying destination table");
+   $ok = mssql_connect($use_db_connect);
+   if $ok is not true return return_with_error("{$fn_title} Failed to open the target DB for test exists ");
+
+   // form the test query
+   $matches = preg_match("/\[(?P<catalog>[^\]]+?)\]\.\[(?P<schema>[^\]]+?)\]\.\[(?P<tablename>[^\]]+)\]/",$use_db_table);
+   if $matches is false return return_with_error("{$fn_title} Badly formed table name in {$use_db_table} needs [catalog].[schema].[tablename] ");
+   $catalog = $matches.catalog;
+   $tablename = $matches.tablename;
+   $query  = "SELECT * FROM [{$catalog}].information_schema.tables WHERE TABLE_NAME=N'{$tablename}'";
+   $ok = mssql_query($query);
+   if $ok is false  return return_with_error("{$fn_title} Failed in test table exists "+sql_last_error());
+   $row = mssql_fetch_row();
+   if $row is false $ok=false else $ok = true;
+   // Close connection, finished with that now
+   mssql_close();
+   return $ok;
+   end
+
+function mssql_create_table($use_db_connect, $use_db_table, $db_create_table, $db_create_finals) begin
+   $fn_title = "In function mssql_create_table, ";
+   if $use_db_connect is null return return_with_error("{$fn_title} Running sql function (table create) without a valid DB connect");
+   if $use_db_table is null return return_with_error("{$fn_title} Running a sql function (table create) without specifying destination table");
+   if $db_create_table is null return return_with_error("{$fn_title} Running a sql function (table create) without specifying table details");
+   if $db_create_finals is null $db_create_finals = " ON [PRIMARY] ";
+
+   $ok = mssql_connect($use_db_connect);
+   if $ok is not true return return_with_error("{$fn_title} Failed to open the target DB for create table ");
+   $query = "CREATE TABLE {$use_db_table} (";
+   for all properties $field in $db_create_table begin
+      $query = $query + "[{$field}] {$db_create_table.$field},";
+      end
+   $query = trim($query,",");
+   $query = $query + ") {$db_create_finals} ";
+   $ok = mssql_query($query);
+   if $ok is false return return_with_error("{$fn_title} Failed in CREATE statement for create table {$use_db_table} ");
+   return true;
+   end
+
+function mssql_get_columns($use_db_connect, $use_db_table) begin
+   $fn_title = "In function mssql_get_columns, ";
+   if $use_db_connect is null return return_with_error("{$fn_title} Running sql function (get columns) without a valid DB connect");
+   if $use_db_table is null return return_with_error("{$fn_title} Running a sql function (get columns) without specifying destination table");
+   $matches = preg_match("/\[(?P<catalog>[^\]]+?)\]\.\[(?P<schema>[^\]]+?)\]\.\[(?P<tablename>[^\]]+)\]/",$use_db_table);
+   if $matches is false return return_with_error("{$fn_title} Badly formed table name in {$use_db_table} needs [catalog].[schema].[tablename] ");
+   $catalog = $matches.catalog;
+   $tablename = $matches.tablename;
+   $query  = "SELECT COLUMN_NAME FROM [{$catalog}].information_schema.columns WHERE TABLE_NAME=N'{$tablename}'";
+   $p.src_conn = $use_db_connect;
+   $p.src_query = $query;
+   $ok = query_table($p);
+   if $ok is false return return_with_error("{$fn_title} In getting column names, query fails for table {$tablename}");
+   for all properties $c in $ok begin
+      if $ok.$c."COLUMN_NAME" is not null $columns.$c = $ok.$c."COLUMN_NAME";
+      end
+   return $columns;
+   end
+
+function mssql_clean_copy_DWH($use_db_connect, $use_db_table, $use_dwh_table, $key) begin
+	issue_monitor("Clean and Copy to DWH");
+	$copy_retries = 0; $copied = false; while ($copy_retries < 3) AND ($copied is false) begin
+		$clean_retries = 0; $cleaned = false; while ($clean_retries < 3) AND ($cleaned is false) begin
+		   console("Will clean {$use_dwh_table}");
+		   $use_clean_query.src_conn = $use_db_connect;
+		   $use_clean_query.no_data_query = true;
+		   $use_clean_query.src_query = "DELETE FROM {$use_dwh_table} WHERE UniqueKey='{$key}'";
+		   $cleaned = query_table($use_clean_query);
+		   $clean_retries += 1;
+		   end
+		if $cleaned is false return return_with_error("Fails to clean dwh {$use_dwh_table} with error " + sql_last_error());
+		// Do the copy
+		$copy_retries +=1;
+		$use_copy_query.src_conn = $use_db_connect;
+		$use_copy_query.no_data_query = true;
+		$use_copy_query.src_query = "INSERT INTO {$use_dwh_table} SELECT * FROM {$use_db_table}";
+		$copied = query_table($use_copy_query);
+		end
+	if $copied is false return return_with_error("Fails to copy to dwh {$use_dwh_table} from {$use_db_table} with error " + sql_last_error());
+	console("Cleaned and copied after {$clean_retries} clean tries and {$copy_retries} copy tries");
+	return true;
+	end
+	
+/* Ends MS-SQL helper functions */
+

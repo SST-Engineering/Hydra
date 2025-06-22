@@ -1,0 +1,23 @@
+<h2>mt940_to_array</h2>
+<i><b>Parse an MT940 file to an array</b></i><br/>
+$result = mt940_to_array(file_path)<br/>
+<i>Returns false on failure, array on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+$a = mt940_to_array($file_to_read);
+if $a has property "leading_lines" begin
+   $i_lines = preg_split("/\n/",$a."leading_lines",false);
+   if $i_lines is not false begin
+      $sender = $i_lines.0;
+      if $i_lines has property 1 $msg_type = $i_lines.1;
+      if $i_lines has property 2 $receiver = $i_lines.2;
+      end
+   end
+if $a has property "transactions" begin
+   $xt = $a."transactions";
+   end
+
+</pre>
+<br/>
+

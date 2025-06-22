@@ -1,0 +1,9 @@
+<h2>excel_cell</h2>
+<i><b>Return a cell value from loaded excel file</b></i><br/>
+$result = excel_cell(<i>row</i>, <i>column</i>)&nbsp;..or..<br/>
+$result = excel_cell(<i>cell_numeration</i>)<br/>
+<i>Returns null on failure, a value on success</i><br/>
+<br/>
+<i>Example</i><br/>
+$result = excel_cell(1, "F");<br/>
+

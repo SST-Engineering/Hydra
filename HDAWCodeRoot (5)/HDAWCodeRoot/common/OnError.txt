@@ -1,0 +1,125 @@
+ // ALC Error Functions
+
+
+function exit_with_error($error) begin
+   on_error_close();
+   console($error + " : " + last_error()+ " sql:" + sql_last_error());
+   if file_on_error exists file_on_error($error);
+   exit false;
+   end
+
+
+function return_with_error($error) begin
+   on_error_close();
+   console("{$error} : " + last_error()+ " sql : " + sql_last_error());
+   if file_on_error exists file_on_error($error);
+   return false;
+   end
+
+
+function exit_with_alert($error) begin
+   if #sms_Message is not null  begin
+      issue_alert(#sms_Message);
+      console("Sent SMS : {#sms_Message}");
+      end
+   exit_with_error($error);
+   end
+   
+function exit_with_notify($error) begin
+	$on_profile = running_process();
+	$on_ref = run_ref();
+	$attach_file = null;
+	$uploaded = detect_upload();
+	$msg = "{$error}, for process {$on_profile}, loading file {$uploaded.FileName}";
+	email_this("LoadErrorNotify", "Load Error {$on_profile}", $msg, $attach_file);
+	end
+
+function run_only_on_days($days) begin
+	$a = strtok($days,' ');
+	$today = date('l');
+	$run_today = false;
+	for all properties $i in $a begin
+		if preg_match("/{$a.$i}/i", $today) is not false $run_today = true;
+		end
+	if $run_today is true console("Tested to run today {$today} is one of {$days}")
+	else begin
+		console("Today {$today} is not a run day in {$days}");
+		exit 0;
+		end
+	return true;
+	end
+function skip_run_on_days($days) begin
+	$a = strtok($days,' ');
+	$today = date('l');
+	$run_today = true;
+	for all properties $i in $a begin
+		if preg_match("/{$a.$i}/i", $today) is not false $run_today = false;
+		end
+	if $run_today is true console("Tested to run today {$today} is NOT one of {$days}")
+	else begin
+		console("Today {$today} is a skip run day in {$days}");
+		exit 0;
+		end
+	return true;
+	end
+function skip_run_on_dates($dates) begin
+	$a = strtok($dates,' ');
+	$today = date('j'); $th = date('S');
+	$run_today = true;
+	for all properties $i in $a begin
+		if $a.$i is $today $run_today = false;
+		end
+	if $run_today is true console("Tested to run today {$today} is NOT one of {$dates}")
+	else begin
+		console("Today {$today}{$th} is a skip run day in {$dates}");
+		exit 0;
+		end
+	return true;
+	end
+function run_between_times($times) begin
+	console("Checking for run interval times {$times}");
+	$triggered = detect_trigger();
+	if $triggered.TriggerType is 'TRIGGER' return "Triggered Run";
+	$t = preg_match("/(?P<fromt>[\d]{1,2}\:[\d]{1,2})[^\d]{1,}(?P<tot>[\d]{1,2}\:[\d]{1,2})/",$times);
+	if $t is not false begin
+		$t_now = time();
+		$t_from = string_to_time($t.fromt);
+		$t_to = string_to_time($t.tot);
+		if ($t_from<=$t_now) AND ($t_to>=$t_now) begin
+			console("Now "+date('G:i',$t_now)+" between "+date('G:i',$t_from)+" and "+date('G:i',$t_to)+" - will run");
+			return true;
+			end
+		else begin
+			console("Outside of times {$t.fromt} to {$t.tot}, time now "+date('G:i',$t_now));
+			exit 0;
+			end
+		end
+	else console("Not a valid time range {$times}");
+	return false;
+	end
+function run_master_only() begin
+	$is_master = whatami('MASTER');
+	if $is_master is not 'Y' begin
+		console ("Master Only Profile");
+		exit 0;
+		end
+	end
+function is_master() begin
+	$is_master = whatami('MASTER');
+	if $is_master is 'Y' return true;
+	return false
+	end
+
+function run_slave_only() begin
+	$is_master = whatami('MASTER');
+	if $is_master is 'Y' begin
+		console("Slave Only Profile");
+		exit 0;
+		end
+	end
+function is_slave() begin
+	$is_master = whatami('MASTER');
+	if $is_master is not 'Y' return true;
+	return false;
+	end
+ 

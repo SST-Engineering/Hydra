@@ -1,0 +1,10 @@
+<h2>orcl_close</h2>
+<i><b>Close connection to Oracle DB</b></i><br/>
+$result = orcl_close()<br/>
+<i>Returns false on failure, array of fields, true on success, assumes connection opened by orcl_connect </i><br/>
+<br/>
+<i>Example</i><br/>
+$ok = orcl_close();<br/>
+
+
+

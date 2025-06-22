@@ -1,0 +1,10 @@
+<h2>mssql_close</h2>
+<i><b>Close connection to Microsoft SQL Server</b></i><br/>
+$result = mssql_close()<br/>
+<i>Returns false on failure, array of fields, true on success, assumes connection opened by mssql_connect </i><br/>
+<br/>
+<i>Example</i><br/>
+$ok = mssql_close();<br/>
+
+
+

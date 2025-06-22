@@ -1,0 +1,11 @@
+// common code to implement proxy profiles
+
+function run_as_proxy($profile) begin
+$last_event = get_success_event($profile);
+if $last_event is false begin
+   console("Sucess event for {$profile} not found");
+   return false;
+   end
+
+return $last_event is not null;
+end

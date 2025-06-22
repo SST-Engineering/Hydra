@@ -1,0 +1,9 @@
+<h2>excel_load</h2>
+<i><b>Load the data from opened excel file</b></i><br/>
+$result = excel_load()<br/>
+<i>Returns false on failure, true on success</i><br/>
+Load the data from the opened excel file (see excel_open) after restricting the data with
+excel_restrict_sheet and excel_restrict_rows etc<br/>
+<i>Example</i><br/>
+$result = excel_load();<br/>
+

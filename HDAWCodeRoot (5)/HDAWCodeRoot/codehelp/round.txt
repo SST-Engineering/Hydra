@@ -1,0 +1,17 @@
+<h2>round</h2>
+<i><b>Rounds a real number to a given precision</b></i><br/>
+$v = round(real_number)<br/>
+$v = round(real_number, precision)<br/>
+<i>Rounds a real number to a given number of decimal places, return real number on success, false on failure. The default precision is two places of decimal </i><br/>
+<br/>
+<i>Example</i><br/>
+<code>
+<pre>
+$x = 5.32786;
+$y = round($x);
+dump($y); // gives 5.33
+$y = round($x, 4);
+dump($y); // gives 5.3279
+</pre>
+</code>
+

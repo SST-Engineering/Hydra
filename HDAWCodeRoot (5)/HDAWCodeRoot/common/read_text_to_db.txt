@@ -1,0 +1,84 @@
+ // Reader for CSV to DB
+COMMON "OnError.txt";
+COMMON "MS-SQL.txt";
+
+
+function read_text_to_db($params) begin
+   metatags "read_text_to_db";
+   $fn_title = "In function read_text_to_db, ";
+
+   $to_db_connect = $params.db_dst_connect;
+   $to_db_table = $params.db_dst_table;
+   $from_text = $params.text_filename;
+   $text_delimiter = $params.text_delimiter;
+   $text_delimiter default ",";
+   $be_verbose = $params.verbose;
+   $be_verbose default false;
+   $truncate = $params.db_dst_truncate;
+   $truncate default true;
+   $bulk_load = $params.bulk_load;
+   $bulk_load default false;
+   if $to_db_connect is null  begin
+      return return_with_error("{$fn_title} db_dst_connect not specified in params");
+      end
+   if $to_db_table is null  begin
+      return return_with_error("{$fn_title} db_dst_table not specified in params");
+      end
+   if file_exists($from_text)is false  begin
+      return return_with_error("{$fn_title} text_filename not found, {$from_text}");
+      end
+   if $from_text is null or string_length($from_text)is 0  begin
+      return return_with_error("{$fn_title} text_filename not specified for source of data");
+      end
+   if $be_verbose is true  begin
+      console("{$fn_title} Writing data on connection {$to_db_connect} in table {$to_db_table}");
+      console("{$fn_title} Reading from text file, {$from_text}");
+      if $truncate is true console("{$fn_table} Will truncate");
+      end
+   $ok = mssql_connect($to_db_connect);
+   if $ok is false  begin
+      return return_with_error("{$fn_title} unable to connect to {$to_db_connect}");
+      end
+   if $truncate is true  begin
+      $truncate_query = "TRUNCATE TABLE {$to_db_table}";
+      $ok = mssql_query($truncate_query);
+      if $ok is false return return_with_error("{$fn_title} fails to truncate destination table {$to_db_table}");
+      end
+   if $bulk_load is true  begin
+      $from_text_path = working_dir_path()+ "\{$from_text}";
+      $bulkload_query = "BULK INSERT {$to_db_table} FROM '{$from_text_path}' WITH (FIELDTERMINATOR='{$text_delimiter}',ROWTERMINATOR='
+') ";
+      $ok = mssql_query($bulkload_query);
+      if $ok is not true  begin
+         return return_with_error("{$fn_title} query {$query} fails to {$to_db_table}");
+         end
+      end
+   else  begin
+      $columns = mssql_get_columns($to_db_connect, $to_db_table);
+      if $columns is false return return_with_error("Fails to get column names on {$to_db_connect} from table {$to_db_table}");
+      $c_list = "";
+      for all properties $c in $columns $c_list = $c_list + "{$columns.$c},";
+      $columns = trim($c_list, ",");
+      $ok = file_open_read($from_text);
+      if $ok is not true return_with_error("{$fn_title} fails to reopen the csv text file {$from_text}");
+      $csv = file_read_line();
+      mssql_query("SET IDENTITY_INSERT {$to_db_table} ON");
+      while $csv is not false  begin
+         $insert_query = "INSERT INTO {$to_db_table} ({$columns}) VALUES ({$csv})";
+         $ok = mssql_query($insert_query);
+         if $ok is not true return_with_error("{$fn_title} fails to insert into {$to_db_table}");
+         $csv = file_read_line();
+         end
+      mssql_query("SET IDENTITY_INSERT {$to_db_table} OFF");
+      file_read_close();
+      end
+   $query = "SELECT * FROM {$to_db_table}";
+   $ok = mssql_query($query);
+   if $ok is not true  begin
+      return return_with_error("{$fn_title} query {$query} fails to {$to_db_table}");
+      end
+   $record_count = mssql_row_count();
+   mssql_close();
+   if $be_verbose is true console("{$fn_title} written {$record_count} records to db from text");
+   return $record_count;
+   end

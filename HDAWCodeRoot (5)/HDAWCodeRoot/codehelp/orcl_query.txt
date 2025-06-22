@@ -1,0 +1,9 @@
+<h2>orcl_query</h2>
+<i><b>Execute query to Oracle</b></i><br/>
+$result = orcl_query(query)<br/>
+<i>Returns false on failure, true on success, assumes connection opened by orcl_connect</i><br/>
+<br/>
+<i>Example</i><br/>
+$ok = orcl_query("Select * FROM table");<br/>
+
+

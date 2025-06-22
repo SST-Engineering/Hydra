@@ -1,0 +1,9 @@
+<h2>file_path_exists</h2>
+<i><b>Test for file exists given a fully qualified path</b></i><br/>
+$result = file_path_exists(<i>file_path</i>)<br/>
+<i>Return true if file exists, false on not exists or failure</i><br/>
+Test a file exists given a fully qualified path
+<br/>
+<i>Example</i><br/>
+$a = file_path_exists("C:\ALCW_TEMP\my_data.csv");
+

@@ -1,0 +1,8 @@
+<h2>string_char</h2>
+<i><b>Return the character at a position in target string</b></i><br/>
+$result = string_char(<i>target</i>, <i>index</i>)<br/>
+<i>Returns a character in a string, false for failure</i><br/>
+<br/>
+<i>Example</i><br/>
+$e = string_char("Hello World", 1);<br/>
+

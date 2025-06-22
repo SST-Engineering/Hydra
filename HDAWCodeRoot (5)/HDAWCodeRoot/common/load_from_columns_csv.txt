@@ -1,0 +1,143 @@
+ // Common Custom Column-Wise CSV Loader
+COMMON "OnError.txt";
+COMMON "ChecksumCheck.txt";
+COMMON "Loader-INIT.txt";
+COMMON "Loader-INSERT.txt";
+
+
+function load_from_columns_csv($p) begin
+   metatags "load_from_columns";
+   $fn_title = "In function load_from_columns_csv, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.use_dwh_table = $NOT_NULL;
+   $p.file_to_read = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.truncate_table = true;
+   $p.create_table = false;
+   $p.verbose = false;
+   $p.delimiter = ',';
+   $p.enclosure = '"';
+   $p.escape = null;
+   $p.checksum_field = null;
+   $p.guid = null;
+   $p.file_lines_limit = null;
+   $p.file_skip_fields = 0;
+   $p.use_file_date = null;
+   */
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_db_table = $p.use_db_table;
+   if $use_db_table is null return return_with_error("{$fn_title} must supply a property use_db_table");
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $file_field_lookup = $p.file_field_lookup;
+   $file_field_lookup default null;
+   $file_add_fields = $p.file_add_fields;
+   $file_add_fields default null;
+   $file_field_process = $p.file_field_process;
+   $file_field_process default null;
+   $file_not_null_fields = $p.file_not_null_fields;
+   $file_not_null_fields default null;
+   $truncate_db_table = $p.truncate_table;
+   $truncate_db_table default true;
+   $create_db_table = $p.create_table;
+   $create_db_table default false;
+   $verbose = $p.verbose;
+   $verbose default false;
+   $file_delimiter = $p.delimiter;
+   $file_delimiter default ",";
+   $file_enclosure = $p.enclosure;
+   $file_enclosure default '"';
+   $file_escape = $p.escape;
+   $file_escape default null;
+   $file_title_lines = $p.file_title_lines;
+   $file_title_lines default 0;
+   $file_skip_fields = $p.file_skip_fields;
+   $file_skip_fields default 0;
+   $file_collect_lines = $p.file_collect_lines;
+   $checksum_field = $p.checksum_field;
+   $checksum_field default null;
+   $use_file_date = $p.use_file_date;
+   $use_dwh_table = $p.use_dwh_table;
+   $use_dwh_table DEFAULT $use_db_table;
+   $guid = $p.guid;
+   $file_lines_limit = $p.file_lines_limit;
+   $s = loader_init($use_db_connect, $use_db_table, $file_to_read, $truncate_db_table, $create_db_table);
+   if $s is false return false;
+   if $p.verbose is true console("{$fn_title} CSV loader init complete for {$file_to_read} using db {$use_db_connect} and table {$use_db_table} ");
+   $s = null; // Not required
+   $ok = file_open_read($file_to_read);
+   if $ok is not true  begin
+      return return_with_error("{$fn_title} Fails to open file for custom csv {$file_to_read} ");
+      end
+
+   if $file_title_lines is GT 0 begin
+      $i = 0;
+      while $i is LT $file_title_lines begin
+         $titles.$i = file_read_line();
+         $i = $i + 1;
+         end
+      end
+
+   if $file_collect_lines is not null begin
+      $line = file_read_line();
+      while $line is not false begin
+         for all properties $field in $file_collect_lines begin
+            if preg_match("/^[\s,]*?{$file_collect_lines.$field.begins}/i", $line) is not false $file_collect_lines.$field.content = $line;
+            end
+         $line = file_read_line();
+         end
+      end
+
+   // Close input file
+   file_read_close();
+
+   if $file_collect_lines is not null begin
+      for all properties $field_name in $file_collect_lines begin
+         if $file_collect_lines.$field_name.content is null return return_with_error("Fails to find line for {$field_name} that begins {$file_collect_lines.$field_name.begins}");
+         $file_collect_lines.$field_name.content = string_getcsv($file_collect_lines.$field_name.content,$file_delimiter,$file_enclosure,$file_escape);
+         end
+      end
+
+   if $p.verbose is true console("Found all collect lines");
+
+   // Open the checksum method
+   do_open_checksum($p.checksum_field, $p.guid);
+
+   // Find any field to loop through
+   if $file_any_field is null begin
+      $keys = array_keys($file_collect_lines);
+      if $keys is not false begin
+         $file_any_field = $keys.0;
+         end
+      end
+   if $file_any_field is null return return_with_error("{$fn_title} Fails to locate a property in file_collect_lines");
+
+   $file_lines = 0;
+   for all properties $i in $file_collect_lines.$file_any_field.content begin
+      if $i is >= $file_skip_fields begin
+         for all properties $field in $file_collect_lines begin
+            $record.$field = $file_collect_lines.$field.content.$i;
+            end
+		 $p.record = $record;
+         if loader_insert($p) is true $file_lines = $file_lines+1;
+         end
+      end
+
+   check_checksum(close_write_checksum($p.checksum_field, $p.guid), $p.checksum_field, $p.guid, $file_lines, $use_db_table, $file_field_lookup); 
+
+   // And close off the destination
+   mssql_close();
+
+   console("Completed custom match {$fn_title} of "+running_process()+" from {$file_to_read} loaded {$file_lines}");
+
+   console("{$fn_title} Records read : {$file_lines}");
+   // And close off the destination
+   mssql_close();
+   return $file_lines;
+   end

@@ -1,0 +1,14 @@
+<h2>odbc_connect</h2>
+<i><b>Connect to ODBC Server</b></i><br/>
+$result = odbc_connect(connection name) .. or ..<br/>
+$result = odbc_connect(dsn, user, password)<br/>
+<i>Returns false on failure, true on success</i><br/>
+<br/>
+<i>Example</i><br/>
+$conn = odbc_connect("KPI_Data_Connect");<br/>
+$conn = odbc_connect("dsn", "TSJones","password");<br/>
+<i>if $conn is not true begin<br/>
+   console("Fails to connect"); exit;<br/>
+   end<br/></i>
+
+

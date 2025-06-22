@@ -1,0 +1,9 @@
+<h2>detect_trigger</h2>
+<i><b>See if this profile has been triggered</b></i><br/>
+$triggered = detect_trigger(); <br>
+<i>If this profile was triggered return structure if so, false otherwise</i><br/>
+If triggered then returns a structure, if the trigger was by issue_trigger('to this profile', 'path of a file', 'name of a file')<br>
+Then the structure will also have:<br>
+$triggered.FilePath and $triggered.FileName set.<br>
+<br/>
+

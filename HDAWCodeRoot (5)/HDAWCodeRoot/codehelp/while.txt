@@ -1,0 +1,13 @@
+<h3>while</h3>
+<i><b>WHILE Keyword, Statement</b></i><br/>
+While loop
+As in example:<br/>
+<i>Example</i><br/>
+<b>while</b> $a < 10 begin
+   $a = $a + 1;
+   console("counting {$a}");
+   end
+
+
+
+

@@ -1,0 +1,14 @@
+<h2>category_profiles</h2>
+<i><b>Get list of profiles in given category</b></i><br/>
+Return structured array of profiles for given category<br/>
+<i>$profiles = category_profiles(category)<i><br/>
+Structured List on success, false on failure. 
+
+<br/>
+<i>Example</i><br/>
+<pre>
+$profiles = category_profiles("ATM");
+
+</pre>
+<br/>
+

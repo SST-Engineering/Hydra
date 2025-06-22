@@ -1,0 +1,12 @@
+<h2>excel_array</h2>
+<i><b>Return an array of cells from loaded excel file</b></i><br/>
+$result = excel_array()<br/>
+<i>Returns null on failure, an array on success</i><br/>
+The array is a properrty array of rows, columns<br/>
+<i>Example</i><br/>
+$result = excel_array();<br/>
+for all properties $row in $result begin
+   for all properties $column in $result.$row
+      console("excel row {$row} column {$column} is {$result.$row.$column}")
+   end
+

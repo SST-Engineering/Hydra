@@ -1,0 +1,9 @@
+<h2>task_source</h2>
+<i><b>Get the source of running process or profile</b></i><br/>
+$result = task_source()<br/>
+<i>Return string on success, false on failure</i><br/>
+Return the source tag name of why this process profile is running
+<br/>
+<i>Example</i><br/>
+$this_proc_src = task_source()<br/>
+

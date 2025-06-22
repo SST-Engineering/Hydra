@@ -1,0 +1,8 @@
+<h2>sql_last_error</h2>
+<i><b>Get the last error in sql query</b></i><br/>
+$result = sql_last_error()<br/>
+<i>Returns last error string</i><br/>
+<br/>
+<i>Example</i><br/>
+console(sql_last_error());<br/>
+

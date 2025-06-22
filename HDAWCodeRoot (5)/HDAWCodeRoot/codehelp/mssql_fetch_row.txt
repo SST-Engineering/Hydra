@@ -1,0 +1,14 @@
+<h2>mssql_fetch_row</h2>
+<i><b>Get next row in result set of query sent to Microsoft SQL Server</b></i><br/>
+$result = mssql_fetch_row()<br/>
+<i>Returns false on failure, array of fields, assumes connection opened by mssql_connect and valid previous mssql_query</i><br/>
+<br/>
+<i>Example</i><br/>
+$my_row = mssql_fetch_row();<br/>
+<i>if $my_row is not false begin<br/>
+   for all properties $field in $my_row begin<br/>
+      console("Field {$field} is {$my_row.$field}");<br/>
+   end<br/></i>
+
+
+

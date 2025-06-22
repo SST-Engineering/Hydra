@@ -1,0 +1,97 @@
+ // Common File to CSV
+COMMON "OnError.txt";
+
+
+function load_to_csv($p) begin
+   metatags "load_to_csv";
+   $fn_title = "In function load_to_csv, ";
+   /* Properties
+   $p.file_to_read = $NOT_NULL;
+   $p.file_field_lookup = null;
+   $p.file_add_fields = null;
+   $p.file_field_process = null;
+   $p.file_not_null_fields = null;
+   $p.verbose = false;
+   $p.delimiter = ',';
+   $p.enclosure = '"';
+   $p.escape = null;
+   $p.file_title_lines = null;
+   $p.skip_to_field_line = null;
+   $p.field_line = true;
+   $p.file_fields = null;
+   $p.file_lines_limit = null;
+   */
+   $file_to_read = $p.file_to_read;
+   if $file_to_read is null return return_with_error("{$fn_title} must supply a property file_to_read");
+   $file_field_lookup = $p.file_field_lookup;
+   $file_field_lookup default null;
+   $file_add_fields = $p.file_add_fields;
+   $file_add_fields default null;
+   $file_field_process = $p.file_field_process;
+   $file_field_process default null;
+   $file_not_null_fields = $p.file_not_null_fields;
+   $file_not_null_fields default null;
+   $verbose = $p.verbose;
+   $verbose default false;
+   $file_delimiter = $p.delimiter;
+   $file_delimiter default ",";
+   $file_enclosure = $p.enclosure;
+   $file_enclosure default '"';
+   $file_escape = $p.escape;
+   $file_escape default null;
+   $file_title_lines = $p.file_title_lines;
+   $file_title_lines default 0;
+   $file_skip_to_field_line = $p.skip_to_field_line;
+   $file_skip_to_field_line default null;
+   $file_field_line = $p.field_line;
+   $file_field_line default true;
+   $file_fields = $p.file_fields;
+   $file_fields default null;
+   $file_lines_limit = $p.file_lines_limit;
+   
+   $ok = file_open_read($file_to_read);
+   if $ok is not true  begin
+      return return_with_error(" {$fn_title} Fails to open file for CSV {$file_to_read} ");
+      end
+   if $file_title_lines is gt 0  begin
+      $i = 0;
+      while $i is lt $file_title_lines  begin
+         $titles.$i = file_read_line();
+         $i = $i + 1;
+         end
+      end
+   if $file_skip_to_field_line is not null  begin
+      if $verbose is true console(" {$fn_title} Skipping to field line, Looking for {$file_skip_to_field_line} ");
+      $seeking_field_line = true;
+      while $seeking_field_line is true  begin
+         $line = file_read_line();
+         if $line is false return return_with_error(" {$fn_title} Skipping to field line in CSV loader, unable to find line {$file_skip_to_field_line} ");
+         if preg_match("/{$file_skip_to_field_line}/i ", $line)is not false  begin
+            $seeking_field_line = false;
+            if $verbose is true console(" {$fn_title} Skipping to field line, Found {$line} ");
+            if $file_field_line is true $file_fields = string_split($file_delimiter, trim($line));
+            $file_field_line = false;
+            end
+         end
+      end
+   if $file_field_line is true  begin
+      $file_fields = file_csv_line($file_delimiter, $file_enclosure, $file_escape);
+      end
+   if $file_fields is null return return_with_error(" {$fn_title} Running a CSV loader without a field definition or a field line in file ");
+   // Open the checksum method
+   $file_lines = 0;
+   $a = file_csv_line($file_delimiter, $file_enclosure, $file_escape);
+   while $a is not false  begin
+      for all properties $i in $a  begin
+         $field_name = $file_fields.$i;
+         if $field_name is not null $record.$field_name = $a.$i;
+         end
+	  $aa.$file_lines = $record;
+	  $file_lines = $file_lines+1;
+      $a = file_csv_line($file_delimiter, $file_enclosure, $file_escape);
+      if $file_lines_limit is not null and $file_lines is > $file_lines_limit $a = false;
+      end
+   console(" Records read : {$file_lines}");
+   file_read_close();
+   return $aa;
+   end

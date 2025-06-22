@@ -1,0 +1,12 @@
+<h3>le</h3>
+<i><b>LE Keyword</b></i><br/>
+Less than or equal to, used in conditional expressions<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+if $a <b>le</b> $b then $c = add_these($a, $b); 
+
+
+
+
+

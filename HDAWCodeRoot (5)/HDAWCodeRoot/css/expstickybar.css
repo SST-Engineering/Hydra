@@ -1,0 +1,22 @@
+.expstickybar{
+position:absolute;
+color: white;
+padding: 5px;
+right:20%; /*horizontally center bar in window*/
+left:20%; /*horizontally center bar in window*/
+visibility:hidden;
+   background-color:white;
+z-index: 10000;
+width:auto; /*set width of bar to width of entire window*/
+font-weight:bold;
+   -moz-border-radius:15px;
+   -webkit-border-radius:15px;
+   -khtml-border-radius:15px;
+   -ms-border-radius:15px;
+   border-radius:15px;
+   border:2px inset #a9a9a9;
+}
+
+.expstickybar a{
+color: white;
+}

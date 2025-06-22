@@ -1,0 +1,12 @@
+<h3>do</h3>
+<i><b>DO Keyword</b></i><br/>
+Optional, used in for and while loop<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+for all properties $i in $a <b>do</b> $c = add_these($a.$i, $b); 
+
+
+
+
+

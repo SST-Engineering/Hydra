@@ -1,0 +1,26 @@
+div.alc-cmd, 
+div.alc-cmd-selected, 
+div.alc-cmd-mob, 
+div.alc-display-box,
+input.submit {
+background-image:url("HDAW_GET_IMAGE=BackCmdAltTab.jpg");
+}
+
+div.alc-cmd-selected {
+color:green;
+background-color:white;
+}
+div.alc-banner-coname, span.alc-banner-coname-mob, div.alc-display-box {
+   color:green;
+}
+
+input.submit, span.submit, input.alc-intext, input.alc-dialog-name, input.alc-password {
+background-color:rgb(206,255,185);
+}
+
+table.alc-table td.odd {
+   background-color:rgb(206, 255, 185);
+   }
+table.alc-table td.head, table.alc-table th.head {
+   background-color:rgb(206,255,185);
+   }

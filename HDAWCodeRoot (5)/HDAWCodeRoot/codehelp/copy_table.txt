@@ -1,0 +1,86 @@
+<h2>copy_table</h2>
+<i><b>Copies a DB table to another DB table</b></i><br/>
+$result = copy_table(param_properties)<br/>
+<i>Returns false on failure, number records copied on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+// ALCODE.ALC - generated Tue, 17th Apr 12 at 16:29
+$src_db = "ICE_DWH";
+$dst_db = "ICE_DWH";
+$src_db_table = "alcw.dbo.test";
+$dst_db_table = "alcw.dbo.copytest";
+$src_query = "SELECT * FROM {$src_db_table}";
+// Nominate a field (in the source table) for a checksum check, set to null if no checksum required
+// If checksums are used then there must be a ProcessId field
+$use_checksum.Field = "C1";
+$use_checksum.ProcessId = "ProcessId";
+// Set up a lookup table if column names different between source and dest, if lookup table exists then only fields
+// sepcified in the table are sent to the copy table
+// Would look like this:
+// $use_lookup_fields.SrcColumnName = "DstColumnName"
+$use_lookup_fields = null;
+// Set up add fields, these columns and values added when not in source
+// Would look like this:
+// $use_add_fields.DstColumnName = "DestColumn Value"
+$guid = guid();
+$use_add_fields.ProcessId = $guid;
+// To add a unique key to each copied record set up add_unique_key in this form, otherwise say $add_unique_key = null
+$add_unique_key.Field = "CleanUpKey"; // is the name of the column in the dst holding the unique key
+// and make up the key from these fields
+$add_unique_key.Columns.0 = "C1";
+$add_unique_key.Columns.1 = "C2";
+// optionally provide a separator between key column fields, normallt it is the empty string, but could be say -
+$add_unique_key.Separator = "";
+// To truncate destination table, set truncate to true, otherwise to false, or set to a valid sql query of form DELETE IN to
+// be selective on truncation
+$truncate = true;
+// To remove any records added in this copy after failure then rollback must be of the form
+// $rollback.ProcessId = $guid; this will cause a rollback of the form DELETE FROM table WHERE ProcessId='guid'
+// Otherwise, can be false
+$rollback.ProcessId = $guid;
+// To create a target destination table use $create where this is the T-SQL including the conditional IF EXISTS to create
+// Otherwise set to false;
+$create = false;
+// To validate each field, uses the ALCW validate globals, specify the fields to validate like
+// $validate.C1 = true; will validate value for column C1, otherwise set to false, to validate all fields set validate to true
+$validate = false;
+// To batch load, then $batch should be true, and $batch_unc should be set to the UNC if the target server is remote from ALCW
+// the UNC replaces the real path of the batch file up to the working directory of this process, so the UNC will be of the
+// form exactly like: Systemname\Sharename If the target db is on the same server as ALCW then set $batch_unc to null
+// Or you can set the absolute batch_path, this will include the UNC and the path and filename, so that batch_unc is ignored
+$batch = true;
+// $batch_unc = "TIMJ\Share";
+$batch_unc = null;
+$batch_path = null;
+// To preprocess fields, alter their value before insert, then set up $process like this (for dates):
+// $process.D1 ="DATE#Ymd";
+// See Profile docs for details on Date transformations, Currency exctractions, and tidy number formats
+// To disable any preprocessing the $process=false
+$process = false;
+// Set up for the copy table
+$copy_table.src_conn = $src_db;
+$copy_table.dst_conn = $dst_db;
+$copy_table.src_query = $src_query;
+$copy_table.dst_table_name = $dst_db_table;
+$copy_table.checksum = $use_checksum;
+$copy_table.use_lookup = $use_lookup_fields;
+$copy_table.add_fields = $use_add_fields;
+$copy_table.add_unique_key = $add_unique_key;
+$copy_table.truncate = $truncate;
+$copy_table.create = $create;
+$copy_table.rollback = $rollback;
+$copy_table.validate = $validate;
+$copy_table.process = $process;
+$copy_table.batch = $batch;
+$copy_table.batch_unc = $batch_unc;
+$copy_table.batch_path = $batch_path;
+$copy_table.verbose = false;
+// Do copy
+$ok = copy_table($copy_table);
+if $ok is false console("Table Copy fails "+sql_last_error());
+console("Finished Copy Table from {$src_db_table} to {$dst_db_table} of {$ok} records");
+exit;
+</pre>
+<br/>
+

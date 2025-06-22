@@ -1,0 +1,65 @@
+ // Common CSV Writer
+COMMON "OnError.txt";
+COMMON "MS-SQL.txt";
+
+
+function output_to_csv($p) begin
+   metatags "output_to_csv";
+   $fn_title = "In function output_to_csv, ";
+   /* Properties
+   $p.use_db_connect = $NOT_NULL;
+   $p.use_db_table = $NOT_NULL;
+   $p.verbose = false;
+   $p.delimiter = ',';
+   $p.enclosure = '"';
+   $p.escape = null;
+   $p.include_header = true;
+   $p.query = null;
+   $p.file_to_write = null;
+   */
+   $use_db_connect = $p.use_db_connect;
+   if $use_db_connect is null return return_with_error("{$fn_title} must supply a property use_db_connect");
+   $use_db_table = $p.use_db_table;
+   if $use_db_table is null return return_with_error("{$fn_title} must supply a property use_db_table");
+   $use_db_query = $p.query;
+   if $use_db_query is null return return_with_error("{$fn_title} must supply a property query");
+   $use_output_file = $p.file_to_write;
+   if $use_output_file is null return return_with_error("{$fn_title} must supply a property file_to_write");
+   $verbose = $p.verbose;
+   $verbose default false;
+   $file_delimiter = $p.delimiter;
+   $file_delimiter default ",";
+   $file_enclosure = $p.enclosure;
+   $file_enclosure default '"';
+   $file_escape = $p.escape;
+   $file_escape default null;
+   $out_header_line = $p.include_header;
+   $out_header_line default true;
+   
+   if mssql_test_exists($use_db_connect, $use_db_table) is false return return_with_error("{$fn_title}View {$use_db_table} not found");
+   $ok = mssql_connect($use_db_connect);
+   if $ok is not true return return_with_error("{$fn_title} Failed to connect {$use_db_connect} ");
+   $ok = mssql_query($use_db_query);
+   if $ok is false  return return_with_error("{$fn_title} Failed in view query "+sql_last_error());
+   file_open_write($use_output_file);
+   $out_rows = 0;
+   $row = mssql_fetch_row();
+   while $row is not false begin
+    $out_rows += 1;
+	if $out_header_line is true begin
+		$hdr = "";
+		for all properties $field in $row $hdr += "{$field}{$file_delimiter}";
+		$hdr = trim($hdr,$file_delimiter);
+		file_write_line($hdr);
+		$out_header_line = false;
+		end
+	$csv = "";
+	for all properties $field in $row $csv += "{$file_enclosure}{$row.$field}{$file_enclosure}{$file_delimiter}";
+	$csv = trim($csv, $file_delimiter);
+	file_write_line($csv);
+	$row = mssql_fetch_row();
+	end
+   file_write_close();
+   return $out_rows;
+
+   end

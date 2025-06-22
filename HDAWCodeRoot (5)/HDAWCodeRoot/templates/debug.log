@@ -1,0 +1,40 @@
+
+
+2013-11-29 0:07:24
+
+
+DEBUG:
+0000: DBG  1
+0001: GET  $t
+0002: NOP  
+0003: PUSH 29.11.13-00:07:24
+0004: PUT  
+0005: DBG  2
+0006: GET  $tt
+0007: PUSHA 14
+0008: GET  $t
+0009: EVAL 
+0010: NOP  
+0011: PUSH DATE#Y-m-d G:i:s#d.m.y-gg:ii:ss
+0012: PUSH 2
+0013: CALL value_adjust
+0014: LBL  2
+0015: PUT  
+0016: DBG  3
+0017: PUSHA 22
+0018: GET  $tt
+0019: EVAL 
+0020: PUSH 1
+0021: CALL console
+0022: LBL  3
+0023: POP  
+0024: PUSH 1
+0025: LBL  1
+0026: EXIT 
+Exit with success
+
+Memory 16515072 16515072 0
+
+(0):$_scope =>[ (Date formats...) ]
+(0):$t =>[ (29.11.13-00:07:24...) ]
+(0):$tt =>[ (2013-11-29 0:07:24...) ]

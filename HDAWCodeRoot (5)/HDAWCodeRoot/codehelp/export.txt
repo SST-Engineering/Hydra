@@ -1,0 +1,12 @@
+<h3>export</h3>
+<i><b>EXPORT Keyword, Statement</b></i><br/>
+Set a value to a parameter for this profile or process<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+$myval = 22;
+EXPORT $myval;
+
+
+
+

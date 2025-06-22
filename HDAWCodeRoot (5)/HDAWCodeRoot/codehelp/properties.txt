@@ -1,0 +1,10 @@
+<h3>properties</h3>
+<i><b>PROPERTIES Keyword</b></i><br/>
+Optional, Used in For loop
+As in example:<br/>
+<i>Example</i><br/>
+for all <b>properties</b> $index in $array console("{$array.$index}");
+
+
+
+

@@ -1,0 +1,12 @@
+<h3>greater_than_or_equal</h3>
+<i><b>GREATER_THAN_OR_EQUAL Keyword</b></i><br/>
+Greater than or equal to, used in conditional expressions<br/>
+
+As in example:<br/>
+<i>Example</i><br/>
+if $a <b>greater_than_or_equal</b> $b then $c = add_these($a, $b); 
+
+
+
+
+

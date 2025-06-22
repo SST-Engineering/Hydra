@@ -1,0 +1,7 @@
+Request to execute process ref Snippet_2020-12-21-8-26 at 2020-12-21 8:47:58
+Fails to compile in C:\Gentia\HDAWCodeRoot/templates/tim_s_jones_hotmail_com/
+Syntax error near .."; | $b = 10 ; | IF $a IS equal $b console ( ".. Misuse of function or state name, no keyword EXISTS or not correct function or set state call
+Syntax error near .."; | $b = 10 ; | IF $a IS equal $b console ( ".. Invalid boolean expression, invalid expression to compare
+Syntax error near .."; | $b = 10 ; | IF $a IS equal $b console ( ".. Invalid IF statement
+Syntax error near .."; | $b = 10 ; | IF $a IS equal $b console ( ".. Invalid statement
+Ends with Exit Code FALSE (Failed)

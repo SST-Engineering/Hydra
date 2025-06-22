@@ -1,0 +1,9 @@
+<h2>log_this</h2>
+<i><b>Write to the site log</b></i><br/>
+$result = log_this(<i>string</i>)<br/>
+<i>Return true on success, false on failure</i><br/>
+Write string to the site logger
+<br/>
+<i>Example</i><br/>
+$ok = log_this("Completed Monthly Summary")<br/>
+

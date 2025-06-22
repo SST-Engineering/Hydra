@@ -1,0 +1,9 @@
+<h2>task_date</h2>
+<i><b>Date time of this task</b></i><br/>
+$result = task_date()<br/>
+<i>Return string on success, false on failure</i><br/>
+Return date of the task run (for clean up reasons)
+<br/>
+<i>Example</i><br/>
+$do_cleanup_from_date = task_date()<br/>
+

@@ -1,0 +1,31 @@
+<h3>case</h3>
+<i><b>CASE Keyword, Statement</b></i><br/>
+Starts a case statement.
+<pre>
+CASE &lt;expression&gt; BEGIN <br/>
+   WHEN &lt;expression_list&gt; &lt;statement&gt; <br/>
+   WHEN ... <br/>
+   &lt;default_statement&gt; <br/>
+   END <br/>
+</pre>
+<i><pre>Where &lt;expression_list&gt; is &lt;expression&gt;[, &lt;expression_list&gt;]</pre></i></br>
+As in example: <br/>
+<i>Example</i><br/>
+<code>
+<pre>
+$a = "has";
+$to_be = "to be";
+$has_been = "has been";
+
+case $a begin
+   when 'is','has' console("It is present tense");
+   when 'will',$to_be console("It is future tense");
+   when 'was',$has_been console("It is past tense");
+   console("Unable to detect tense");
+   end
+
+console("Hello {$a} a world");
+</code>
+</pre>
+
+

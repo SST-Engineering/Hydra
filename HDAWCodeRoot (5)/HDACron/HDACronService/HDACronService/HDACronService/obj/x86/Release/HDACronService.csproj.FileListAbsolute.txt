@@ -1,0 +1,6 @@
+C:\HDAServices\HDAUtilities\HDACron\HDACronService\HDACronService\HDACronService\obj\x86\Release\HDACronService.csprojResolveAssemblyReference.cache
+C:\HDAServices\HDAUtilities\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe.config
+C:\HDAServices\HDAUtilities\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.exe
+C:\HDAServices\HDAUtilities\HDACron\HDACronService\HDACronService\HDACronService\bin\Release\HDACronService.pdb
+C:\HDAServices\HDAUtilities\HDACron\HDACronService\HDACronService\HDACronService\obj\x86\Release\HDACronService.exe
+C:\HDAServices\HDAUtilities\HDACron\HDACronService\HDACronService\HDACronService\obj\x86\Release\HDACronService.pdb

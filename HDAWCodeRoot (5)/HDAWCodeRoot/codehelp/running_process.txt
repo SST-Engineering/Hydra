@@ -1,0 +1,9 @@
+<h2>running_process</h2>
+<i><b>Get the title of the running process or profile</b></i><br/>
+$result = running_process()<br/>
+<i>Return string on success, false on failure</i><br/>
+Return the name of the current running process or profile
+<br/>
+<i>Example</i><br/>
+$this_proc_name = running_process()<br/>
+

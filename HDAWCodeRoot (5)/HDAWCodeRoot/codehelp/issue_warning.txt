@@ -1,0 +1,13 @@
+<h2>issue_warning</h2>
+<i><b>Issue a warning message for this profile</b></i><br/>
+Place a warning message associated with this running profile into the log<br/>
+<i>$ok = issue_report("This profile had a db error")<i><br/>
+True on success, false on failure, will place warning into the notes for this profile, into the log, and email users as appropriate.
+<br/>
+<i>Example</i><br/>
+<pre>
+$ok = issue_warning($msg);
+
+</pre>
+<br/>
+

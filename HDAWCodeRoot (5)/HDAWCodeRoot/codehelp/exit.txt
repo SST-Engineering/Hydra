@@ -1,0 +1,10 @@
+<h3>exit</h3>
+<i><b>EXIT Keyword, Statement</b></i><br/>
+Terminate execution
+As in example:<br/>
+<i>Example</i><br/>
+if $a > 10 <b>exit</b>
+
+
+
+

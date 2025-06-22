@@ -1,0 +1,7 @@
+<h2>detect_source</h2>
+<i><b>Return the source of the activation of this profile</b></i><br/>
+$source = detect_source()
+<i>Why has this profile been activated? Returns the source of the activation</i><br/>
+Returns one of 'TRIGGERED', 'SCHEDULED', 'UPLOAD'
+<br/>
+

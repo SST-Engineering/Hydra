@@ -1,0 +1,19 @@
+<h2>orcl_connect</h2>
+<i><b>Connect to Oracle DB</b></i><br/>
+$result = orcl_connect(connection name) .. or ..<br/>
+$result = orcl_connect(user, password [,connect_string])<br/>
+<i>Returns false on failure, true on success</i><br/>
+<br/>
+<i>Example</i><br/>
+$conn = orcl_connect("KPI_Data_Connect");<br/>
+$conn = orcl_connect("TSJones","password");<br/>
+$conn = orcl_connect("TSJones","password","localhost/XE");<br/>
+<i>if $conn is not true begin<br/>
+   console("Fails to connect"); exit;<br/>
+   end<br/></i><br/>
+With Oracle 11g, the connect_string syntax is:<br/>
+[//]host_name[:port][/service_name][:server_type][/instance_name]<br/>
+ Service names can be found by running the Oracle utility lsnrctl status on the database server machine.<br/>
+
+
+

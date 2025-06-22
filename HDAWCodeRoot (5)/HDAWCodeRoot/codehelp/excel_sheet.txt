@@ -1,0 +1,8 @@
+<h2>excel_sheet</h2>
+<i><b>Set the current shett</b></i><br/>
+$result = excel_sheet(sheet_name)<br/>
+<i>Returns false on failure, true on success</i><br/>
+<br/>
+<i>Example</i><br/>
+$result = excel_sheet("Sheet1");<br/>
+

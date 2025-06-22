@@ -1,0 +1,9 @@
+<h2>validate</h2>
+<i><b>Validate data for a field</b></i><br/>
+$result = validate(<i>field_name</i>, <i>value</i>)<br/>
+<i>Return true on success, false on failure</i><br/>
+Lookup the validation for this field in current profile and check value of field is valid
+<br/>
+<i>Example</i><br/>
+$ok = validate("DeptNo", 56)<br/>
+

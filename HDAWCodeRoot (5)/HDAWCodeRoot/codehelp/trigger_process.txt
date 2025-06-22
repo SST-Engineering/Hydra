@@ -1,0 +1,13 @@
+<h2>trigger_process</h2>
+<i><b>Trigger a process</b></i><br/>
+$result = trigger_process(<i>process_name</i>[,with_data_path, using_data_filename])<br/>
+<i>Return true on success, false on failure</i><br/>
+Trigger to run to the queue, the given process. Optional data_path and data_filename params will cause
+the triggered process to assume that it has been triggered by an upload of that data.
+<br/>
+<i>Examples</i><br/>
+$ok = trigger_process("next_process");<br/>
+$data_path = "c:\mydata\next_data.csv"; // trigger as an upload with this data<br/>
+$data_filename = "Data_2012_06_23.csv"; // use this as the original data files name<br/>
+$ok = trigger_process("next_process", $data_path, $data_filename);<br/>
+

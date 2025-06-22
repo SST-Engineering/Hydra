@@ -1,0 +1,10 @@
+<h2>write_checksum</h2>
+<i><b>Write the checksum into ALCW table</b></i><br/>
+$result = write_checksum(<i>your_reference</i>)<br/>
+<i>Returns false on failure, true on success </i><br/>
+The checksum is recorded with the profile or process identifier and <i>your ref</i> to make a unique
+identifier for later recall.
+<br/>
+<i>Example</i><br/>
+$ok = write_checksum("My Chk Ref 001");
+

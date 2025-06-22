@@ -1,0 +1,15 @@
+<h2>preg_split</h2>
+<i><b>Split a target string using a regular expression</b></i><br/>
+$result = preg_split(pattern, target, skip_first_capture)<br/>
+<i>Returns false on failure, split result on success</i><br/>
+<br/>
+<i>Example</i><br/>
+<pre>
+// Split a string on newline character
+$lines = preg_split("/\n/",$record_s,false);
+for all properties $i in $lines begin
+   console("This is line {$i}: {$lines.$i}");
+   end
+</pre>
+<br/>
+

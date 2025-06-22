@@ -1,0 +1,10 @@
+<h3>true</h3>
+<i><b>TRUE Keyword</b></i><br/>
+Keyword boolean value - true
+As in example:<br/>
+<i>Example</i><br/>
+if $a is not <b>true</b> then $b = "false a";
+
+
+
+

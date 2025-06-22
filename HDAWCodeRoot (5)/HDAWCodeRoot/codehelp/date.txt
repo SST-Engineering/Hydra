@@ -1,0 +1,9 @@
+<h2>date</h2>
+<i><b>Date and time extract</b></i><br/>
+$result = date(<i>format</i>, <i>integer_time</i>)<br/>
+<i>Return string on success, false on failure</i><br/>
+Evaluate time using given format, (see php library doc)
+<br/>
+<i>Example</i><br/>
+date("Y-m-d G:i", $my_time)<br/>
+
